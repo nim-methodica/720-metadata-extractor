@@ -12,8 +12,9 @@ description: >-
   cognitiveLevel, depthLevel, relativeDifficulty, estimatedTime, or contentType. All
   these are determined by deterministic rules in references/conventions.md.
   Only stops and asks the user if: the script lacks item-level IDs ("מספר פריט" tags),
-  slide 1 is missing subTopic or learningObjective values (bug in script), or the
-  unit ID is not in the learning-objectives.json list (needs refresh from Excel).
+  or the unit ID is not in learning-objectives.json even after refreshing from the
+  management Excel (meaning a brand new objective). Empty subTopic / learningObjective
+  in slide 1 falls back to values from learning-objectives.json, not a stop.
   Do NOT use for QA of scripts (720-script-qa), building scripts from Word
   (720-script-writer), or generic PPTX metadata extraction unrelated to 720.
 ---
@@ -84,9 +85,15 @@ python scripts/lookup_prerequisite.py <unit-id>
 
 מחזיר את ה-ID של היעד הקודם, או שורה ריקה אם זה היעד הראשון.
 
-**עצור** רק אם:
-- שדה `subTopic` או `learningObjective` ריקים בשקף 1 (באג בתסריט — דווח למשתמש).
-- ה-ID לא נמצא ב-`learning-objectives.json` (רענן עם `refresh_objectives.py`).
+**Fallback רך** (הסקיל אוטונומי — לא עוצר, אלא ממלא ומדווח):
+
+- אם `subTopic` **ריק** בשקף 1 — קח את שם הנושא מ-`learning-objectives.json` (השדה `topic`
+  של הרשומה המתאימה ל-ID). דווח למשתמש שהשדה היה ריק בשקף 1.
+- אם `learningObjective` **ריק** בשקף 1 — קח את השדה `objective` מ-`learning-objectives.json`.
+  דווח למשתמש.
+- אם ה-ID **לא נמצא** ב-`learning-objectives.json` — הרץ `refresh_objectives.py` על קובץ
+  הניהול. אם עדיין לא נמצא — כאן **כן עצור** ובקש מהמשתמש את פרטי היעד החדש (זהו יעד
+  חדש שטרם נכנס לקובץ הניהול).
 
 כל שאר שדות היחידה (`targetSector`, `targetAudience`) — ברירות מחדל קבועות מ-`conventions.md`.
 

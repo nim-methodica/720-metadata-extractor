@@ -38,7 +38,7 @@
   "componentPurpose": "both",
   "isAssessment": false,
   "manufacture": "methodica",
-  "recommendedAfterFail": [],
+  "recommendedAfterFail": ["methodica-math-scale-01-02"],
   "isRequired": true,
   "relativeDifficulty": 2,
   "order": 1,
@@ -99,7 +99,7 @@
   "id": "methodica-math-scale-01-03-001",
   "title": "משימת כיתה - חישוב קנה מידה של מסלול",
   "informationToBot": "מטרת הפריט: יישום מציאותי של קנה מידה - מדידת מסלול אמיתי בשטח (חצר/בית ספר), חישוב אורכו במציאות, ובחירת קנה מידה לסרטוט במלואו על דף A4. מה התלמיד אמור להבין/לתרגל: מדידה בסביבה + הכפלת צעדים באורך + בחירת קנה מידה מותאם למרחב. כיווני חשיבה ואסטרטגיות: המשימה מתבצעת מחוץ למחשב במרחב הכיתה/בית הספר. הלומד יוצא, מודד, חוזר ומקליד את קנה המידה שחישב. טעויות נפוצות: חישוב אורך צעד שגוי, אי-המרה ליחידות אחידות, בחירת קנה מידה שלא 'נכנס' בדף. מידע נוסף: משימת חקר עם הוראות מפורטות + כלים נדרשים (סרגל, דף A4). צילום מסך: לא צורף.",
-  "contentType": "Project or Inquiry Task",
+  "contentType": "Task Inquiry or Project",
   "mediaFormat": "Interactive content",
   "questions": [
     {
