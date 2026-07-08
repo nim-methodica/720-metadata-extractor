@@ -131,25 +131,30 @@ python scripts/refresh_objectives.py "<path/to/קובץ ניהול 720 תשפז.
 ## שדה 10: `cognitiveLevel` (לפי מקצוע)
 
 **חוק** לפי סוג הרכיב + מקצוע (זהוי מה-`id` — `methodica-math-*` או `methodica-science-*` /
-אחד מתחומי המדעים האחרים):
+אחד מתחומי המדעים האחרים).
 
-### מתמטיקה
-| רכיב | cognitiveLevel |
-|---|---|
-| 01-01 (הקנייה + סטנדרטי) | `Process Thinking` |
-| 01-02 (בסיסי + סטנדרטי ב) | `Algorithmic Thinking` |
-| 01-03 (משימת כיתה) | `Interpretation and Reasoning` |
-| 01-04 (מתקדם) | `Interpretation and Reasoning` |
-| 01-05 / 01-06 (הערכה) | `Interpretation and Reasoning` |
+**הגדרות מפורטות ומתי כל רמה מתאימה — ראה `references/cognitive-levels-detailed.md`.**
+המיפוי המומלץ למטה מבוסס על תפקיד הרכיב הסטנדרטי בתסריט 720; אם תוכן ספציפי של רכיב
+חורג (למשל, רכיב 3 שהוא משימת כיתה פתוחה מאוד) — אפשר לשקול קידום/הורדה בהתאם
+להגדרות המפורטות.
 
-### מדעים
-| רכיב | cognitiveLevel |
-|---|---|
-| 01-01 (הקנייה + סטנדרטי) | `Applying a Model or Procedure` |
-| 01-02 (בסיסי + סטנדרטי ב) | `Applying a Model or Procedure` |
-| 01-03 (משימת כיתה) | `Applying a Model or Procedure` |
-| 01-04 (מתקדם) | `Analyzing` |
-| 01-05 / 01-06 (הערכה) | `Analyzing` |
+### מתמטיקה (4 רמות של הראמ"ה)
+| רכיב | תפקיד דומיננטי | cognitiveLevel |
+|---|---|---|
+| 01-01 | הקנייה + סטנדרטי א (יישום בסיטואציות חדשות) | `Process Thinking` |
+| 01-02 | בסיסי + סטנדרטי ב (חישובים שגרתיים) | `Algorithmic Thinking` |
+| 01-03 | משימת כיתה (העברה למצב מציאותי) | `Process Thinking` |
+| 01-04 | מתקדם (ניתוח והנמקה) | `Interpretation and Reasoning` |
+| 01-05 / 01-06 | שאלת שיא (רב-חלקי) | `Interpretation and Reasoning` |
+
+### מדעים (3 רמות של הראמ"ה — נמוכה/בינונית/גבוהה)
+| רכיב | תפקיד דומיננטי | cognitiveLevel |
+|---|---|---|
+| 01-01 | הקנייה + סטנדרטי א (יישום פרוצדורה) | `Applying a Model or Procedure` |
+| 01-02 | בסיסי + סטנדרטי ב (יישום פרוצדורה) | `Applying a Model or Procedure` |
+| 01-03 | משימת כיתה (מדידה מעשית) | `Applying a Model or Procedure` |
+| 01-04 | מתקדם (ניתוח נתונים) | `Analyzing` |
+| 01-05 / 01-06 | שאלת שיא (רב-חלקי, כולל הצדקה) | `Analyzing` (או `Evaluating and Justifying` אם דגש על הצדקה) |
 
 ## שדה 11: `depthLevel` (Basic חוץ ממתקדם)
 

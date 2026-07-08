@@ -33,6 +33,8 @@ description: >-
 - `references/conventions.md` — **הכללים הדטרמיניסטיים.** מכיל את כל התשובות שהמשתמש נתן
   בעבר, כדי שהסקיל לא ישאל אותן שוב.
 - `references/question-types.md` — איך לזהות סוג שאלה והמבנה של `answers`/`correctAnswers`.
+- `references/cognitive-levels-detailed.md` — הגדרות מפורטות של רמות החשיבה של הראמ"ה
+  (4 רמות למתמטיקה, 3 רמות למדעים) — לצורך בחירה מדויקת של `cognitiveLevel`.
 - `references/example-output.md` — דוגמאות JSON ממשיות.
 - `references/learning-objectives.json` — רשימת סדר יעדי הלמידה (מתמטיקה + מדעים), לחישוב
   `prerequisiteLearningObjective`. מתעדכן מקובץ ניהול 720 באמצעות `scripts/refresh_objectives.py`.
