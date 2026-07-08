@@ -7,127 +7,144 @@ description: >-
   `subContent[]`. Use whenever the user asks to extract/generate/produce metadata,
   מטה־דאטה, or JSON from a 720 script — filenames typically contain "יעד" and IDs
   follow `methodica-<subject>-<topic>-XX`. Handles subject-agnostic content (math,
-  science, and beyond) and follows the fixed defaults + per-component conventions
-  captured in references/conventions.md.
-  Stops and asks the user (does not guess blind) whenever: the script lacks item-level
-  IDs ("מספר פריט" tags), the number of רכיבים deviates from the 4-or-5 pattern, or
-  fields not derivable from the script are needed (prerequisiteLearningObjective,
-  recommendedAfterFail beyond convention). Do NOT use for QA of scripts (720-script-qa),
-  building scripts from Word (720-script-writer), or generic PPTX metadata extraction
-  unrelated to 720.
+  science, and beyond). **Fully autonomous** — does not ask the user for
+  prerequisiteLearningObjective, recommendedAfterFail, componentPurpose, isAssessment,
+  cognitiveLevel, depthLevel, relativeDifficulty, estimatedTime, or contentType. All
+  these are determined by deterministic rules in references/conventions.md.
+  Only stops and asks the user if: the script lacks item-level IDs ("מספר פריט" tags),
+  slide 1 is missing subTopic or learningObjective values (bug in script), or the
+  unit ID is not in the learning-objectives.json list (needs refresh from Excel).
+  Do NOT use for QA of scripts (720-script-qa), building scripts from Word
+  (720-script-writer), or generic PPTX metadata extraction unrelated to 720.
 ---
 
 # 720-metadata-extractor
 
-מפיק קבצי מטא־דאטה JSON מתסריט 720 (PPTX), לפי תקן "תיאור טכני של מאפייני תוכן לפלטפורמות 720"
-(V2.1). כללי לכל 720 — לא תלוי במקצוע ולא בפרויקט ספציפי.
+מפיק קבצי מטא־דאטה JSON מתסריט 720 (PPTX), לפי תקן "תיאור טכני של מאפייני תוכן לפלטפורמות
+720" (V2.1). כללי לכל 720 — לא תלוי במקצוע ולא בפרויקט ספציפי.
 
-**עקרון-על: הסקיל קורא את התסריט ומחלץ את מה שכתוב שם. שדות שלא ניתן להסיק מהתסריט (יעדי
-קדימות, אינדקסים של מיומנויות, ועוד) — שואלים את המשתמש. הערכות של רמת קושי/רמת חשיבה/סוג
-תוכן — הסקיל מבצע לפי הכללים ב-`references/conventions.md`, לא ניחוש חופשי.**
+**עקרון-על: הסקיל אוטונומי לחלוטין.** כל השדות שאפשר לגזור מהתסריט או מהמוסכמות — נגזרים
+אוטומטית. הסקיל *לא* שואל את המשתמש שאלות שיש להן תשובה דטרמיניסטית. הכללים המלאים
+ב-`references/conventions.md` — לקרוא לפני התחלת עבודה.
 
 ## קבצי רקע (לקרוא לפני התחלת עבודה)
 
 - `references/standard.md` — התקן המלא: השדות ברמות יחידה/רכיב/פריט, כל הרשימות הסגורות.
-- `references/conventions.md` — המוסכמות שסוכמו בפועל: ברירות מחדל קבועות, כללים לפי רכיב,
-  איך מחשבים estimatedTime, מיפוי componentPurpose, מתי מסמנים isAssessment.
-- `references/question-types.md` — איך לזהות סוג שאלה (choice/true-false/fill-in/numeric/
-  matching/sequencing) לפי מראה השקף, ואיך למלא `answers`/`correctAnswers` לכל סוג.
+- `references/conventions.md` — **הכללים הדטרמיניסטיים.** מכיל את כל התשובות שהמשתמש נתן
+  בעבר, כדי שהסקיל לא ישאל אותן שוב.
+- `references/question-types.md` — איך לזהות סוג שאלה והמבנה של `answers`/`correctAnswers`.
+- `references/example-output.md` — דוגמאות JSON ממשיות.
+- `references/learning-objectives.json` — רשימת סדר יעדי הלמידה (מתמטיקה + מדעים), לחישוב
+  `prerequisiteLearningObjective`. מתעדכן מקובץ ניהול 720 באמצעות `scripts/refresh_objectives.py`.
 
 ## מבנה הפלט
 
-לפני שמתחילים לכתוב JSON, חשוב להבין: **הפלט הוא לא קובץ אחד**. הפלטפורמה מעלה כל רכיב
-בנפרד, ולכן:
+**הפלט הוא לא קובץ אחד**. הפלטפורמה מעלה כל רכיב בנפרד, ולכן:
 
-- **קובץ יחידה יחיד** (`<unit-id>_unit.json`) — מכיל *רק* את שדות היחידה, בלי הרכיבים.
-- **קובץ נפרד לכל רכיב** (`<component-id>.json`) — מכיל את שדות הרכיב + `learningUnitId`
-  (הפניה בלבד ל-ID של היחידה, לא כל המטא־דאטה שלה) + `subContent[]` עם כל הפריטים מקוננים.
+- **קובץ יחידה יחיד** (`<unit-id>_unit.json`) — שדות היחידה בלבד, בלי הרכיבים.
+- **קובץ נפרד לכל רכיב** (`<component-id>.json`) — שדות הרכיב + `learningUnitId` (הפניה
+  ל-ID של היחידה) + `subContent[]` עם כל הפריטים מקוננים.
 
-הפריטים **לעולם לא** קבצים נפרדים — הם תמיד תחת `subContent[]` של הרכיב שלהם.
+הפריטים תמיד תחת `subContent[]` של הרכיב שלהם. **לעולם לא** קבצים נפרדים.
 
-## תהליך העבודה
+## התהליך
 
-### שלב 1 — חילוץ תוכן וזיהוי מבנה
+### שלב 1 — חילוץ וזיהוי מבנה
 
-הרץ את הסקריפט לחילוץ שקפים ומיפוי לפריטים:
+הרץ:
 
 ```bash
 python scripts/extract_slides.py "<path/to/script.pptx>" <output-dir>
 ```
 
-הסקריפט:
-1. מפרק את ה-PPTX (unzip) ומחלץ טקסט מכל שקף.
-2. מזהה את שקף 1 ("פרטים על היעד") ומחלץ ממנו: ID היחידה, שם נושא, פירוט יעד, מבנה
-   (כמויות שאלות, מסך בחירת דמות, פלייליסט, נטפליקס, פריט העשרה, כותבי תוכן, תאריך).
-3. מזהה שקפי מפריד רכיב (`רכיב:` / `רכיב ראשון` וכו') עם ID מלא של רכיב.
-4. מזהה תוויות `מספר פריט` בכל שקף עם ID מלא של פריט.
-5. מפיק שני קבצי עזר ב-`<output-dir>`:
-   - `slides.txt` — טקסט מלא של כל שקף
-   - `mapping.txt` — טבלת שקף → item-id → תקציר תוכן
+הסקריפט מפיק:
+- `slides.txt` — טקסט מלא של כל שקף
+- `mapping.txt` — טבלת שקף → item-id → תקציר תוכן
 
-### שלב 2 — ולידציה של המיפוי
+ומדפיס סיכום: מספר שקפים, מספר פריטים, מספר רכיבים, ה-ID של כל רכיב + מספר הפריטים בו.
 
-בדוק שיש `מספר פריט` בכל שקף רלוונטי. אם חסר — **עצור ובקש מהמשתמש להוסיף מספרי פריט
-בקובץ**. אין להמציא מיפוי לפי ניחוש (זה יגרום לפירוק שגוי של תוכן לפריטים).
+**עצור ובקש מהמשתמש** רק אם:
+- אין תוויות `מספר פריט` בשקפים (הסקריפט מדפיס אזהרה).
+- מבנה חריג — פחות מ-5 או יותר מ-6 רכיבים (ראה `conventions.md`).
 
-הצג למשתמש טבלה של רכיבים ופריטים שזוהו, למשל:
+### שלב 2 — חילוץ שדות היחידה
 
-| רכיב | תיאור | מספר פריטים | טווח שקפים |
-|---|---|---|---|
-| 01-01 | פתיחה + הקנייה + סטנדרטי | 10 | 5-72 |
-| 01-02 | תרגול בסיסי + סטנדרטי ב | 3 | 73-94 |
-| ...
+קרא את `slides.txt` — שקף 1 מכיל את:
+- שם הנושא → `subTopic`
+- פירוט היעד → `learningObjective`
+- ID → ה-`id` של היחידה (`methodica-<subject>-<topic>-XX`)
 
-### שלב 3 — שאלות פתוחות למשתמש
+לחישוב `prerequisiteLearningObjective`:
 
-לפני שכותבים JSON, ודא ששאלת את המשתמש על השדות שאי אפשר לגזור מהתסריט (ראה
-`references/conventions.md` לרשימה מלאה):
+```bash
+python scripts/lookup_prerequisite.py <unit-id>
+```
 
-1. **prerequisiteLearningObjective** — יעדי קדימות (ID של יעדים שהלומד אמור לדעת קודם).
-2. **recommendedAfterFail חריגות** — כברירת מחדל: רכיב 2 → רכיב 1, רכיב 4 → רכיב 2, שאר
-   ריקים. אם הכתיבה בקובץ מסמנת אחרת (למשל אינטרו לרכיב שקורא לחזור למקום אחר) — שאל.
-2a. **subTopic ו-learningObjective** — אם לא מופיעים ישירות בשקף 1, בקש הבהרה.
-3. **מבנה חריג** — אם מספר הרכיבים אינו 4 או 5, או שיש רכיב שלא מתאים לתבנית
-   (הקנייה/תרגול/משימה/הערכה) — אשר עם המשתמש.
-4. **פריט העשרה / שאלת שיא** — ודא איזה רכיב מכיל אותם ואם הם משפיעים על
-   `isAssessment` של הרכיב.
+מחזיר את ה-ID של היעד הקודם, או שורה ריקה אם זה היעד הראשון.
 
-### שלב 4 — כתיבת ה-JSON
+**עצור** רק אם:
+- שדה `subTopic` או `learningObjective` ריקים בשקף 1 (באג בתסריט — דווח למשתמש).
+- ה-ID לא נמצא ב-`learning-objectives.json` (רענן עם `refresh_objectives.py`).
 
-לכל רכיב, בנה קובץ JSON לפי המבנה ב-`references/standard.md`:
+כל שאר שדות היחידה (`targetSector`, `targetAudience`) — ברירות מחדל קבועות מ-`conventions.md`.
 
-- **שדות של רכיב**: id, title, learningUnitId, componentPurpose, isAssessment, manufacture,
-  recommendedAfterFail, isRequired, relativeDifficulty, order, depthLevel, cognitiveLevel,
-  languages, skills, estimatedTimeInMinutes, createdAt, updatedAt, subContent.
-- **שדות של פריט** (בתוך `subContent[]`): id, title, informationToBot, contentType,
-  mediaFormat, questions[].
+### שלב 3 — בניית קובץ היחידה
 
-עקרונות מפתח לכתיבה:
+צור `<unit-id>_unit.json` בתיקיית הפלט. ראה תבנית ב-`references/example-output.md`.
 
-- `informationToBot` — ארבעה חלקים במחרוזת אחת: **מטרת הפריט**, **מה התלמיד אמור להבין/
-  לתרגל + כיווני חשיבה ואסטרטגיות**, **טעויות נפוצות**, **מידע נוסף + צילום מסך**.
-  זה מה שהבוט יראה — פרט מספיק בלי לכתוב רומן.
-- `questionType` — לפי `references/question-types.md`. תשובה מספרית טהורה → `numeric`.
-  יחס עם ":1" → `fill-in` עם ואריאנטים לפסיק/רווח. matching עם `source/target`.
-- `answers`/`correctAnswers` — הפורמט משתנה לפי `questionType`, ראה טבלה בקובץ הנ"ל.
-- **פורמט תאריכים ISO 8601**: `2026-06-24T00:00:00.000Z`. השתמש בתאריך של היום כברירת
-  מחדל (אלא אם המשתמש מבקש אחרת).
+### שלב 4 — לכל רכיב: קבע שדות ופריטים
 
-### שלב 5 — מסירה
+לכל רכיב שזוהה בשלב 1:
 
-הצג למשתמש:
-1. רשימת הקבצים שנוצרו (יחידה + N רכיבים).
-2. סיכום קצר של השדות שנקבעו בשיקול דעת (`estimatedTimeInMinutes`, `relativeDifficulty`,
-   `cognitiveLevel`, `depthLevel`, `contentType` של פריטים) — כדי שהמשתמש יבדוק.
-3. שאלות/אזהרות לא נפתרו (למשל שאלת matching שלא הצלחת לזהות מהטקסט מה בכל תמונה).
+1. **קבע `componentPurpose`, `isAssessment`, `depthLevel`, `cognitiveLevel`, `relativeDifficulty`
+   ו-`recommendedAfterFail`** — לפי טבלאות ב-`conventions.md` (כל שדה יש לו כלל דטרמיניסטי).
+
+2. **לכל פריט ברכיב:**
+   - קרא את השקפים של הפריט מ-`slides.txt` (לפי טווח שהוצג ב-`mapping.txt`).
+   - קבע `title` לפי תבנית `<סוג התרגיל> <מספר>: <תיאור>` (`conventions.md` #12).
+   - קבע `contentType` לפי סוג הפריט (`conventions.md` #6).
+   - `mediaFormat: "Interactive content"` כברירת מחדל.
+   - חלץ שאלות לתוך `questions[]` — זיהוי `questionType` וכתיבת `answers`/`correctAnswers`
+     לפי `references/question-types.md`.
+   - כתוב `informationToBot` במבנה 4 החלקים: מטרה / כיווני חשיבה / טעויות נפוצות / מידע נוסף.
+
+3. **חישוב `estimatedTimeInMinutes`** — סכום סעיפים ברכיב × 2 דקות. פריט בלי שאלה = 1 דקה.
+
+### שלב 5 — כתיבת קבצי הרכיבים
+
+צור `<component-id>.json` לכל רכיב, עם `subContent[]` שמכיל את כל הפריטים.
+
+### שלב 6 — מסירה למשתמש
+
+הצג:
+1. רשימת הקבצים שנוצרו.
+2. סיכום קצר: מספר רכיבים, מספר פריטים, סכום `estimatedTimeInMinutes` של היחידה.
+3. **רק** אזהרות/בעיות שלא נפתרו:
+   - שאלת matching שלא הצלחת לזהות מהטקסט את מבנה `source/target` (למשל תמונות בשאלה).
+   - פריט עם `correctAnswers` ריק (משימת כיתה או פריט העשרה).
+   - כל חריגה מהמוסכמות בקובץ ההגדרות.
+
+## מה הסקיל **לא** שואל את המשתמש (בעבר שאל, עכשיו לא)
+
+- ❌ `prerequisiteLearningObjective` — נגזר מ-`learning-objectives.json`
+- ❌ `subTopic` / `learningObjective` — משקף 1
+- ❌ מבנה של רכיבים — 5 או 6 לפי הקובץ
+- ❌ `recommendedAfterFail` — חוק פשוט (רק רכיב 1 → רכיב 2)
+- ❌ `isAssessment` — רק רכיבים 5-6
+- ❌ `componentPurpose` — לפי הרכיב
+- ❌ `contentType` — 3 קטגוריות לפי סוג הפריט
+- ❌ `mediaFormat` — Interactive content כברירת מחדל
+- ❌ `cognitiveLevel` — לפי מקצוע + רכיב
+- ❌ `depthLevel` — Basic חוץ ממתקדם
+- ❌ `relativeDifficulty` — לפי סוג התרגילים
+- ❌ `estimatedTimeInMinutes` — 2 דקות לסעיף
 
 ## דגשים לביצוע
 
-- **RTL / עברית**: הטקסט בשקפים מפוצל ב-XML לעיתים לרסיסים (מילה כל מסגרת). הסקריפט
-  מאחד — לא מסתמכים על המראה הוויזואלי, על הטקסט המחובר.
-- **תאריך createdAt/updatedAt** — היום, בפורמט ISO. אין לך גישה ל-`Date.now()` בסביבות
-  מסוימות; אפשר להשתמש ב-Bash `date -u +"%Y-%m-%dT%H:%M:%S.000Z"` אם צריך זמן מדויק.
-- **תיקיית פלט** — צור `output/` (או `output-<subject>/`) לצד קובץ ה-PPTX, לא בתיקייה
-  זמנית. המשתמש יעביר את הקבצים למתכנת.
+- **RTL / עברית**: הטקסט בשקפים מפוצל ב-XML לפעמים לרסיסים. הסקריפט מאחד — הסתמך על טקסט
+  מחובר, לא על מראה חזותי.
+- **תאריך `createdAt`/`updatedAt`** — היום. הריצו `date -u +"%Y-%m-%dT%H:%M:%S.000Z"` ב-Bash
+  אם צריך זמן מדויק.
+- **תיקיית פלט** — צור `output-<unit-id>/` לצד קובץ ה-PPTX, לא בתיקייה זמנית.
 - **קבצים גדולים** — תסריטי 720 יכולים להיות 100+ MB (עם תמונות/וידאו מוטמעים). הסקריפט
   לא מתעסק במדיה, רק ב-XML של השקפים.
