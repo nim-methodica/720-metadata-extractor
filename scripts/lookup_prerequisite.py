@@ -21,6 +21,10 @@ import json
 import argparse
 from pathlib import Path
 
+# Make url_builder importable from the same directory
+sys.path.insert(0, str(Path(__file__).parent))
+from url_builder import build_url
+
 # UTF-8 stdout on Windows consoles
 if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
     try:
@@ -57,6 +61,7 @@ def main():
     ap = argparse.ArgumentParser(description='Look up prerequisiteLearningObjective for a 720 unit ID.')
     ap.add_argument('unit_id', help='Full unit ID like methodica-math-scale-01')
     ap.add_argument('--json', default=None, help='Path to learning-objectives.json (default: next to this script)')
+    ap.add_argument('--short', action='store_true', help='Return the short ID instead of the canonical URL')
     args = ap.parse_args()
 
     if args.json:
@@ -72,7 +77,11 @@ def main():
         print('       If this is a new unit, refresh references/learning-objectives.json from the management Excel.', file=sys.stderr)
         sys.exit(1)
 
-    print(prereq)
+    if prereq == '' or args.short:
+        # first-in-subject → empty; or user explicitly asked for short form
+        print(prereq)
+    else:
+        print(build_url(prereq, objectives))
 
 
 if __name__ == '__main__':

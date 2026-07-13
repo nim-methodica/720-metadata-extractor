@@ -3,20 +3,46 @@
 מוסכמות שאומתו בפועל מול משתמש. **מטרת הסקיל: אפס שאלות למשתמש.** כל שדה שאפשר לגזור אוטומטית
 — נגזר. שדות שדורשים שיפוט — מוגדרים ע"י כלל דטרמיניסטי.
 
-## הערה על פורמט ID (עתידי — V2.2 של התקן, יולי 2026)
+## פורמט ID — URL מלא (חוק V2.2)
 
-התקן העדכני של המשרד (V2.2) דורש שכל שדה `id` יהיה **URL מלא (IRI)**, לא מחרוזת קצרה:
+התקן V2.2 של המשרד דורש שכל שדה `id` יהיה **URL מלא (IRI)**. methodica קבעה את הדומיין:
 
-- 🚫 פסול לפי V2.2: `"id": "methodica-math-scale-01"`
-- ✅ תקין לפי V2.2: `"id": "https://<methodica-domain>/methodica-math-scale-01"`
+```
+https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/[<component-id>/[<item-id>/]]
+```
 
-זה משפיע על: `id` בכל הרמות, `learningUnitId`, `recommendedAfterFail`, `prerequisiteLearningObjective`.
+### דוגמאות
 
-**מצב נוכחי**: methodica טרם קיבעה את הדומיין לאחסון התוכן, ולכן **הסקיל ממשיך להוציא ID קצרים**
-כמו שהיו ב-V2.1. כשיוגדר URL base — יש לעדכן את הסקיל להוסיף את הקידומת ל-כל ID.
+| רמה | ID קצר | URL מלא |
+|---|---|---|
+| יחידה מתמטיקה | `methodica-math-scale-01` | `https://lomdot.education.gov.il/metodica/720active/math/scale/01/` |
+| יחידה מדעים | `methodica-science-mass-measure-01` | `https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/` |
+| רכיב | `methodica-science-mass-measure-01-01` | `https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-01/` |
+| פריט | `methodica-science-mass-measure-01-01-001` | `https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-01/methodica-science-mass-measure-01-01-001/` |
 
-**לא רלוונטי כרגע**: xAPI (זמן ריצה של הלומד, לא מטה־דאטה). היחיד הצומת בין השניים הוא הצורך
-ש-`id` במטה־דאטה יהיה זהה ל-`object.id` ב-xAPI — אבל זה עתידי.
+### מבנה ה-URL
+
+- **base** קבוע: `https://lomdot.education.gov.il/metodica/720active`
+- **subject**: `math` או `science` (נגזר מ-ID; עבור IDים בלי קידומת subject כמו
+  `methodica-character-materials-*` — נגזר מ-`learning-objectives.json`).
+- **topic**: החלק הלא-מספרי אחרי ה-subject (למשל `mass-measure`, `scale`, `character-materials`).
+- **unit-num**: המספר הראשון בסוף ה-ID.
+- **רכיב**: מוסיף את מזהה הרכיב המלא כרסיס אחרון בנתיב.
+- **פריט**: מקונן — מזהה הרכיב + מזהה הפריט (שני רסיסים אחרונים).
+
+### שדות שמכילים URLים
+
+בכל קובץ JSON, הערכים בשדות הבאים חייבים להיות URL מלא (לא ID קצר):
+- `id` בכל רמה (יחידה / רכיב / פריט / שאלה — למרות ש-`questionId` בפועל מזהה פנימי קצר).
+- `learningUnitId` (הפניה ל-URL של היחידה).
+- `recommendedAfterFail` (מערך של URLים של רכיבים).
+- `prerequisiteLearningObjective` (מערך של URLים של יחידות).
+
+### כלי עזר
+
+- `python scripts/url_builder.py <id>` — מדפיס את ה-URL של ID קצר כלשהו.
+- `python scripts/lookup_prerequisite.py <unit-id>` — מדפיס את URL של היעד הקודם ליחידה
+  (עם דגל `--short` יחזיר ID קצר במקום URL).
 
 ---
 

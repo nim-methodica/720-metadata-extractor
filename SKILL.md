@@ -39,6 +39,8 @@ description: >-
 - `references/example-output.md` — דוגמאות JSON ממשיות.
 - `references/learning-objectives.json` — רשימת סדר יעדי הלמידה (מתמטיקה + מדעים), לחישוב
   `prerequisiteLearningObjective`. מתעדכן מקובץ ניהול 720 באמצעות `scripts/refresh_objectives.py`.
+- `scripts/url_builder.py` — ממיר ID קצר ל-URL מלא לפי החוק שמופיע ב-`conventions.md`.
+  הפלט של הסקיל **חייב** לכלול URLים מלאים (לא IDים קצרים) בכל שדה שמכיל id.
 
 ## מבנה הפלט
 
