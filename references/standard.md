@@ -80,7 +80,7 @@
 |---|---|
 | `Instruction` | הבנייה |
 | `Practice` | תרגול |
-| `Task Inquiry or Project` | פרויקט או משימת חקר |
+| `Project or Inquiry Task` | פרויקט או משימת חקר |
 | `Educational Game` | משחק לימודי |
 | `Reading Text` | ניתוח טקסט |
 | `Simulation` | סימולציה |

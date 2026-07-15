@@ -107,7 +107,7 @@
   "id": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01-03/methodica-math-scale-01-03-001/",
   "title": "משימת כיתה - חישוב קנה מידה של מסלול",
   "informationToBot": "מטרת הפריט: יישום מציאותי של קנה מידה - מדידת מסלול אמיתי בשטח, חישוב אורכו, ובחירת קנה מידה. מה התלמיד אמור להבין/לתרגל: מדידה + הכפלה + בחירת קנה מידה מותאם. טעויות נפוצות: חישוב אורך צעד שגוי, אי-המרה, בחירת קנה מידה שלא 'נכנס' בדף. מידע נוסף: משימת חקר עם הוראות מפורטות + כלים נדרשים (סרגל, דף A4). צילום מסך: לא צורף.",
-  "contentType": "Task Inquiry or Project",
+  "contentType": "Project or Inquiry Task",
   "mediaFormat": "Interactive content",
   "questions": [
     {
@@ -132,7 +132,7 @@
   "id": "https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-05/methodica-science-mass-measure-01-05-001/",
   "title": "שאלת שיא: מדידת מסת גז (4 סעיפים)",
   "informationToBot": "מטרת הפריט: שאלת השיא של היחידה - תרחיש שלם של ניסוי מדעי המשלב את כל היכולות שנלמדו. תתי-סעיפים: א) ניסוי במערכת סגורה - זיהוי שימור מסה. ב) חישוב מסת גז בהפרש מדידות. ג) התאמת שיטת מדידה למטרת מחקר. ד) טיפול בתוצאות חריגות. ...",
-  "contentType": "Task Inquiry or Project",
+  "contentType": "Project or Inquiry Task",
   "mediaFormat": "Interactive content",
   "questions": [
     {"questionId": "q1", "questionType": "choice", "questionText": "סעיף א: ...", "answers": [], "correctAnswers": []},
