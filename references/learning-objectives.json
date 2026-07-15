@@ -4,7 +4,11 @@
       "id": "methodica-math-ratio-01",
       "number": 1,
       "topic": "יחס",
-      "objective": "התלמיד יזהה מצבים שבהם מופיע יחס (כגון: מתכון, מהירות נסיעה)"
+      "objective": "התלמיד יזהה מצבים שבהם מופיע יחס (כגון: מתכון, מהירות נסיעה)",
+      "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO.RECOG",
+      "subtopic_he": "יחס ",
+      "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO"
     },
     {
       "id": "methodica-math-ratio-02",
@@ -16,37 +20,61 @@
       "id": "methodica-math-ratio-03",
       "number": 3,
       "topic": "יחס",
-      "objective": "התלמיד ידע לבטא יחס באמצעות ביטויים אלגבריים"
+      "objective": "התלמיד ידע לבטא יחס באמצעות ביטויים אלגבריים",
+      "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO.ALG-EXPR",
+      "subtopic_he": "יחס ",
+      "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO"
     },
     {
       "id": "methodica-math-ratio-04",
       "number": 4,
       "topic": "יחס",
-      "objective": "התלמיד יבין ששימוש ביחס הוא בין כמויות מאותו הסוג (כגון: מספר איברים בקבוצה) או בין כמויות מסוגים שונים (כגון: מהירות)"
+      "objective": "התלמיד יבין ששימוש ביחס הוא בין כמויות מאותו הסוג (כגון: מספר איברים בקבוצה) או בין כמויות מסוגים שונים (כגון: מהירות)",
+      "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO.QTY-TYPE",
+      "subtopic_he": "יחס ",
+      "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO"
     },
     {
       "id": "methodica-math-ratio-05",
       "number": 5,
       "topic": "יחס",
-      "objective": "התלמיד יפתח חשיבה שעוסקת ביחס (לא רק חישובי-אלגוריתמי) (כגון: הערכה/אומדן כמויות בהינתן יחס מסוים ביניהם)"
+      "objective": "התלמיד יפתח חשיבה שעוסקת ביחס (לא רק חישובי-אלגוריתמי) (כגון: הערכה/אומדן כמויות בהינתן יחס מסוים ביניהם)",
+      "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO.REAS",
+      "subtopic_he": "יחס ",
+      "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO"
     },
     {
       "id": "methodica-math-proportion-01",
       "number": 6,
       "topic": "פרופורציה",
-      "objective": "התלמיד יבין את המשמעות של מושג הפרופורציה לא כתרגיל אלגברי אלא כיחסים שווים בין גדלים שונים "
+      "objective": "התלמיד יבין את המשמעות של מושג הפרופורציה לא כתרגיל אלגברי אלא כיחסים שווים בין גדלים שונים ",
+      "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP.MEANING",
+      "subtopic_he": "פרופורציה",
+      "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP"
     },
     {
       "id": "methodica-math-proportion-02",
       "number": 7,
       "topic": "פרופורציה",
-      "objective": "התלמיד ידע למצוא המספר x החסר בפרופורציה \nמהסוג: a/b = x/c "
+      "objective": "התלמיד ידע למצוא המספר x החסר בפרופורציה \nמהסוג: a/b = x/c ",
+      "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP.FIND-X",
+      "subtopic_he": "פרופורציה",
+      "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP"
     },
     {
       "id": "methodica-math-proportion-03",
       "number": 8,
       "topic": "פרופורציה",
-      "objective": "התלמיד ידע להמיר פרופורציה בפרופורציה השקולה לה"
+      "objective": "התלמיד ידע להמיר פרופורציה בפרופורציה השקולה לה",
+      "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP.EQUIV",
+      "subtopic_he": "פרופורציה",
+      "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP"
     },
     {
       "id": "methodica-math-proportion-04",
@@ -64,37 +92,61 @@
       "id": "methodica-math-scale-01",
       "number": 11,
       "topic": "קנה מידה",
-      "objective": "התלמיד ידע להמיר יחידות מידה לצורך יישום יחס בפתרון שאלות העוסקות בקנה מידה ויבין ששינוי מידות לא משנה את היחס"
+      "objective": "התלמיד ידע להמיר יחידות מידה לצורך יישום יחס בפתרון שאלות העוסקות בקנה מידה ויבין ששינוי מידות לא משנה את היחס",
+      "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.SCALE.UNIT-CONV",
+      "subtopic_he": "קנה מידה",
+      "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.SCALE"
     },
     {
       "id": "methodica-math-percent-01",
       "number": 12,
       "topic": "אחוזים",
-      "objective": "התלמיד ידע להעריך סדר גודל בהינתן אחוזים ללא חישוב מדויק "
+      "objective": "התלמיד ידע להעריך סדר גודל בהינתן אחוזים ללא חישוב מדויק ",
+      "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.EST",
+      "subtopic_he": "אחוזים",
+      "topic_he_moe": "אחוזים",
+      "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
       "id": "methodica-math-percent-02",
       "number": 13,
       "topic": "אחוזים",
-      "objective": "התלמיד ידע לחשב אחוז מתוך גודל נתון"
+      "objective": "התלמיד ידע לחשב אחוז מתוך גודל נתון",
+      "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.VALUE",
+      "subtopic_he": "אחוזים",
+      "topic_he_moe": "אחוזים",
+      "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
       "id": "methodica-math-percent-03",
       "number": 14,
       "topic": "אחוזים",
-      "objective": "התלמיד ידע לחשב שלם בהינתן האחוז של הכמות החלקית"
+      "objective": "התלמיד ידע לחשב שלם בהינתן האחוז של הכמות החלקית",
+      "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.FIND-WHOLE",
+      "subtopic_he": "אחוזים",
+      "topic_he_moe": "אחוזים",
+      "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
       "id": "methodica-math-percent-04",
       "number": 15,
       "topic": "אחוזים",
-      "objective": "התלמיד ידע לחשב אחוז שינוי כשהשלם משתנה (שימוש באחוזים במצבים דינמיים כגון: הקטנה, הגדלה)"
+      "objective": "התלמיד ידע לחשב אחוז שינוי כשהשלם משתנה (שימוש באחוזים במצבים דינמיים כגון: הקטנה, הגדלה)",
+      "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.CHG",
+      "subtopic_he": "אחוזים",
+      "topic_he_moe": "אחוזים",
+      "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
       "id": "methodica-math-percent-05",
       "number": 16,
       "topic": "אחוזים",
-      "objective": "התלמיד ידע להשתמש באחוזים בפתרון שאלות מציאותיות כבסיס להשוואה הוגנת"
+      "objective": "התלמיד ידע להשתמש באחוזים בפתרון שאלות מציאותיות כבסיס להשוואה הוגנת",
+      "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.FAIR-COMP",
+      "subtopic_he": "אחוזים",
+      "topic_he_moe": "אחוזים",
+      "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
       "id": "methodica-math-percent-06",
@@ -106,13 +158,21 @@
       "id": "methodica-math-percent-07",
       "number": 18,
       "topic": "אחוזים",
-      "objective": "התלמיד יבין השפעה מצטברת של שינויים באחוזים עוקבים על היחס לשלם המקורי"
+      "objective": "התלמיד יבין השפעה מצטברת של שינויים באחוזים עוקבים על היחס לשלם המקורי",
+      "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.CUM-EFF",
+      "subtopic_he": "אחוזים",
+      "topic_he_moe": "אחוזים",
+      "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
       "id": "methodica-math-percent-08",
       "number": 19,
       "topic": "אחוזים",
-      "objective": "התלמיד יבחין בין שינוי באחוזים לבין שינוי בגדלים מוחלטים"
+      "objective": "התלמיד יבחין בין שינוי באחוזים לבין שינוי בגדלים מוחלטים",
+      "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.ABS-CHG",
+      "subtopic_he": "אחוזים",
+      "topic_he_moe": "אחוזים",
+      "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
       "id": "methodica-math-circle-01",
@@ -180,7 +240,11 @@
       "id": "methodica-science-mass-measure-01",
       "number": 1,
       "topic": "מסה ומדידת מסה",
-      "objective": "מדידה מעשית של מסה (שלושת חומרי הצבירה): ימדדו מסת מוצקים במאזני כפות/זרוע, כיול ודיוק, 3 חזרות, ישוו ויעריכו את הדיוק. ימדדו מסת נוזלים ויחשבו ממוצע כיתתי. יצפו בהדגמת מדידת מסת בלון ריק ובלון מנופח "
+      "objective": "מדידה מעשית של מסה (שלושת חומרי הצבירה): ימדדו מסת מוצקים במאזני כפות/זרוע, כיול ודיוק, 3 חזרות, ישוו ויעריכו את הדיוק. ימדדו מסת נוזלים ויחשבו ממוצע כיתתי. יצפו בהדגמת מדידת מסת בלון ריק ובלון מנופח ",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL.MASS-PRACTICE",
+      "subtopic_he": "מסה ונפח של גופים",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL"
     },
     {
       "id": "methodica-science-mass-measure-02",
@@ -198,7 +262,11 @@
       "id": "methodica-science-mass-weight-01",
       "number": 4,
       "topic": "המושג 'מסה' לעומת המושג 'משקל'",
-      "objective": "הבחנה בין מסה למשקל בשפת היומיום ובשפת המדע. יבחינו בין המושג \"מסה\" למושג \"משקל\" בחיי היומיום. יכירו מילים שונות בשפת היומיום ובשפת המדע וימיינו אותן. (יעדים 8, 9)"
+      "objective": "הבחנה בין מסה למשקל בשפת היומיום ובשפת המדע. יבחינו בין המושג \"מסה\" למושג \"משקל\" בחיי היומיום. יכירו מילים שונות בשפת היומיום ובשפת המדע וימיינו אותן. (יעדים 8, 9)",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL.MASS-VS-WEIGHT",
+      "subtopic_he": "מסה ונפח של גופים",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL"
     },
     {
       "id": "methodica-science-mass-weight-02",
@@ -216,7 +284,11 @@
       "id": "methodica-science-mass-liquid-02",
       "number": 7,
       "topic": "נפח - מדידת נפח נוזל",
-      "objective": "יחידות נפח ושימושים: ימירו יחידות נפח ויציגו דוגמאות שימושים. (יעדים 15, 16)"
+      "objective": "יחידות נפח ושימושים: ימירו יחידות נפח ויציגו דוגמאות שימושים. (יעדים 15, 16)",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME.UNIT-CONV",
+      "subtopic_he": "נפח",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME"
     },
     {
       "id": "methodica-science-volume-solid-01",
@@ -234,7 +306,11 @@
       "id": "methodica-science-mass-density-01",
       "number": 10,
       "topic": "תכונת הצפיפות",
-      "objective": "מדידה, חישוב, הסקה והגדרה של מסה ונפח של חומרים שונים, יחשבו יחס, ישוו, יסיקו, ינסחו הגדרה לצפיפות. (יעדים 19, 20, 21, 22, 23)"
+      "objective": "מדידה, חישוב, הסקה והגדרה של מסה ונפח של חומרים שונים, יחשבו יחס, ישוו, יסיקו, ינסחו הגדרה לצפיפות. (יעדים 19, 20, 21, 22, 23)",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME.DENSITY",
+      "subtopic_he": "נפח",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME"
     },
     {
       "id": "methodica-science-body-matter-01",
@@ -258,7 +334,11 @@
       "id": "methodica-character-materials-02",
       "number": 14,
       "topic": "חומרים, תכונות – אפיון חומרים",
-      "objective": " ייצוגים שונים ויצירתיות יציעו שיטות מיון וייצוג שונות וישוו ביניהן; יציעו חומר דמיוני. (יעדים 34, 35)"
+      "objective": " ייצוגים שונים ויצירתיות יציעו שיטות מיון וייצוג שונות וישוו ביניהן; יציעו חומר דמיוני. (יעדים 34, 35)",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MAT-PROP.IMAGINARY",
+      "subtopic_he": "חומרים ותכונות",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MAT-PROP"
     },
     {
       "id": "methodica-materials-uses-01",
@@ -306,7 +386,11 @@
       "id": "methodica-materials-climate-01",
       "number": 22,
       "topic": "חומרים: תועלת, מחיר סביבתי – שינוי אקלים",
-      "objective": "תועלת, מחיר סביבתי, שינוי אקלים ותרשים זרימה יציגו תועלת ומחיר סביבתי; יקשרו שימוש בחומרים למשבר האקלים; יציגו תרשים זרימה של השפעות סביבתיות. (יעדים 51, 52, 53)"
+      "objective": "תועלת, מחיר סביבתי, שינוי אקלים ותרשים זרימה יציגו תועלת ומחיר סביבתי; יקשרו שימוש בחומרים למשבר האקלים; יציגו תרשים זרימה של השפעות סביבתיות. (יעדים 51, 52, 53)",
+      "moe_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.BENEFIT-COST.CLIMATE-FLOW",
+      "subtopic_he": "חומרים: תועלת, מחיר סביבתי ופתרונות",
+      "topic_he_moe": "שימוש בחומרים והשפעתם על הפרט, על החברה ועל הסביבה",
+      "subtopic_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.BENEFIT-COST"
     },
     {
       "id": "methodica-materials-climate-02",
@@ -336,7 +420,11 @@
       "id": "methodica-accum-mode-01",
       "number": 27,
       "topic": "שינוי מצב צבירה",
-      "objective": "מעברי מצב צבירה: זיהוי, מדידה והדגמה יזהו מעברי מצב צבירה; ימדדו מסה/נפח לפני ואחרי התכה; יצפו בשינוי נפח חומר נדיף. (יעדים 60, 61, 62)"
+      "objective": "מעברי מצב צבירה: זיהוי, מדידה והדגמה יזהו מעברי מצב צבירה; ימדדו מסה/נפח לפני ואחרי התכה; יצפו בשינוי נפח חומר נדיף. (יעדים 60, 61, 62)",
+      "moe_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.STATE-CHANGE.NAME-MEASURE",
+      "subtopic_he": "שינוי מצב צבירה",
+      "topic_he_moe": "תהליכי שינוי בחומר",
+      "subtopic_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.STATE-CHANGE"
     },
     {
       "id": "methodica-accum-mode-02",
@@ -354,7 +442,11 @@
       "id": "methodica-particle-model-01",
       "number": 30,
       "topic": "מבנה החומר – מודל החלקיקים",
-      "objective": "יתארו את עקרונות מודל החלקיקים: החומר בנוי מחלקיקים (אי-רציפות החומר), החלקיקים נמצאים בתנועה מתמדת, בין החלקיקים קיים ריק, בין החלקיקים פועלים כוחות משיכה משתנים. (ידע) (יעד 66) "
+      "objective": "יתארו את עקרונות מודל החלקיקים: החומר בנוי מחלקיקים (אי-רציפות החומר), החלקיקים נמצאים בתנועה מתמדת, בין החלקיקים קיים ריק, בין החלקיקים פועלים כוחות משיכה משתנים. (ידע) (יעד 66) ",
+      "moe_code": "MOE.SCI.G7.CHEM.PARTICLE-MODEL.PRINCIPLES.INTRO",
+      "subtopic_he": "מבנה החומר על פי מודל החלקיקים",
+      "topic_he_moe": "מבנה החומר - מודל החלקיקים",
+      "subtopic_code": "MOE.SCI.G7.CHEM.PARTICLE-MODEL.PRINCIPLES"
     }
   ]
 }

@@ -39,8 +39,14 @@ description: >-
 - `references/example-output.md` — דוגמאות JSON ממשיות.
 - `references/learning-objectives.json` — רשימת סדר יעדי הלמידה (מתמטיקה + מדעים), לחישוב
   `prerequisiteLearningObjective`. מתעדכן מקובץ ניהול 720 באמצעות `scripts/refresh_objectives.py`.
+  **מכיל גם מיפוי לקודי MOE** (`moe_code` + `subtopic_code`) שמשמשים ל-`learningObjective`
+  ו-`subTopic` בפלט. מיפוי חלקי — לא כל היעדים נמצאים באינדקסי משרד החינוך עדיין.
+- `references/moe-index.json` — האינדקס הרשמי של משרד החינוך (מקצוע → תחום → נושא → תת-נושא
+  → יעד למידה + קוד). מתרענן מקובצי אקסל של משרד החינוך באמצעות `scripts/refresh_moe_index.py`.
 - `scripts/url_builder.py` — ממיר ID קצר ל-URL מלא לפי החוק שמופיע ב-`conventions.md`.
   הפלט של הסקיל **חייב** לכלול URLים מלאים (לא IDים קצרים) בכל שדה שמכיל id.
+- `scripts/lookup_moe.py` — מקבל methodica ID ומחזיר את `moe_code`, `subtopic_code`
+  והמידע העברי המתלווה. משמש למילוי `learningObjective` ו-`subTopic` במטא-דאטה.
 
 ## מבנה הפלט
 
