@@ -6,8 +6,8 @@
       "topic": "יחס",
       "objective": "התלמיד יזהה מצבים שבהם מופיע יחס (כגון: מתכון, מהירות נסיעה)",
       "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO.RECOG",
-      "subtopic_he": "יחס ",
       "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_he": "יחס ",
       "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO"
     },
     {
@@ -22,8 +22,8 @@
       "topic": "יחס",
       "objective": "התלמיד ידע לבטא יחס באמצעות ביטויים אלגבריים",
       "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO.ALG-EXPR",
-      "subtopic_he": "יחס ",
       "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_he": "יחס ",
       "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO"
     },
     {
@@ -32,8 +32,8 @@
       "topic": "יחס",
       "objective": "התלמיד יבין ששימוש ביחס הוא בין כמויות מאותו הסוג (כגון: מספר איברים בקבוצה) או בין כמויות מסוגים שונים (כגון: מהירות)",
       "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO.QTY-TYPE",
-      "subtopic_he": "יחס ",
       "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_he": "יחס ",
       "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO"
     },
     {
@@ -42,8 +42,8 @@
       "topic": "יחס",
       "objective": "התלמיד יפתח חשיבה שעוסקת ביחס (לא רק חישובי-אלגוריתמי) (כגון: הערכה/אומדן כמויות בהינתן יחס מסוים ביניהם)",
       "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO.REAS",
-      "subtopic_he": "יחס ",
       "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_he": "יחס ",
       "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO"
     },
     {
@@ -52,8 +52,8 @@
       "topic": "פרופורציה",
       "objective": "התלמיד יבין את המשמעות של מושג הפרופורציה לא כתרגיל אלגברי אלא כיחסים שווים בין גדלים שונים ",
       "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP.MEANING",
-      "subtopic_he": "פרופורציה",
       "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_he": "פרופורציה",
       "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP"
     },
     {
@@ -62,8 +62,8 @@
       "topic": "פרופורציה",
       "objective": "התלמיד ידע למצוא המספר x החסר בפרופורציה \nמהסוג: a/b = x/c ",
       "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP.FIND-X",
-      "subtopic_he": "פרופורציה",
       "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_he": "פרופורציה",
       "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP"
     },
     {
@@ -72,8 +72,8 @@
       "topic": "פרופורציה",
       "objective": "התלמיד ידע להמיר פרופורציה בפרופורציה השקולה לה",
       "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP.EQUIV",
-      "subtopic_he": "פרופורציה",
       "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_he": "פרופורציה",
       "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP"
     },
     {
@@ -94,8 +94,8 @@
       "topic": "קנה מידה",
       "objective": "התלמיד ידע להמיר יחידות מידה לצורך יישום יחס בפתרון שאלות העוסקות בקנה מידה ויבין ששינוי מידות לא משנה את היחס",
       "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.SCALE.UNIT-CONV",
-      "subtopic_he": "קנה מידה",
       "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_he": "קנה מידה",
       "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.SCALE"
     },
     {
@@ -104,8 +104,8 @@
       "topic": "אחוזים",
       "objective": "התלמיד ידע להעריך סדר גודל בהינתן אחוזים ללא חישוב מדויק ",
       "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.EST",
-      "subtopic_he": "אחוזים",
       "topic_he_moe": "אחוזים",
+      "subtopic_he": "אחוזים",
       "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
@@ -114,8 +114,8 @@
       "topic": "אחוזים",
       "objective": "התלמיד ידע לחשב אחוז מתוך גודל נתון",
       "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.VALUE",
-      "subtopic_he": "אחוזים",
       "topic_he_moe": "אחוזים",
+      "subtopic_he": "אחוזים",
       "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
@@ -124,8 +124,8 @@
       "topic": "אחוזים",
       "objective": "התלמיד ידע לחשב שלם בהינתן האחוז של הכמות החלקית",
       "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.FIND-WHOLE",
-      "subtopic_he": "אחוזים",
       "topic_he_moe": "אחוזים",
+      "subtopic_he": "אחוזים",
       "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
@@ -134,8 +134,8 @@
       "topic": "אחוזים",
       "objective": "התלמיד ידע לחשב אחוז שינוי כשהשלם משתנה (שימוש באחוזים במצבים דינמיים כגון: הקטנה, הגדלה)",
       "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.CHG",
-      "subtopic_he": "אחוזים",
       "topic_he_moe": "אחוזים",
+      "subtopic_he": "אחוזים",
       "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
@@ -144,8 +144,8 @@
       "topic": "אחוזים",
       "objective": "התלמיד ידע להשתמש באחוזים בפתרון שאלות מציאותיות כבסיס להשוואה הוגנת",
       "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.FAIR-COMP",
-      "subtopic_he": "אחוזים",
       "topic_he_moe": "אחוזים",
+      "subtopic_he": "אחוזים",
       "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
@@ -160,8 +160,8 @@
       "topic": "אחוזים",
       "objective": "התלמיד יבין השפעה מצטברת של שינויים באחוזים עוקבים על היחס לשלם המקורי",
       "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.CUM-EFF",
-      "subtopic_he": "אחוזים",
       "topic_he_moe": "אחוזים",
+      "subtopic_he": "אחוזים",
       "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
@@ -170,8 +170,8 @@
       "topic": "אחוזים",
       "objective": "התלמיד יבחין בין שינוי באחוזים לבין שינוי בגדלים מוחלטים",
       "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.ABS-CHG",
-      "subtopic_he": "אחוזים",
       "topic_he_moe": "אחוזים",
+      "subtopic_he": "אחוזים",
       "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
@@ -242,21 +242,29 @@
       "topic": "מסה ומדידת מסה",
       "objective": "מדידה מעשית של מסה (שלושת חומרי הצבירה): ימדדו מסת מוצקים במאזני כפות/זרוע, כיול ודיוק, 3 חזרות, ישוו ויעריכו את הדיוק. ימדדו מסת נוזלים ויחשבו ממוצע כיתתי. יצפו בהדגמת מדידת מסת בלון ריק ובלון מנופח ",
       "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL.MASS-PRACTICE",
-      "subtopic_he": "מסה ונפח של גופים",
       "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "מסה ונפח של גופים",
       "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL"
     },
     {
       "id": "methodica-science-mass-measure-02",
       "number": 2,
       "topic": "מסה ומדידת מסה",
-      "objective": "מושגי מסה: ברוטו, טרה, נטו ויחידות מידה: ימדדו מסת ברוטו וטרה ויחשבו נטו לפי הקשר ברוטו - טרה = נטו. ימירו יחידות מידה: מיליגרם, גרם, קילוגרם, טונה. (יעדים 4, 6)"
+      "objective": "מושגי מסה: ברוטו, טרה, נטו ויחידות מידה: ימדדו מסת ברוטו וטרה ויחשבו נטו לפי הקשר ברוטו - טרה = נטו. ימירו יחידות מידה: מיליגרם, גרם, קילוגרם, טונה. (יעדים 4, 6)",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL.GROSS-NET",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "מסה ונפח של גופים",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL"
     },
     {
       "id": "methodica-science-mass-measure-03",
       "number": 3,
       "topic": "מסה ומדידת מסה",
-      "objective": "שימושים ודוגמאות למדידת מסה: יציגו דוגמאות לשימושים במדידת מסה בבית ובתעשייה וישוו בין דרישות הדיוק בהקשרים שונים ויסיקו מסקנות. (יעד 7 – עומד בפני עצמו"
+      "objective": "שימושים ודוגמאות למדידת מסה: יציגו דוגמאות לשימושים במדידת מסה בבית ובתעשייה וישוו בין דרישות הדיוק בהקשרים שונים ויסיקו מסקנות. (יעד 7 – עומד בפני עצמו",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL.HOME-INDUSTRY",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "מסה ונפח של גופים",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL"
     },
     {
       "id": "methodica-science-mass-weight-01",
@@ -264,21 +272,29 @@
       "topic": "המושג 'מסה' לעומת המושג 'משקל'",
       "objective": "הבחנה בין מסה למשקל בשפת היומיום ובשפת המדע. יבחינו בין המושג \"מסה\" למושג \"משקל\" בחיי היומיום. יכירו מילים שונות בשפת היומיום ובשפת המדע וימיינו אותן. (יעדים 8, 9)",
       "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL.MASS-VS-WEIGHT",
-      "subtopic_he": "מסה ונפח של גופים",
       "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "מסה ונפח של גופים",
       "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL"
     },
     {
       "id": "methodica-science-mass-weight-02",
       "number": 5,
       "topic": "המושג 'מסה' לעומת המושג 'משקל'",
-      "objective": "הגדרה מדעית של מסה ויישומה: יגדירו \"מסה\" כמות החומר ויתנו דוגמה למדידה בכל מצבי הצבירה. יחשבו מסה ומשקל על פני גרמי שמיים שונים ויסיקו שמסה קבועה ומשקל משתנה. (יעדים 10, 11)"
+      "objective": "הגדרה מדעית של מסה ויישומה: יגדירו \"מסה\" כמות החומר ויתנו דוגמה למדידה בכל מצבי הצבירה. יחשבו מסה ומשקל על פני גרמי שמיים שונים ויסיקו שמסה קבועה ומשקל משתנה. (יעדים 10, 11)",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL.CONST-MASS",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "מסה ונפח של גופים",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MASS-VOL"
     },
     {
       "id": "methodica-science-mass-liquid-01",
       "number": 6,
       "topic": "נפח - מדידת נפח נוזל",
-      "objective": "מדידת נפח נוזל בכלי מדידה שונים: ימדדו נפח נוזלים במשורה (כיול, דיוק, 3 חזרות) וישוו בין 3 החזרות ויעריכו את הדיוק. ימדדו נפח נוזלים בכלי מדידה שונים (משורה, מזרק, פיפטה, כוס כימית, כפית לתרופה) ויערי"
+      "objective": "מדידת נפח נוזל בכלי מדידה שונים: ימדדו נפח נוזלים במשורה (כיול, דיוק, 3 חזרות) וישוו בין 3 החזרות ויעריכו את הדיוק. ימדדו נפח נוזלים בכלי מדידה שונים (משורה, מזרק, פיפטה, כוס כימית, כפית לתרופה) ויערי",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME.INSTRUMENTS",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "נפח",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME"
     },
     {
       "id": "methodica-science-mass-liquid-02",
@@ -286,21 +302,29 @@
       "topic": "נפח - מדידת נפח נוזל",
       "objective": "יחידות נפח ושימושים: ימירו יחידות נפח ויציגו דוגמאות שימושים. (יעדים 15, 16)",
       "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME.UNIT-CONV",
-      "subtopic_he": "נפח",
       "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "נפח",
       "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME"
     },
     {
       "id": "methodica-science-volume-solid-01",
       "number": 8,
       "topic": "מדידת נפח מוצק",
-      "objective": "יציעו דרכים למדידת נפח מוצקים בעלי צורה לא גאומטרית (לדוגמה: שיטת דחיקת מים). (סינתזה) \nיבדקו את הצעותיהם הלכה למעשה. (יישום) (יעד 14 בפני עצמו) "
+      "objective": "יציעו דרכים למדידת נפח מוצקים בעלי צורה לא גאומטרית (לדוגמה: שיטת דחיקת מים). (סינתזה) \nיבדקו את הצעותיהם הלכה למעשה. (יישום) (יעד 14 בפני עצמו) ",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME.DISPLACEMENT",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "נפח",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME"
     },
     {
       "id": "methodica-science-mass-gas-01",
       "number": 9,
       "topic": "מדידת נפח גז",
-      "objective": "קיומו ונפחו של אוויר + הגדרת נפח יצפו בתופעת אי-כניסת נוזל לכלי ויסבירו; ינסחו הגדרה ל\"נפח\" ויתנו דוגמאות. (יעדים 17, 18)"
+      "objective": "קיומו ונפחו של אוויר + הגדרת נפח יצפו בתופעת אי-כניסת נוזל לכלי ויסבירו; ינסחו הגדרה ל\"נפח\" ויתנו דוגמאות. (יעדים 17, 18)",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME.DEFINE-VOLUME",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "נפח",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME"
     },
     {
       "id": "methodica-science-mass-density-01",
@@ -308,27 +332,39 @@
       "topic": "תכונת הצפיפות",
       "objective": "מדידה, חישוב, הסקה והגדרה של מסה ונפח של חומרים שונים, יחשבו יחס, ישוו, יסיקו, ינסחו הגדרה לצפיפות. (יעדים 19, 20, 21, 22, 23)",
       "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME.DENSITY",
-      "subtopic_he": "נפח",
       "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "נפח",
       "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.VOLUME"
     },
     {
       "id": "methodica-science-body-matter-01",
       "number": 11,
       "topic": "הבחנה בין גוף לבין חומר",
-      "objective": "זיהוי, הגדרה ומיון תכונות יזהו חומר מגוף, ינסחו הגדרות לגוף ולחומר, ימיינו 12 תכונות. (יעדים 24, 25, 26)"
+      "objective": "זיהוי, הגדרה ומיון תכונות יזהו חומר מגוף, ינסחו הגדרות לגוף ולחומר, ימיינו 12 תכונות. (יעדים 24, 25, 26)",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.BODY-VS-MAT.PROCESSED-FLOW",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "גוף וחומר",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.BODY-VS-MAT"
     },
     {
       "id": "methodica-science-body-matter-02",
       "number": 12,
       "topic": "הבחנה בין גוף לבין חומר",
-      "objective": "דוגמאות, גוף מעובד ותרשים זרימה (הרחבה) ייתנו דוגמאות לגופים מאותו חומר ולאותו גוף ממחומרים שונים; (הרחבה) ימיינו גופים מעובדים/לא מעובדים, ינסחו קריטריון ויציגו תרשים זרימה. (יעדים 27, 28, 29, 30)"
+      "objective": "דוגמאות, גוף מעובד ותרשים זרימה (הרחבה) ייתנו דוגמאות לגופים מאותו חומר ולאותו גוף ממחומרים שונים; (הרחבה) ימיינו גופים מעובדים/לא מעובדים, ינסחו קריטריון ויציגו תרשים זרימה. (יעדים 27, 28, 29, 30)",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.BODY-VS-MAT.PROCESSED-FLOW",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "גוף וחומר",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.BODY-VS-MAT"
     },
     {
       "id": "methodica-character-materials-01",
       "number": 13,
       "topic": "חומרים, תכונות – אפיון חומרים",
-      "objective": "תצפית, בדיקה, טבלה ומסקנה יבחנו תכונות הניתנות לתצפית ישירה; יבדקו תכונות פיזיקליות נוספות; יציגו בטבלה דו-ממדית ויסיקו. (יעדים 31, 32, 33)"
+      "objective": "תצפית, בדיקה, טבלה ומסקנה יבחנו תכונות הניתנות לתצפית ישירה; יבדקו תכונות פיזיקליות נוספות; יציגו בטבלה דו-ממדית ויסיקו. (יעדים 31, 32, 33)",
+      "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MAT-PROP.OBSERVE-TEST",
+      "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "חומרים ותכונות",
+      "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MAT-PROP"
     },
     {
       "id": "methodica-character-materials-02",
@@ -336,21 +372,29 @@
       "topic": "חומרים, תכונות – אפיון חומרים",
       "objective": " ייצוגים שונים ויצירתיות יציעו שיטות מיון וייצוג שונות וישוו ביניהן; יציעו חומר דמיוני. (יעדים 34, 35)",
       "moe_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MAT-PROP.IMAGINARY",
-      "subtopic_he": "חומרים ותכונות",
       "topic_he_moe": "גופים, חומרים ותכונותיהם",
+      "subtopic_he": "חומרים ותכונות",
       "subtopic_code": "MOE.SCI.G7.CHEM.BODY-MAT-PROP.MAT-PROP"
     },
     {
       "id": "methodica-materials-uses-01",
       "number": 15,
       "topic": "שימוש בחומרים – הקשר בין תכונות לשימושים",
-      "objective": "שיקולים בבחירה + סוגי חומרים (הרחבה) + תכונות הנדסיות יסבירו שיקולים בבחירת חומרים למוצרים; (הרחבה) ימיינו לחומר טבעי/הנדסי/מלאכותי; יתאימו בין תכונות הנדסיות לחומר ולשיטות עיבוד. (יעדים 36, 37, 38)"
+      "objective": "שיקולים בבחירה + סוגי חומרים (הרחבה) + תכונות הנדסיות יסבירו שיקולים בבחירת חומרים למוצרים; (הרחבה) ימיינו לחומר טבעי/הנדסי/מלאכותי; יתאימו בין תכונות הנדסיות לחומר ולשיטות עיבוד. (יעדים 36, 37, 38)",
+      "moe_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.PROP-USE-LINK.MAT-TYPES",
+      "topic_he_moe": "שימוש בחומרים והשפעתם על הפרט, על החברה ועל הסביבה",
+      "subtopic_he": "הקשר בין תכונות חומר לשימושים בו",
+      "subtopic_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.PROP-USE-LINK"
     },
     {
       "id": "methodica-liquid-uses-01",
       "number": 16,
       "topic": "נוזלים – תכונות ושימושים",
-      "objective": "תכונות, שימושים וניסוי צמיגות יציגו תכונות נוזלים ושימושים; יתכננו ויבצעו ניסוי צמיגות. (יעדים 39, 40)"
+      "objective": "תכונות, שימושים וניסוי צמיגות יציגו תכונות נוזלים ושימושים; יתכננו ויבצעו ניסוי צמיגות. (יעדים 39, 40)",
+      "moe_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.LIQUID.VISCOSITY",
+      "topic_he_moe": "שימוש בחומרים והשפעתם על הפרט, על החברה ועל הסביבה",
+      "subtopic_he": "נוזלים",
+      "subtopic_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.LIQUID"
     },
     {
       "id": "methodica-liquid-uses-02",
@@ -374,13 +418,21 @@
       "id": "methodica-gas-uses-01",
       "number": 20,
       "topic": "גזים – תכונות ושימושים",
-      "objective": "תכונות גזים, ניסוי דחיסה ושימושים יציגו תכונות גזים ויסיקו מתצפיות; יאספו גז במזרק ויבדקו דחיסה; ייתנו דוגמאות שימושים. (יעדים 45, 46, 47)"
+      "objective": "תכונות גזים, ניסוי דחיסה ושימושים יציגו תכונות גזים ויסיקו מתצפיות; יאספו גז במזרק ויבדקו דחיסה; ייתנו דוגמאות שימושים. (יעדים 45, 46, 47)",
+      "moe_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.GAS.COMPRESSION",
+      "topic_he_moe": "שימוש בחומרים והשפעתם על הפרט, על החברה ועל הסביבה",
+      "subtopic_he": "גזים",
+      "subtopic_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.GAS"
     },
     {
       "id": "methodica-air-uses-01",
       "number": 21,
       "topic": "האוויר – תכונות ושימושים",
-      "objective": "הרכב האוויר, ניסויי זיהוי גזים ושימושים יזהו האוויר כתערובת; יזהו תכונות חמצן, פד\"ח ומימן בניסויים; ייתנו דוגמאות שימושים ויסבירו שינויים עם גובה. (יעדים 48, 49, 50)"
+      "objective": "הרכב האוויר, ניסויי זיהוי גזים ושימושים יזהו האוויר כתערובת; יזהו תכונות חמצן, פד\"ח ומימן בניסויים; ייתנו דוגמאות שימושים ויסבירו שינויים עם גובה. (יעדים 48, 49, 50)",
+      "moe_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.GAS.AIR-COMPOSITION",
+      "topic_he_moe": "שימוש בחומרים והשפעתם על הפרט, על החברה ועל הסביבה",
+      "subtopic_he": "גזים",
+      "subtopic_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.GAS"
     },
     {
       "id": "methodica-materials-climate-01",
@@ -388,27 +440,39 @@
       "topic": "חומרים: תועלת, מחיר סביבתי – שינוי אקלים",
       "objective": "תועלת, מחיר סביבתי, שינוי אקלים ותרשים זרימה יציגו תועלת ומחיר סביבתי; יקשרו שימוש בחומרים למשבר האקלים; יציגו תרשים זרימה של השפעות סביבתיות. (יעדים 51, 52, 53)",
       "moe_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.BENEFIT-COST.CLIMATE-FLOW",
-      "subtopic_he": "חומרים: תועלת, מחיר סביבתי ופתרונות",
       "topic_he_moe": "שימוש בחומרים והשפעתם על הפרט, על החברה ועל הסביבה",
+      "subtopic_he": "חומרים: תועלת, מחיר סביבתי ופתרונות",
       "subtopic_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.BENEFIT-COST"
     },
     {
       "id": "methodica-materials-climate-02",
       "number": 23,
       "topic": "חומרים: תועלת, מחיר סביבתי – שינוי אקלים",
-      "objective": "ינסחו דרכים להקטנת הנזק הסביבתי: הפחתת צריכה, שימוש חוזר, מחזור, חומרים פריקים, טיהור מים, התפלה. (סינתזה)\nיזהו חקיקה לשימוש מבוקר (תשלום על שקיות) וייתנו דוגמאות ליישום אישי (צרכנות נבונה, הפרדת פסול"
+      "objective": "ינסחו דרכים להקטנת הנזק הסביבתי: הפחתת צריכה, שימוש חוזר, מחזור, חומרים פריקים, טיהור מים, התפלה. (סינתזה)\nיזהו חקיקה לשימוש מבוקר (תשלום על שקיות) וייתנו דוגמאות ליישום אישי (צרכנות נבונה, הפרדת פסול",
+      "moe_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.BENEFIT-COST.REDUCE-EVAL",
+      "topic_he_moe": "שימוש בחומרים והשפעתם על הפרט, על החברה ועל הסביבה",
+      "subtopic_he": "חומרים: תועלת, מחיר סביבתי ופתרונות",
+      "subtopic_code": "MOE.SCI.G7.CHEM.MAT-IMPACT.BENEFIT-COST"
     },
     {
       "id": "methodica-physical-change-01",
       "number": 24,
       "topic": "שינוי פיזיקלי – שינוי צורה",
-      "objective": "התנסות חובה: ימדדו מסה ונפח של מוצק לפני שינוי צורה (גזירה, קיפול) ואחריו. (יישום)\nיסיקו ששינוי צורה אינו משנה את מהות החומר. (אנליזה) (יעד 55)"
+      "objective": "התנסות חובה: ימדדו מסה ונפח של מוצק לפני שינוי צורה (גזירה, קיפול) ואחריו. (יישום)\nיסיקו ששינוי צורה אינו משנה את מהות החומר. (אנליזה) (יעד 55)",
+      "moe_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.MASS-CONSERV.HYPOTHESIS-EXP",
+      "topic_he_moe": "תהליכי שינוי בחומר",
+      "subtopic_he": "חוק שימור המסה",
+      "subtopic_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.MASS-CONSERV"
     },
     {
       "id": "methodica-temp-volume-01",
       "number": 25,
       "topic": "השפעת חימום וקירור על נפח",
-      "objective": "ניסויי חימום/קירור בשלושת מצבי הצבירה יצפו בחימום/קירור כדור מתכת (מוצק); יחממו/יקררו בקבוק מים עם צינור (נוזל); יחממו/יקררו בקבוק עם בלון (גז) וינסחו מסקנות. (יעדים 56, 57, 58)"
+      "objective": "ניסויי חימום/קירור בשלושת מצבי הצבירה יצפו בחימום/קירור כדור מתכת (מוצק); יחממו/יקררו בקבוק מים עם צינור (נוזל); יחממו/יקררו בקבוק עם בלון (גז) וינסחו מסקנות. (יעדים 56, 57, 58)",
+      "moe_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.PHYS-CHANGE.HEAT-COOL",
+      "topic_he_moe": "תהליכי שינוי בחומר",
+      "subtopic_he": "שינוי פיזיקלי",
+      "subtopic_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.PHYS-CHANGE"
     },
     {
       "id": "methodica-temp-volume-02",
@@ -422,21 +486,29 @@
       "topic": "שינוי מצב צבירה",
       "objective": "מעברי מצב צבירה: זיהוי, מדידה והדגמה יזהו מעברי מצב צבירה; ימדדו מסה/נפח לפני ואחרי התכה; יצפו בשינוי נפח חומר נדיף. (יעדים 60, 61, 62)",
       "moe_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.STATE-CHANGE.NAME-MEASURE",
-      "subtopic_he": "שינוי מצב צבירה",
       "topic_he_moe": "תהליכי שינוי בחומר",
+      "subtopic_he": "שינוי מצב צבירה",
       "subtopic_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.STATE-CHANGE"
     },
     {
       "id": "methodica-accum-mode-02",
       "number": 28,
       "topic": "שינוי מצב צבירה",
-      "objective": "נקודות רתיחה/התכה וגורמים לקצב המעבר יזהו נקודות רתיחה והתכה כמאפייני חומרים ויבחינו בין התאדות לרתיחה; יזהו גורמים המשפיעים על קצב המעבר. (יעדים 63, 64)"
+      "objective": "נקודות רתיחה/התכה וגורמים לקצב המעבר יזהו נקודות רתיחה והתכה כמאפייני חומרים ויבחינו בין התאדות לרתיחה; יזהו גורמים המשפיעים על קצב המעבר. (יעדים 63, 64)",
+      "moe_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.STATE-CHANGE.RATE-FACTORS",
+      "topic_he_moe": "תהליכי שינוי בחומר",
+      "subtopic_he": "שינוי מצב צבירה",
+      "subtopic_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.STATE-CHANGE"
     },
     {
       "id": "methodica-mass-maintain-01",
       "number": 29,
       "topic": "חוק שימור המסה",
-      "objective": "התנסות חובה: (באופן דיגיטלי במערכת ה-720) ינסחו השערות לגבי השפעת שינויים פיזיקליים על המסה. (סינתזה)\nיתכננו ניסוי לבדיקת ההשערות (לדוגמה: השוואת מסה של גוש קרח לפני ואחרי היתוך). (סינתזה)\nיבצעו את הנ"
+      "objective": "התנסות חובה: (באופן דיגיטלי במערכת ה-720) ינסחו השערות לגבי השפעת שינויים פיזיקליים על המסה. (סינתזה)\nיתכננו ניסוי לבדיקת ההשערות (לדוגמה: השוואת מסה של גוש קרח לפני ואחרי היתוך). (סינתזה)\nיבצעו את הנ",
+      "moe_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.MASS-CONSERV.HYPOTHESIS-EXP",
+      "topic_he_moe": "תהליכי שינוי בחומר",
+      "subtopic_he": "חוק שימור המסה",
+      "subtopic_code": "MOE.SCI.G7.CHEM.PHASE-CHANGE.MASS-CONSERV"
     },
     {
       "id": "methodica-particle-model-01",
@@ -444,8 +516,8 @@
       "topic": "מבנה החומר – מודל החלקיקים",
       "objective": "יתארו את עקרונות מודל החלקיקים: החומר בנוי מחלקיקים (אי-רציפות החומר), החלקיקים נמצאים בתנועה מתמדת, בין החלקיקים קיים ריק, בין החלקיקים פועלים כוחות משיכה משתנים. (ידע) (יעד 66) ",
       "moe_code": "MOE.SCI.G7.CHEM.PARTICLE-MODEL.PRINCIPLES.INTRO",
-      "subtopic_he": "מבנה החומר על פי מודל החלקיקים",
       "topic_he_moe": "מבנה החומר - מודל החלקיקים",
+      "subtopic_he": "מבנה החומר על פי מודל החלקיקים",
       "subtopic_code": "MOE.SCI.G7.CHEM.PARTICLE-MODEL.PRINCIPLES"
     }
   ]
