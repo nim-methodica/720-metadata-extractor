@@ -1,22 +1,19 @@
 ---
 name: 720-metadata-extractor
 description: >-
-  Extracts metadata JSON files from 720/methodica training script PPTX files per the
-  720 Content Metadata standard (V2.1+). Given a script PPTX, produces one unit-level
-  JSON plus one JSON per רכיב (component) with all פריטים (items) nested inside
-  `subContent[]`. Use whenever the user asks to extract/generate/produce metadata,
-  מטה־דאטה, or JSON from a 720 script — filenames typically contain "יעד" and IDs
-  follow `methodica-<subject>-<topic>-XX`. Handles subject-agnostic content (math,
-  science, and beyond). **Fully autonomous** — does not ask the user for
-  prerequisiteLearningObjective, recommendedAfterFail, componentPurpose, isAssessment,
-  cognitiveLevel, depthLevel, relativeDifficulty, estimatedTime, or contentType. All
-  these are determined by deterministic rules in references/conventions.md.
-  Only stops and asks the user if: the script lacks item-level IDs ("מספר פריט" tags),
-  or the unit ID is not in learning-objectives.json even after refreshing from the
-  management Excel (meaning a brand new objective). Empty subTopic / learningObjective
-  in slide 1 falls back to values from learning-objectives.json, not a stop.
-  Do NOT use for QA of scripts (720-script-qa), building scripts from Word
-  (720-script-writer), or generic PPTX metadata extraction unrelated to 720.
+  Extracts metadata JSON from 720/methodica training script PPTX files per the 720
+  Content Metadata standard (V2.1+): one unit-level JSON + one per רכיב (component),
+  פריטים (items) nested in `subContent[]`. Use when asked to extract/generate/produce
+  metadata, מטה־דאטה, or JSON from a 720 script — filenames typically contain "יעד",
+  IDs follow `methodica-{subject}-{topic}-XX`. Any subject (math, science, etc.).
+  **Fully autonomous** — never asks about deterministic fields
+  (prerequisiteLearningObjective, cognitiveLevel, depthLevel, relativeDifficulty,
+  estimatedTime, contentType, etc.); all determined by rules in
+  references/conventions.md. Only stops to ask if the script lacks item-level IDs
+  ("מספר פריט" tags), or the unit ID isn't in learning-objectives.json even after
+  refreshing (a brand-new objective). Do NOT use for: QA of scripts (720-script-qa),
+  building scripts from Word (720-script-writer), or generic PPTX metadata extraction
+  unrelated to 720.
 ---
 
 # 720-metadata-extractor
