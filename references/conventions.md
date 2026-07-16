@@ -1,324 +1,149 @@
-# מוסכמות עבודה — 720 Metadata Extraction
+$ cat "C:\Users\user\AppData\Local\Temp\claude\C--Users-user--claude\9e967f8e-7237-448e-87a3-805dcae5822a\scratchpad\720-metadata-extractor\references\standard.md"
 
-מוסכמות שאומתו בפועל מול משתמש. **מטרת הסקיל: אפס שאלות למשתמש.** כל שדה שאפשר לגזור אוטומטית
-— נגזר. שדות שדורשים שיפוט — מוגדרים ע"י כלל דטרמיניסטי.
+# תקן 720 Content Metadata (V2.1+)
 
-## פורמט ID — URL מלא (חוק V2.2)
+מסמך זה מסכם את התקן הטכני לתיאור מטא־דאטה של יחידות תוכן, רכיבים ופריטים לפלטפורמת 720.
+המקור המלא: `הנחיות טכניות לפיתוח תוכן 720 - תשפז.pdf`.
 
-התקן V2.2 של המשרד דורש שכל שדה `id` יהיה **URL מלא (IRI)**. methodica קבעה את הדומיין:
+## מבנה היררכי
 
 ```
-https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/[<component-id>/[<item-id>/]]
+יחידת תוכן (Content Unit)
+└── רכיבי תוכן (Components) — מערך components[]
+    └── פריטי תוכן (Items) — מערך subContent[]
+        └── שאלות (Questions) — מערך questions[]
 ```
 
-### דוגמאות
+בפלט מטא־דאטה: **קובץ יחידה** נפרד, ו**קובץ נפרד לכל רכיב** (מכיל את הפריטים שלו כ-
+`subContent[]`, ואת ה-`learningUnitId` כהפניה בלבד ליחידה). פריטים אינם קבצים נפרדים.
 
-| רמה | ID קצר | URL מלא |
+## שדות יחידת תוכן
+
+| שדה | סוג | תיאור |
 |---|---|---|
-| יחידה מתמטיקה | `methodica-math-scale-01` | `https://lomdot.education.gov.il/metodica/720active/math/scale/01/` |
-| יחידה מדעים | `methodica-science-mass-measure-01` | `https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/` |
-| רכיב | `methodica-science-mass-measure-01-01` | `https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-01/` |
-| פריט | `methodica-science-mass-measure-01-01-001` | `https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-01/methodica-science-mass-measure-01-01-001/` |
+| `id` | string | מזהה חד-חד־ערכי לכל יחידה. תבנית: `methodica-{subject}-{topic}-XX`. |
+| `title` | string ≤30 תווים | כותרת תצוגתית של היחידה. |
+| `subTopic` | string | מזהה מרשימת תתי־נושאים סגורה (בעבודה). בפועל: שם הנושא בעברית. |
+| `learningObjective` | string | מזהה מרשימת יעדי למידה סגורה (בעבודה). בפועל: פירוט היעד. |
+| `targetSector` | array | רשימת מגזרים (State-General / State-Religious / Orthodox / Arab Sector / Druze Sector / Bedouin Sector / Special Education). |
+| `targetAudience` | array | רשימת אוכלוסיות (General / Excellent / Disadvantaged Populations / New Immigrants / Students with Special Needs / Students with Language Gaps / At Risk Students). |
+| `prerequisiteLearningObjective` | array | מערך של אינדקסים של יעדי למידה נדרשים לפני היחידה (לפי הגדרת יצירת התוכן, לא ע"י המשרד). |
 
-### מבנה ה-URL
+## שדות רכיב תוכן
 
-- **base** קבוע: `https://lomdot.education.gov.il/metodica/720active`
-- **subject**: `math` או `science` (נגזר מ-ID; עבור IDים בלי קידומת subject כמו
-  `methodica-character-materials-*` — נגזר מ-`learning-objectives.json`).
-- **topic**: החלק הלא-מספרי אחרי ה-subject (למשל `mass-measure`, `scale`, `character-materials`).
-- **unit-num**: המספר הראשון בסוף ה-ID.
-- **רכיב**: מוסיף את מזהה הרכיב המלא כרסיס אחרון בנתיב.
-- **פריט**: מקונן — מזהה הרכיב + מזהה הפריט (שני רסיסים אחרונים).
+| שדה | סוג | תיאור |
+|---|---|---|
+| `id` | string | מזהה חד-חד־ערכי לכל רכיב. תבנית: `{unit-id}-YY`. |
+| `title` | string ≤70 תווים | תיאור תצוגתי של שלב הלמידה הקרוב. |
+| `learningUnitId` | string | ה-`id` של יחידת האם (הפניה בלבד — לא מכיל את המטא־דאטה שלה). |
+| `componentPurpose` | enum | `instruction` / `practice` / `both`. |
+| `isAssessment` | boolean | האם הרכיב הוא רכיב הערכה. |
+| `manufacture` | string | שם ספק התוכן. עבור methodica: `"methodica"`. |
+| `recommendedAfterFail` | array | מערך של רכיבים מומלצים לאחר כישלון ברכיב זה. |
+| `isRequired` | boolean | האם יש חובת ביצוע. |
+| `relativeDifficulty` | number 1-5 | קושי יחסי בתוך היחידה. |
+| `masteryLevel` | enum | לא חובה בתשפ"ז. (Basic / intermediate / Advanced). |
+| `order` | number | מיקום בסדר היחידה (1, 2, 3...). |
+| `depthLevel` | enum | רמה ביחס לתכנית הלימודים. ראה רשימה למטה. |
+| `cognitiveLevel` | enum | רמת חשיבה לפי מקצוע. ראה רשימות למטה. |
+| `languages` | array | `["Hebrew"]` / `["Arabic"]` / `["English"]` — או שילוב. |
+| `skills` | array | מיומנויות (בעבודה — לרוב `[]` בשלב זה). |
+| `estimatedTimeInMinutes` | number | זמן מוערך. |
+| `createdAt` | string | ISO 8601 (`YYYY-MM-DDTHH:MM:SS.SSSZ`). |
+| `updatedAt` | string | ISO 8601. |
+| `subContent` | array | מערך של פריטים (ראה שדות פריט). |
 
-### שדות שמכילים URLים
+## שדות פריט תוכן
 
-בכל קובץ JSON, הערכים בשדות הבאים חייבים להיות URL מלא (לא ID קצר):
-- `id` בכל רמה (יחידה / רכיב / פריט / שאלה — למרות ש-`questionId` בפועל מזהה פנימי קצר).
-- `learningUnitId` (הפניה ל-URL של היחידה).
-- `recommendedAfterFail` (מערך של URLים של רכיבים).
-- `prerequisiteLearningObjective` (מערך של URLים של יחידות).
+| שדה | סוג | תיאור |
+|---|---|---|
+| `id` | string | מזהה חד-חד־ערכי לכל פריט. תבנית: `{component-id}-ZZZ`. |
+| `title` | string | כותרת חופשית של הפריט. |
+| `informationToBot` | string | תיאור מובנה לבוט (ראה תבנית למטה). |
+| `contentType` | enum | סוג התוכן. ראה רשימה למטה. |
+| `mediaFormat` | enum | ערך יחיד. ראה רשימה למטה. |
+| `questions` | array | מערך שאלות. ריק אם אין שאלה. |
 
-### כלי עזר
+### שדות של שאלה בודדת (בתוך `questions[]`)
 
-- `python scripts/url_builder.py <id>` — מדפיס את ה-URL של ID קצר כלשהו.
-- `python scripts/lookup_prerequisite.py <unit-id>` — מדפיס את URL של היעד הקודם ליחידה
-  (עם דגל `--short` יחזיר ID קצר במקום URL).
+| שדה | סוג | תיאור |
+|---|---|---|
+| `questionId` | string | מזהה פנימי (`q1`, `q2` וכו'). |
+| `questionType` | enum | `fill-in` / `true-false` / `choice` / `numeric` / `sequencing` / `matching` / `other`. |
+| `questionText` | string | נוסח השאלה כפי שמוצג ללומד. |
+| `answers` | array/object | אפשרויות תשובה. מבנה שונה לפי `questionType`. |
+| `correctAnswers` | array | תשובות נכונות. מבנה שונה לפי `questionType`. |
 
----
+## רשימות סגורות
 
-## שדה 1: `prerequisiteLearningObjective` (אוטומטי)
+### contentType
 
-**חוק**: היעד הקודם ברשימה הסדרתית של יעדי הלמידה, בקובץ ניהול 720.
-
-**איך**: הרץ:
-
-```bash
-python scripts/lookup_prerequisite.py <unit-id>
-```
-
-הפלט הוא ה-ID של היעד הקודם, או שורה ריקה אם זה היעד הראשון במקצוע.
-
-לרענון הרשימה (כשמוסיפים יעדים חדשים לקובץ הניהול):
-
-```bash
-python scripts/refresh_objectives.py "<path/to/קובץ ניהול 720 תשפז.xlsx>"
-```
-
-הרשימה נשמרת ב-`references/learning-objectives.json`.
-
-## שדה 2: `subTopic` ו-`learningObjective` (קודי MOE מהאינדקס)
-
-**חוק**: השדות `subTopic` ו-`learningObjective` הם **קודים מובנים** מאינדקס משרד החינוך, לא
-טקסט חופשי מהשקף.
-
-מבנה הקוד: `MOE.<SUBJECT>.<GRADE>.<DOMAIN>.<TOPIC>.<SUBTOPIC>.<OBJECTIVE>`
-
-- **`learningObjective`** = הקוד המלא (7 רמות), למשל:
-  `MOE.MATH.G8.NUM.RATIO-PROP-SCL.SCALE.UNIT-CONV`
-- **`subTopic`** = הקוד עד רמת תת-נושא (6 רמות), למשל:
-  `MOE.MATH.G8.NUM.RATIO-PROP-SCL.SCALE`
-
-### מקורות הקודים
-
-הקודים מגיעים מהאינדקסים הרשמיים של משרד החינוך (קובץ נפרד לכל כיתה+מקצוע). מיפוי בין
-מזהי methodica ל-MOE codes נשמר ב-`references/learning-objectives.json` (בשדות
-`moe_code` ו-`subtopic_code`).
-
-### תהליך
-
-1. הרץ `python scripts/lookup_moe.py <unit-id>` (או קרא את הקובץ ישירות) כדי למצוא את
-   הקוד המתאים למזהה methodica.
-2. השתמש ב-`moe_code` בשדה `learningObjective`.
-3. השתמש ב-`subtopic_code` בשדה `subTopic`.
-
-### מה קורה כשאין קוד?
-
-**לא כל היעדים ממופים כרגע** — האינדקס של משרד החינוך חלקי:
-- מתמטיקה: 15/29 יעדים ממופים (חסרים: גיאומטריה — מעגל, גליל).
-- מדעים: 8/30 יעדים ממופים (חסרים: רוב יעדי המדעים; האינדקס הנוכחי מכסה רק כימיה כיתה ז').
-
-אם ליחידה שאתה מעבד **אין קוד MOE** במיפוי:
-- דווח למשתמש שהמיפוי חסר לפני שאתה ממשיך.
-- אפשרות זמנית: השתמש ב-`topic` בעברית משדה השקף (החזרה לחוק הישן), אבל **דווח בבירור**
-  שהקבצים יידחו על ידי הפלטפורמה עד שהיעד ייכנס לאינדקס הרשמי.
-- לעולם **אל תמציא** קוד MOE — הם מגיעים אך ורק מהאינדקס הרשמי.
-
-### רענון האינדקס
-
-כאשר משרד החינוך מוסיף יעדים חדשים לקובץ האינדקס:
-
-```bash
-python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה - X.xlsx>"
-```
-
-זה מרענן את `references/moe-index.json` ומריץ אוטומטית התאמה מחדש ל-methodica IDs.
-
-## שדה 3: מבנה רכיבים (5 או 6 בלבד)
-
-**חוק**: תסריט 720 סטנדרטי מכיל **5 או 6 רכיבים**, בהתאם לכמות מועדים לשאלת שיא:
-
-| רכיב | תפקיד | componentPurpose | isAssessment |
-|---|---|---|---|
-| 01-01 | פתיחה + הקנייה + חימום + סטנדרטי א | `both` | `false` |
-| 01-02 | תרגול בסיסי + סטנדרטי ב | `practice` | `false` |
-| 01-03 | משימת כיתה | `practice` | `false` |
-| 01-04 | תרגול מתקדם (+ פריט העשרה אם קיים) | `practice` | `false` |
-| 01-05 | שאלת שיא (מועד א) | `practice` | **`true`** |
-| 01-06 | שאלת שיא (מועד ב) — אופציונלי | `practice` | **`true`** |
-
-מספר הרכיבים נגזר אוטומטית מספירת מפרידי הרכיב בתסריט (`extract_slides.py` מציג את
-המספר בפלט).
-
-**אם מבנה חריג נמצא** (פחות מ-5 או יותר מ-6 רכיבים) — דווח על זה כאזהרה למשתמש, אבל
-המשך לפי המבנה שנמצא בפועל בקובץ.
-
-## שדה 4: `recommendedAfterFail` (חוק פשוט)
-
-**חוק**: רק רכיב 1 מקבל המלצה לאחר כישלון = רכיב 2. כל השאר ריקים.
-
-| רכיב | recommendedAfterFail |
+| ערך | תיאור |
 |---|---|
-| 01-01 | `["<unit-id>-02"]` |
-| 01-02 | `[]` |
-| 01-03 | `[]` |
-| 01-04 | `[]` |
-| 01-05 | `[]` |
-| 01-06 | `[]` |
+| `Instruction` | הבנייה |
+| `Practice` | תרגול |
+| `Project or Inquiry Task` | פרויקט או משימת חקר |
+| `Educational Game` | משחק לימודי |
+| `Reading Text` | ניתוח טקסט |
+| `Simulation` | סימולציה |
+| `Motivational` | פריט מוטיבציה (הוק, העשרה שאינה נבדקת) |
+| `Solved Exercise` | פתרון מודרך של תרגיל |
+| `Summary` | סיכום החומר |
 
-## שדה 5: `isAssessment` (רק בהערכה)
+### mediaFormat
 
-**חוק**: `true` רק לרכיבים 5 ו-6 (שאלות שיא). `false` לכל השאר.
+`Text` / `Image` / `Audio` / `Video` / `Animation` / `Interactive content` / `Presentation`
 
-## שדה 6: `contentType` (9 קטגוריות מהתקן)
+**ערך יחיד בלבד**. פריט אינטראקטיבי שכולל וידאו כאחת האפשרויות הפנימיות → `Interactive content`.
 
-**חוק** לפי תפקיד הפריט. כל 9 הערכים של התקן מותרים; בחר את הספציפי ביותר:
+### questionType
 
-| סימני זיהוי | contentType |
+`fill-in` / `true-false` / `choice` / `numeric` / `sequencing` / `matching` / `other`.
+
+### targetSector
+
+`State-General` / `State-Religious` / `Orthodox` / `Arab Sector` / `Druze Sector` / `Bedouin Sector` / `Special Education`
+
+### targetAudience
+
+`General` / `Excellent` / `Disadvantaged Populations` / `New Immigrants` / `Students with Special Needs` / `Students with Language Gaps` / `At Risk Students`
+
+### depthLevel
+
+| ערך | תיאור |
 |---|---|
-| פריט הקנייה — סרטון/קלפים/פלייליסט, מציג מושג חדש | `Instruction` |
-| פריט הוק / בחירת דמות / פתיח מוטיבציוני | `Motivational` |
-| פריט העשרה (סרטון בלי שאלה מוערכת, קריינות/מוסיקה, הרחבה תרבותית) | `Motivational` |
-| יישומון או סימולציה — מדידה במעבדה וירטואלית, מודל אינטראקטיבי | `Simulation` |
-| תרגול מונחה — פתרון שלב-שלב יחד עם הדמות (בעיקר מתמטיקה) | `Solved Exercise` |
-| משימת כיתה / פרויקט חקר בעולם האמיתי | `Project or Inquiry Task` |
-| קטע קריאה עם שאלות הבנת הנקרא | `Reading Text` |
-| משחק לימודי עם מנגנון תחרותי/ניקוד | `Educational Game` |
-| סיכום היחידה או תת-סעיף | `Summary` |
-| כל שאלה/תרגיל שאינו נופל תחת הקטגוריות למעלה — חימום/בסיסי/סטנדרטי/מתקדם/שאלת שיא | `Practice` |
+| `Core Curriculum Basic` | תוכנית לימודים בסיסית |
+| `Core Curriculum Advanced` | תוכנית לימודים העמקה |
+| `Core Curriculum Enrichment` | תוכנית לימודים העשרה |
+| `Non Core Basic` | לא חלק מהתוכנית הבסיסית |
+| `Non Core Advanced` | לא חלק מתוכנית ההעמקה |
+| `Non Core Enrichment` | לא חלק מתוכנית ההעשרה |
 
-**הערה**: כשפריט מכיל **גם** יישומון וגם שאלת choice עליו — הסיווג לפי המרכיב המרכזי. אם
-היישומון הוא הפעילות והשאלה משנית → `Simulation`. אם השאלה מרכזית והיישומון הוא רק כלי
-מדידה בתוכה → `Practice`.
+### cognitiveLevel — מתמטיקה
 
-## שדה 7: `mediaFormat` (כמעט תמיד Interactive content)
+`Knowledge and Recall` / `Algorithmic Thinking` / `Process Thinking` / `Interpretation and Reasoning`
 
-- **`Interactive content`** — ברירת מחדל לכל פריט.
-- **`Video`** — רק לפריט שהוא סרטון-בלבד בלי אינטראקציה כלל (נדיר).
+### cognitiveLevel — מדעים
 
-## שדה 8: `estimatedTimeInMinutes` (2 דקות לסעיף)
+`Identifying` / `Describing` / `Retrieving Information` / `Providing Examples` /
+`Making Connections` / `Interpreting` / `Applying a Model or Procedure` / `Explaining` /
+`Providing Scientific Reasoning` / `Analyzing` / `Synthesizing` / `Evaluating and Justifying`
 
-**חוק**: `estimatedTimeInMinutes` של רכיב = סכום סעיפים בכל הפריטים × 2 דקות.
+## תבנית `informationToBot`
 
-- **סעיף = שאלה יחידה ב-`questions[]`.** ספר כל אובייקט במערך.
-- פריט **עם שאלות** (`questions[]` לא ריק) — 2 דקות לכל שאלה.
-- פריט **ללא שאלות מוערכות** (`questions: []`) — הערך **1 דקה** לפריט. זה כולל:
-  - פריט הוק ללא שאלה
-  - פריט העשרה שהוא סרטון בלבד
-  - מסך פתיחה/סיום
-- פריט **הוק עם שאלה** — 2 דקות (השאלה נחשבת סעיף רגיל).
-- פריט **משימת כיתה** — לרוב יש `question` יחיד עם `correctAnswers: []`, אז 2 דקות.
+מחרוזת אחת שמכילה ארבעה חלקים לפי סדר:
 
-## שדה 9: `relativeDifficulty` (לפי סוג התרגילים ברכיב)
-
-**חוק** — לפי סוג התרגולים הדומיננטי ברכיב:
-
-| רכיב | סוג דומיננטי | relativeDifficulty |
-|---|---|---|
-| 01-01 (הקנייה + חימום + סטנדרטי א) | סטנדרטי | 3 |
-| 01-02 (בסיסי + סטנדרטי ב) | בסיסי (רוב הרכיב) | 2 |
-| 01-03 (משימת כיתה) | (יישום מציאותי) | 3 |
-| 01-04 (מתקדם) | מתקדם | 5 |
-| 01-05 (שאלת שיא) | הערכה | 5 |
-| 01-06 (שאלת שיא ב) | הערכה | 5 |
-
-טווח לפי סוג פריט (למידע פנימי):
-- בסיסי: 1-2
-- סטנדרטי: 3-4
-- מתקדם / שאלת שיא: 5
-
-## שדה 10: `cognitiveLevel` (לפי מקצוע)
-
-**חוק** לפי סוג הרכיב + מקצוע (זהוי מה-`id` — `methodica-math-*` או `methodica-science-*` /
-אחד מתחומי המדעים האחרים).
-
-**הגדרות מפורטות ומתי כל רמה מתאימה — ראה `references/cognitive-levels-detailed.md`.**
-המיפוי המומלץ למטה מבוסס על תפקיד הרכיב הסטנדרטי בתסריט 720; אם תוכן ספציפי של רכיב
-חורג (למשל, רכיב 3 שהוא משימת כיתה פתוחה מאוד) — אפשר לשקול קידום/הורדה בהתאם
-להגדרות המפורטות.
-
-### מתמטיקה (4 רמות של הראמ"ה)
-| רכיב | תפקיד דומיננטי | cognitiveLevel |
-|---|---|---|
-| 01-01 | הקנייה + סטנדרטי א (יישום בסיטואציות חדשות) | `Process Thinking` |
-| 01-02 | בסיסי + סטנדרטי ב (חישובים שגרתיים) | `Algorithmic Thinking` |
-| 01-03 | משימת כיתה (העברה למצב מציאותי) | `Process Thinking` |
-| 01-04 | מתקדם (ניתוח והנמקה) | `Interpretation and Reasoning` |
-| 01-05 / 01-06 | שאלת שיא (רב-חלקי) | `Interpretation and Reasoning` |
-
-### מדעים (3 רמות של הראמ"ה — נמוכה/בינונית/גבוהה)
-| רכיב | תפקיד דומיננטי | cognitiveLevel |
-|---|---|---|
-| 01-01 | הקנייה + סטנדרטי א (יישום פרוצדורה) | `Applying a Model or Procedure` |
-| 01-02 | בסיסי + סטנדרטי ב (יישום פרוצדורה) | `Applying a Model or Procedure` |
-| 01-03 | משימת כיתה (מדידה מעשית) | `Applying a Model or Procedure` |
-| 01-04 | מתקדם (ניתוח נתונים) | `Analyzing` |
-| 01-05 / 01-06 | שאלת שיא (רב-חלקי, כולל הצדקה) | `Analyzing` (או `Evaluating and Justifying` אם דגש על הצדקה) |
-
-## שדה 11: `depthLevel` (Basic חוץ ממתקדם)
-
-**חוק פשוט**: `Core Curriculum Basic` לכל הרכיבים חוץ מרכיב 4 (מתקדם) שהוא
-`Core Curriculum Advanced`.
-
-| רכיב | depthLevel |
-|---|---|
-| 01-01, 01-02, 01-03 | `Core Curriculum Basic` |
-| 01-04 (מתקדם) | `Core Curriculum Advanced` |
-| 01-05, 01-06 (הערכה) | `Core Curriculum Basic` |
-
-## שדה 12: `title` של פריט (תבנית קבועה)
-
-**חוק**: `title` של פריט = `<סוג המקטע במצגת> <מספר>: <תיאור קצר מהשקף>` — למשל:
-- "הוק — יחס רחפן והמציאות"
-- "הקנייה: מהו קנה מידה + המרת יחידות"
-- "חימום 1: יחידות מידה של מסה"
-- "בסיסי 2: לונה פארק — מרחק בין רכבות ההרים"
-- "סטנדרטי 3: מפת ניווט"
-- "מתקדם 1: בורג' ח'ליפה"
-- "שאלת שיא: חילוץ מטיילים (4 סעיפים)"
-
-**איך מזהים את סוג המקטע**: המצגת עצמה מסמנת את המקטעים באמצעות טקסט קבוע — לרוב
-בשקף הראשון של המקטע יופיע:
-- "ועכשיו, תרגיל לחימום!" / "שתי שאלות חימום קלילות" → **חימום**
-- "מיד יוצגו X תרגילים" (בהקשר של רכיב בסיסי) → **בסיסי**
-- "סיימנו את שלב הלימוד, נעבור לתרגול" / רכיב 01 אחרי ההקנייה → **סטנדרטי**
-- "3 שאלות מתקדמות" / "שאלות מתקדמות" → **מתקדם**
-- "שאלת השיא" / "עכשיו מגיעה שאלת השיא" → **שאלת שיא**
-- שקף פתיחה עם בחירת דמות / שאלה מוטיבציונית → **הוק**
-- מסך עם קלפים אינטראקטיביים / סרטון הסבר / פלייליסט למידה → **הקנייה**
-- "משימת כיתה" בכותרת → **משימת כיתה**
-
-**המספר** (חימום 1, סטנדרטי 3 וכו') = מיקום סידורי בתוך המקטע.
-
-**התיאור הקצר** = הנושא המרכזי מהשקף הראשון של הפריט (למשל: "לונה פארק — מרחק בין
-רכבות ההרים").
-
-## שדה 13: `questionType` (לפי מראה השקף)
-
-לפי `references/question-types.md`. הזיהוי הוא לפי טקסט השקף:
-
-- 3-5 אפשרויות טקסטואליות → `choice`
-- "נכון / לא נכון" → `true-false`
-- שדה הקלדה + תשובה מספרית טהורה → `numeric`
-- שדה הקלדה + תשובה מחרוזתית (יחס, מילה) → `fill-in`
-- "גררו" / "התאימו" עם מקור ויעד → `matching`
-- "סדרו לפי הסדר" → `sequencing`
-
-## ברירות מחדל קבועות (אף פעם לא משתנות)
-
-### יחידה
-```json
-"targetSector": [
-  "State-General", "State-Religious", "Orthodox",
-  "Arab Sector", "Druze Sector", "Bedouin Sector", "Special Education"
-],
-"targetAudience": [
-  "General", "Excellent", "Disadvantaged Populations",
-  "New Immigrants", "Students with Special Needs",
-  "Students with Language Gaps", "At Risk Students"
-]
+```
+מטרת הפריט: {מה מטרת הפריט מבחינה פדגוגית}.
+מה התלמיד אמור להבין/לתרגל: {תוכן ההבנה/יישום הצפוי}.
+כיווני חשיבה ואסטרטגיות: {אילו אסטרטגיות פותרות את הפריט}.
+טעויות נפוצות: {טעויות תלמידיות ידועות}.
+מידע נוסף: {סוג האינטראקציה, רמזים, מסכים נוספים}. צילום מסך: לא צורף.
 ```
 
-### רכיב
-```json
-"manufacture": "methodica",
-"isRequired": true,
-"languages": ["Hebrew"],
-"skills": [],
-"masteryLevel": null  // לא חובה בתשפ"ז
-```
+הבוט משתמש בזה כדי לעזור ללומד בזמן אמת — פרט מספיק שיהיה לו על מה להישען, אבל אל תפזר
+מידע לא רלוונטי.
 
-- `createdAt` / `updatedAt` — התאריך של היום בפורמט ISO 8601 (`YYYY-MM-DDT00:00:00.000Z`).
-- `order` — 1, 2, 3, 4, 5, 6 לפי סדר הרכיבים.
+## דוגמת פלט JSON מלא
 
-## סיכום — מה עדיין דורש שיפוט?
-
-עם כל הכללים הדטרמיניסטיים למעלה, השדות הבאים עדיין דורשים קריאה של הטקסט מהשקף:
-
-1. **`questionType`** — לפי מראה השקף (רוב הפעמים ברור מטקסט השקף, אבל matching דורש לפעמים
-   בדיקה חזותית של תמונות אם הן חלק מהשאלה).
-2. **`questionText` + `answers` + `correctAnswers`** — יש להעתיק מהשקף.
-3. **`informationToBot`** — יש לכתוב תוכן מקורי לפי מבנה מוגדר (מטרת פריט / כיווני חשיבה /
-   טעויות נפוצות / מידע נוסף).
-4. **תיאור קצר של פריט לצורך `title`** — יש לזהות את הנושא המרכזי מהשקף.
-
-**כל השאר — אוטומטי לחלוטין, בלי לשאול את המשתמש.**
+ראה `references/example-output.md` לדוגמאות ממשיות של קובצי יחידה ורכיב.
