@@ -3,6 +3,22 @@
 מוסכמות שאומתו בפועל מול משתמש. **מטרת הסקיל: אפס שאלות למשתמש.** כל שדה שאפשר לגזור אוטומטית
 — נגזר. שדות שדורשים שיפוט — מוגדרים ע"י כלל דטרמיניסטי.
 
+## יוצא מן הכלל היחיד: תוכן שתלוי בתמונה/גרפיקה — לשאול, לא לנחש ולא להשאיר ריק
+
+`extract_slides.py` שולף **טקסט בלבד** מה-XML של השקפים — אין לו OCR או ניתוח תמונות. אם
+תשובה נכונה או זיווג (`correctAnswers`, בעיקר בשאלות `matching`) **תלויים בתוכן שמופיע רק
+כתמונה/גרף/דיאגרמה, בלי תיאור טקסטואלי מקביל בשקף** — הפלט הסופי חייב עדיין להיות **מלא**.
+במקרה הזה, ורק בו, הסקיל **עוצר באמצע העבודה ושואל את המשתמש** את השאלה הספציפית החסרה
+(למשל: "מה מוצג בכל אחת מ-4 התמונות בפריט X, ומה הזיווג הנכון?").
+
+**אסור**:
+- לנחש פרשנות ויזואלית סבירה-אך-לא-מאומתת ולהציג אותה כעובדה ב-JSON.
+- להשאיר `correctAnswers: []` (או כל שדה אחר) ריק ולהמשיך — זה יוצר פלט חלקי.
+
+זה **לא** סותר את "אפס שאלות למשתמש" — זה חל רק כשאין שום דרך לגזור את המידע מהטקסט
+שחולץ (מידע שממש לא קיים כטקסט), לא כשמדובר בשדה שדורש קריאה/שיפוט רגיל (אלו נשארים
+אוטומטיים לגמרי, ראו `references/question-types.md`).
+
 ## פורמט ID — URL מלא (חוק V2.2)
 
 התקן V2.2 של המשרד דורש שכל שדה `id` יהיה **URL מלא (IRI)**. methodica קבעה את הדומיין:
@@ -122,7 +138,7 @@ python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה -
 | 01-01 | פתיחה + הקנייה + חימום + סטנדרטי א | `both` | `false` |
 | 01-02 | תרגול בסיסי + סטנדרטי ב | `practice` | `false` |
 | 01-03 | משימת כיתה | `practice` | `false` |
-| 01-04 | תרגול מתקדם (+ פריט העשרה אם קיים) | `practice` | `false` |
+| 01-04 | תרגול מתקדם | `practice` | `false` |
 | 01-05 | שאלת שיא (מועד א) | `practice` | **`true`** |
 | 01-06 | שאלת שיא (מועד ב) — אופציונלי | `practice` | **`true`** |
 
@@ -145,6 +161,10 @@ python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה -
 | 01-05 | `[]` |
 | 01-06 | `[]` |
 
+**⚠️ הכיוון תמיד אחד**: רק 01-01 מצביע קדימה על 01-02. לעולם לא הפוך — רכיב 01-02 (או כל
+רכיב אחר) **אסור** שיצביע אחורה על 01-01. זו טעות שקרתה בעבר — לוודא שהחץ תמיד "כישלון
+ברכיב 1 → מומלץ רכיב 2", ולא ההפך.
+
 ## שדה 5: `isAssessment` (רק בהערכה)
 
 **חוק**: `true` רק לרכיבים 5 ו-6 (שאלות שיא). `false` לכל השאר.
@@ -155,25 +175,37 @@ python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה -
 
 | סימני זיהוי | contentType |
 |---|---|
-| פריט הקנייה — סרטון/קלפים/פלייליסט, מציג מושג חדש | `Instruction` |
-| פריט הוק / בחירת דמות / פתיח מוטיבציוני | `Motivational` |
-| פריט העשרה (סרטון בלי שאלה מוערכת, קריינות/מוסיקה, הרחבה תרבותית) | `Motivational` |
-| יישומון או סימולציה — מדידה במעבדה וירטואלית, מודל אינטראקטיבי | `Simulation` |
-| תרגול מונחה — פתרון שלב-שלב יחד עם הדמות (בעיקר מתמטיקה) | `Solved Exercise` |
-| משימת כיתה / פרויקט חקר בעולם האמיתי | `Project or Inquiry Task` |
-| קטע קריאה עם שאלות הבנת הנקרא | `Reading Text` |
-| משחק לימודי עם מנגנון תחרותי/ניקוד | `Educational Game` |
-| סיכום היחידה או תת-סעיף | `Summary` |
-| כל שאלה/תרגיל שאינו נופל תחת הקטגוריות למעלה — חימום/בסיסי/סטנדרטי/מתקדם/שאלת שיא | `Practice` |
+| פריט הקנייה — סרטון/קלפים/פלייליסט, מציג מושג חדש | `instruction` |
+| פריט הוק / בחירת דמות / פתיח מוטיבציוני | `motivational` |
+| פריט העשרה (סרטון בלי שאלה מוערכת, קריינות/מוסיקה, הרחבה תרבותית) | `motivational` |
+| יישומון או סימולציה — מדידה במעבדה וירטואלית, מודל אינטראקטיבי | `simulation` |
+| תרגול מונחה — פתרון שלב-שלב יחד עם הדמות (בעיקר מתמטיקה) | `exercise-solved` |
+| משימת כיתה / פרויקט חקר בעולם האמיתי | `task-inquiry-or-project` |
+| קטע קריאה עם שאלות הבנת הנקרא | `text-reading` |
+| משחק לימודי עם מנגנון תחרותי/ניקוד | `game-educational` |
+| סיכום היחידה או תת-סעיף | `summary` |
+| כל שאלה/תרגיל שאינו נופל תחת הקטגוריות למעלה — חימום/בסיסי/סטנדרטי/מתקדם/שאלת שיא | `practice` |
 
 **הערה**: כשפריט מכיל **גם** יישומון וגם שאלת choice עליו — הסיווג לפי המרכיב המרכזי. אם
-היישומון הוא הפעילות והשאלה משנית → `Simulation`. אם השאלה מרכזית והיישומון הוא רק כלי
-מדידה בתוכה → `Practice`.
+היישומון הוא הפעילות והשאלה משנית → `simulation`. אם השאלה מרכזית והיישומון הוא רק כלי
+מדידה בתוכה → `practice`.
 
-## שדה 7: `mediaFormat` (כמעט תמיד Interactive content)
+**⚠️ שאלת שיא (רכיבים 01-05 / 01-06) היא תמיד `practice`, לעולם לא `task-inquiry-or-project`**
+— גם כשמדובר בתרחיש רב-סעיפי שמרגיש כמו פרויקט מציאותי. `task-inquiry-or-project` שמור
+**רק** למשימת כיתה (רכיב 01-03).
 
-- **`Interactive content`** — ברירת מחדל לכל פריט.
-- **`Video`** — רק לפריט שהוא סרטון-בלבד בלי אינטראקציה כלל (נדיר).
+## שדה 7: `mediaFormat` (כמעט תמיד content-interactive)
+
+- **`content-interactive`** — ברירת מחדל לכל פריט.
+- **`video`** — רק לפריט שהוא סרטון-בלבד בלי אינטראקציה כלל (נדיר).
+
+**חריג להקנייה (`contentType: instruction`)**: לפי סיכום עם הלקוח, פריטי הקנייה נבדקים
+לפי קיום וידיאו:
+- יש וידיאו + שאלה מוערכת עליו → `mediaFormat: "video"`.
+- אין וידיאו (הקנייה טקסטואלית) + שאלה מוערכת → `mediaFormat: "text"`.
+
+**חריג למשימת כיתה (רכיב 01-03)**: תמיד `mediaFormat: "text"` (ראה גם שדה 8 למטה —
+למשימת כיתה לעולם אין `questions`).
 
 ## שדה 8: `estimatedTimeInMinutes` (2 דקות לסעיף)
 
@@ -185,8 +217,9 @@ python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה -
   - פריט הוק ללא שאלה
   - פריט העשרה שהוא סרטון בלבד
   - מסך פתיחה/סיום
+  - פריט **משימת כיתה** — **תמיד** `questions: []` (אין הזנה מוערכת, גם אם השקף מציג שדה
+    קלט פיזי למשימה בשטח — מה שהלומד "מזין" שם לא נאסף כתשובה). `mediaFormat: "text"`.
 - פריט **הוק עם שאלה** — 2 דקות (השאלה נחשבת סעיף רגיל).
-- פריט **משימת כיתה** — לרוב יש `question` יחיד עם `correctAnswers: []`, אז 2 דקות.
 
 ## שדה 9: `relativeDifficulty` (לפי סוג התרגילים ברכיב)
 
@@ -219,31 +252,31 @@ python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה -
 ### מתמטיקה (4 רמות של הראמ"ה)
 | רכיב | תפקיד דומיננטי | cognitiveLevel |
 |---|---|---|
-| 01-01 | הקנייה + סטנדרטי א (יישום בסיטואציות חדשות) | `Process Thinking` |
-| 01-02 | בסיסי + סטנדרטי ב (חישובים שגרתיים) | `Algorithmic Thinking` |
-| 01-03 | משימת כיתה (העברה למצב מציאותי) | `Process Thinking` |
-| 01-04 | מתקדם (ניתוח והנמקה) | `Interpretation and Reasoning` |
-| 01-05 / 01-06 | שאלת שיא (רב-חלקי) | `Interpretation and Reasoning` |
+| 01-01 | הקנייה + סטנדרטי א (יישום בסיטואציות חדשות) | `process-thinking` |
+| 01-02 | בסיסי + סטנדרטי ב (חישובים שגרתיים) | `thinking-algorithmic` |
+| 01-03 | משימת כיתה (העברה למצב מציאותי) | `process-thinking` |
+| 01-04 | מתקדם (ניתוח והנמקה) | `reasoning-and-interpretation` |
+| 01-05 / 01-06 | שאלת שיא (רב-חלקי) | `reasoning-and-interpretation` |
 
 ### מדעים (3 רמות של הראמ"ה — נמוכה/בינונית/גבוהה)
 | רכיב | תפקיד דומיננטי | cognitiveLevel |
 |---|---|---|
-| 01-01 | הקנייה + סטנדרטי א (יישום פרוצדורה) | `Applying a Model or Procedure` |
-| 01-02 | בסיסי + סטנדרטי ב (יישום פרוצדורה) | `Applying a Model or Procedure` |
-| 01-03 | משימת כיתה (מדידה מעשית) | `Applying a Model or Procedure` |
-| 01-04 | מתקדם (ניתוח נתונים) | `Analyzing` |
-| 01-05 / 01-06 | שאלת שיא (רב-חלקי, כולל הצדקה) | `Analyzing` (או `Evaluating and Justifying` אם דגש על הצדקה) |
+| 01-01 | הקנייה + סטנדרטי א (יישום פרוצדורה) | `applying-a-model-or-procedure` |
+| 01-02 | בסיסי + סטנדרטי ב (יישום פרוצדורה) | `applying-a-model-or-procedure` |
+| 01-03 | משימת כיתה (מדידה מעשית) | `applying-a-model-or-procedure` |
+| 01-04 | מתקדם (ניתוח נתונים) | `analyzing` |
+| 01-05 / 01-06 | שאלת שיא (רב-חלקי, כולל הצדקה) | `analyzing` (או `evaluating-and-justifying` אם דגש על הצדקה) |
 
-## שדה 11: `depthLevel` (Basic חוץ ממתקדם)
+## שדה 11: `depthLevel` (basic-curriculum-core חוץ ממתקדם)
 
-**חוק פשוט**: `Core Curriculum Basic` לכל הרכיבים חוץ מרכיב 4 (מתקדם) שהוא
-`Core Curriculum Advanced`.
+**חוק פשוט**: `basic-curriculum-core` לכל הרכיבים חוץ מרכיב 4 (מתקדם) שהוא
+`advanced-curriculum-core`.
 
 | רכיב | depthLevel |
 |---|---|
-| 01-01, 01-02, 01-03 | `Core Curriculum Basic` |
-| 01-04 (מתקדם) | `Core Curriculum Advanced` |
-| 01-05, 01-06 (הערכה) | `Core Curriculum Basic` |
+| 01-01, 01-02, 01-03 | `basic-curriculum-core` |
+| 01-04 (מתקדם) | `advanced-curriculum-core` |
+| 01-05, 01-06 (הערכה) | `basic-curriculum-core` |
 
 ## שדה 12: `title` של פריט (תבנית קבועה)
 
@@ -288,13 +321,13 @@ python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה -
 ### יחידה
 ```json
 "targetSector": [
-  "State-General", "State-Religious", "Orthodox",
-  "Arab Sector", "Druze Sector", "Bedouin Sector", "Special Education"
+  "state-general", "religious-state", "orthodox",
+  "arab-sector", "druze-sector", "bedouin-sector", "education-special"
 ],
 "targetAudience": [
-  "General", "Excellent", "Disadvantaged Populations",
-  "New Immigrants", "Students with Special Needs",
-  "Students with Language Gaps", "At Risk Students"
+  "general", "excellent", "populations-disadvantaged",
+  "immigrants-new", "needs-special-with-students",
+  "gaps-language-with-students", "at-risk-students"
 ]
 ```
 
@@ -303,12 +336,30 @@ python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה -
 "manufacture": "methodica",
 "isRequired": true,
 "languages": ["Hebrew"],
-"skills": [],
-"masteryLevel": null  // לא חובה בתשפ"ז
+"skills": []
 ```
+
+`masteryLevel` **אינו** ברירת מחדל קבועה — הוא נגזר לפי רכיב, ראה שדה 14 למטה.
 
 - `createdAt` / `updatedAt` — התאריך של היום בפורמט ISO 8601 (`YYYY-MM-DDT00:00:00.000Z`).
 - `order` — 1, 2, 3, 4, 5, 6 לפי סדר הרכיבים.
+
+## שדה 14: `masteryLevel` (חובה, נגזר מתפקיד הרכיב)
+
+**חוק**: לא `null` — לכל רכיב יש ערך אמיתי מתוך `basic` / `intermediate` / `advanced`, לפי
+תפקיד הרכיב (לא זהה בהכרח ל-`relativeDifficulty`, ראו שאלת שיא למטה):
+
+| רכיב | תפקיד | masteryLevel |
+|---|---|---|
+| 01-01 (סטנדרטי) | סטנדרטי | `intermediate` |
+| 01-02 (בסיסי) | בסיסי | `basic` |
+| 01-03 (משימת כיתה) | יישום מציאותי | `intermediate` |
+| 01-04 (מתקדם) | מתקדם | `advanced` |
+| 01-05 / 01-06 (שאלת שיא) | הערכה | `intermediate` |
+
+**⚠️ שאלת שיא היא `intermediate`, לא `advanced`** — למרות ש-`relativeDifficulty` שלה הוא 5
+(כמו רכיב 4). שאלת השיא היא רכיב נפרד עם תפקיד שונה (הערכה מסכמת), ולא מדורגת יחד עם
+רכיב 4 מבחינת `masteryLevel`.
 
 ## סיכום — מה עדיין דורש שיפוט?
 

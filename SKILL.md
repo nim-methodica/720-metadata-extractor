@@ -9,12 +9,15 @@ description: >-
   follow `methodica-<subject>-<topic>-XX`. Handles subject-agnostic content (math,
   science, and beyond). **Fully autonomous** — does not ask the user for
   prerequisiteLearningObjective, recommendedAfterFail, componentPurpose, isAssessment,
-  cognitiveLevel, depthLevel, relativeDifficulty, estimatedTime, or contentType. All
+  cognitiveLevel, depthLevel, relativeDifficulty, masteryLevel, estimatedTime, or contentType. All
   these are determined by deterministic rules in references/conventions.md.
   Only stops and asks the user if: the script lacks item-level IDs ("מספר פריט" tags),
-  or the unit ID is not in learning-objectives.json even after refreshing from the
-  management Excel (meaning a brand new objective). Empty subTopic / learningObjective
-  in slide 1 falls back to values from learning-objectives.json, not a stop.
+  the unit ID is not in learning-objectives.json even after refreshing from the
+  management Excel (meaning a brand new objective), or a question's correct answer/pairing
+  (esp. `matching`) depends on image/graphic content in the slide with no textual
+  description — in that one case it stops mid-generation and asks rather than guessing
+  or leaving the field empty, so the final output is always complete. Empty subTopic /
+  learningObjective in slide 1 falls back to values from learning-objectives.json, not a stop.
   Do NOT use for QA of scripts (720-script-qa), building scripts from Word
   (720-script-writer), or generic PPTX metadata extraction unrelated to 720.
 ---
@@ -22,11 +25,15 @@ description: >-
 # 720-metadata-extractor
 
 מפיק קבצי מטא־דאטה JSON מתסריט 720 (PPTX), לפי תקן "תיאור טכני של מאפייני תוכן לפלטפורמות
-720" (V2.1). כללי לכל 720 — לא תלוי במקצוע ולא בפרויקט ספציפי.
+720" (V2.3). כללי לכל 720 — לא תלוי במקצוע ולא בפרויקט ספציפי.
 
 **עקרון-על: הסקיל אוטונומי לחלוטין.** כל השדות שאפשר לגזור מהתסריט או מהמוסכמות — נגזרים
 אוטומטית. הסקיל *לא* שואל את המשתמש שאלות שיש להן תשובה דטרמיניסטית. הכללים המלאים
 ב-`references/conventions.md` — לקרוא לפני התחלת עבודה.
+
+**יוצא דופן יחיד**: כשתשובה נכונה (בעיקר `correctAnswers` של `matching`) תלויה בתוכן שמופיע
+רק כתמונה/גרפיקה בשקף, בלי תיאור טקסטואלי — הסקיל **עוצר ושואל** את המשתמש, כדי שהפלט
+הסופי יהיה מלא ולא יכיל ניחושים או שדות ריקים. ראה `references/conventions.md`.
 
 ## קבצי רקע (לקרוא לפני התחלת עבודה)
 
@@ -113,16 +120,20 @@ python scripts/lookup_prerequisite.py <unit-id>
 
 לכל רכיב שזוהה בשלב 1:
 
-1. **קבע `componentPurpose`, `isAssessment`, `depthLevel`, `cognitiveLevel`, `relativeDifficulty`
-   ו-`recommendedAfterFail`** — לפי טבלאות ב-`conventions.md` (כל שדה יש לו כלל דטרמיניסטי).
+1. **קבע `componentPurpose`, `isAssessment`, `depthLevel`, `cognitiveLevel`, `relativeDifficulty`,
+   `masteryLevel` ו-`recommendedAfterFail`** — לפי טבלאות ב-`conventions.md` (כל שדה יש לו כלל
+   דטרמיניסטי). שים לב: `masteryLevel` של שאלת שיא (`intermediate`) שונה מ-`relativeDifficulty`
+   שלה (5) — הם לא נגזרים זה מזה.
 
 2. **לכל פריט ברכיב:**
    - קרא את השקפים של הפריט מ-`slides.txt` (לפי טווח שהוצג ב-`mapping.txt`).
    - קבע `title` לפי תבנית `<סוג התרגיל> <מספר>: <תיאור>` (`conventions.md` #12).
    - קבע `contentType` לפי סוג הפריט (`conventions.md` #6).
-   - `mediaFormat: "Interactive content"` כברירת מחדל.
+   - `mediaFormat: "content-interactive"` כברירת מחדל.
    - חלץ שאלות לתוך `questions[]` — זיהוי `questionType` וכתיבת `answers`/`correctAnswers`
-     לפי `references/question-types.md`.
+     לפי `references/question-types.md`. **אם `correctAnswers` של `matching` (או כל שדה אחר)
+     תלוי בתוכן שמופיע רק כתמונה/גרפיקה בלי תיאור טקסטואלי — עצור כאן ושאל את המשתמש** (ראה
+     `question-types.md` ו-`conventions.md`). אל תנחש ואל תשאיר ריק.
    - כתוב `informationToBot` במבנה 4 החלקים: מטרה / כיווני חשיבה / טעויות נפוצות / מידע נוסף.
 
 3. **חישוב `estimatedTimeInMinutes`** — סכום סעיפים ברכיב × 2 דקות. פריט בלי שאלה = 1 דקה.
@@ -136,10 +147,10 @@ python scripts/lookup_prerequisite.py <unit-id>
 הצג:
 1. רשימת הקבצים שנוצרו.
 2. סיכום קצר: מספר רכיבים, מספר פריטים, סכום `estimatedTimeInMinutes` של היחידה.
-3. **רק** אזהרות/בעיות שלא נפתרו:
-   - שאלת matching שלא הצלחת לזהות מהטקסט את מבנה `source/target` (למשל תמונות בשאלה).
-   - פריט עם `correctAnswers` ריק (משימת כיתה או פריט העשרה).
+3. **רק** אזהרות/בעיות שלא נפתרו (אמורות להיות נדירות — תוכן תלוי-תמונה כבר טופל בשלב 4
+   באמצעות שאלה למשתמש, לא כאזהרה בדיעבד):
    - כל חריגה מהמוסכמות בקובץ ההגדרות.
+   - שאלה שהמשתמש בחר לדלג עליה בשלב 4 ולא סיפק תשובה — ציין איזה פריט/שדה עדיין חסר.
 
 ## מה הסקיל **לא** שואל את המשתמש (בעבר שאל, עכשיו לא)
 
@@ -150,10 +161,11 @@ python scripts/lookup_prerequisite.py <unit-id>
 - ❌ `isAssessment` — רק רכיבים 5-6
 - ❌ `componentPurpose` — לפי הרכיב
 - ❌ `contentType` — 3 קטגוריות לפי סוג הפריט
-- ❌ `mediaFormat` — Interactive content כברירת מחדל
+- ❌ `mediaFormat` — content-interactive כברירת מחדל
 - ❌ `cognitiveLevel` — לפי מקצוע + רכיב
 - ❌ `depthLevel` — Basic חוץ ממתקדם
 - ❌ `relativeDifficulty` — לפי סוג התרגילים
+- ❌ `masteryLevel` — לפי תפקיד הרכיב (שאלת שיא = intermediate, לא advanced)
 - ❌ `estimatedTimeInMinutes` — 2 דקות לסעיף
 
 ## דגשים לביצוע

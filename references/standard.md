@@ -1,7 +1,10 @@
-# תקן 720 Content Metadata (V2.1+)
+# תקן 720 Content Metadata (V2.3)
 
 מסמך זה מסכם את התקן הטכני לתיאור מטא־דאטה של יחידות תוכן, רכיבים ופריטים לפלטפורמת 720.
 המקור המלא: `הנחיות טכניות לפיתוח תוכן 720 - תשפז.pdf`.
+
+**V2.3**: בכל טבלאות הרשימות הסגורות, ערכים בני יותר ממילה אחת נכתבים עם מקף (`-`) במקום
+רווח, ובאותיות קטנות (למשל `Solved Exercise` → `exercise-solved`).
 
 ## מבנה היררכי
 
@@ -23,8 +26,8 @@
 | `title` | string ≤30 תווים | כותרת תצוגתית של היחידה. |
 | `subTopic` | string | מזהה מרשימת תתי־נושאים סגורה (בעבודה). בפועל: שם הנושא בעברית. |
 | `learningObjective` | string | מזהה מרשימת יעדי למידה סגורה (בעבודה). בפועל: פירוט היעד. |
-| `targetSector` | array | רשימת מגזרים (State-General / State-Religious / Orthodox / Arab Sector / Druze Sector / Bedouin Sector / Special Education). |
-| `targetAudience` | array | רשימת אוכלוסיות (General / Excellent / Disadvantaged Populations / New Immigrants / Students with Special Needs / Students with Language Gaps / At Risk Students). |
+| `targetSector` | array | רשימת מגזרים (state-general / religious-state / orthodox / arab-sector / druze-sector / bedouin-sector / education-special). |
+| `targetAudience` | array | רשימת אוכלוסיות (general / excellent / populations-disadvantaged / immigrants-new / needs-special-with-students / gaps-language-with-students / at-risk-students). |
 | `prerequisiteLearningObjective` | array | מערך של אינדקסים של יעדי למידה נדרשים לפני היחידה (לפי הגדרת יצירת התוכן, לא ע"י המשרד). |
 
 ## שדות רכיב תוכן
@@ -40,7 +43,7 @@
 | `recommendedAfterFail` | array | מערך של רכיבים מומלצים לאחר כישלון ברכיב זה. |
 | `isRequired` | boolean | האם יש חובת ביצוע. |
 | `relativeDifficulty` | number 1-5 | קושי יחסי בתוך היחידה. |
-| `masteryLevel` | enum | לא חובה בתשפ"ז. (Basic / intermediate / Advanced). |
+| `masteryLevel` | enum | לא חובה בתשפ"ז. (basic / intermediate / advanced). |
 | `order` | number | מיקום בסדר היחידה (1, 2, 3...). |
 | `depthLevel` | enum | רמה ביחס לתכנית הלימודים. ראה רשימה למטה. |
 | `cognitiveLevel` | enum | רמת חשיבה לפי מקצוע. ראה רשימות למטה. |
@@ -78,21 +81,21 @@
 
 | ערך | תיאור |
 |---|---|
-| `Instruction` | הבנייה |
-| `Practice` | תרגול |
-| `Project or Inquiry Task` | פרויקט או משימת חקר |
-| `Educational Game` | משחק לימודי |
-| `Reading Text` | ניתוח טקסט |
-| `Simulation` | סימולציה |
-| `Motivational` | פריט מוטיבציה (הוק, העשרה שאינה נבדקת) |
-| `Solved Exercise` | פתרון מודרך של תרגיל |
-| `Summary` | סיכום החומר |
+| `instruction` | הבנייה |
+| `practice` | תרגול |
+| `task-inquiry-or-project` | פרויקט או משימת חקר |
+| `game-educational` | משחק לימודי |
+| `text-reading` | ניתוח טקסט |
+| `simulation` | סימולציה |
+| `motivational` | פריט מוטיבציה (הוק, העשרה שאינה נבדקת) |
+| `exercise-solved` | פתרון מודרך של תרגיל |
+| `summary` | סיכום החומר |
 
 ### mediaFormat
 
-`Text` / `Image` / `Audio` / `Video` / `Animation` / `Interactive content` / `Presentation`
+`text` / `image` / `audio` / `video` / `animation` / `content-interactive` / `presentation`
 
-**ערך יחיד בלבד**. פריט אינטראקטיבי שכולל וידאו כאחת האפשרויות הפנימיות → `Interactive content`.
+**ערך יחיד בלבד**. פריט אינטראקטיבי שכולל וידאו כאחת האפשרויות הפנימיות → `content-interactive`.
 
 ### questionType
 
@@ -100,32 +103,32 @@
 
 ### targetSector
 
-`State-General` / `State-Religious` / `Orthodox` / `Arab Sector` / `Druze Sector` / `Bedouin Sector` / `Special Education`
+`state-general` / `religious-state` / `orthodox` / `arab-sector` / `druze-sector` / `bedouin-sector` / `education-special`
 
 ### targetAudience
 
-`General` / `Excellent` / `Disadvantaged Populations` / `New Immigrants` / `Students with Special Needs` / `Students with Language Gaps` / `At Risk Students`
+`general` / `excellent` / `populations-disadvantaged` / `immigrants-new` / `needs-special-with-students` / `gaps-language-with-students` / `at-risk-students`
 
 ### depthLevel
 
 | ערך | תיאור |
 |---|---|
-| `Core Curriculum Basic` | תוכנית לימודים בסיסית |
-| `Core Curriculum Advanced` | תוכנית לימודים העמקה |
-| `Core Curriculum Enrichment` | תוכנית לימודים העשרה |
-| `Non Core Basic` | לא חלק מהתוכנית הבסיסית |
-| `Non Core Advanced` | לא חלק מתוכנית ההעמקה |
-| `Non Core Enrichment` | לא חלק מתוכנית ההעשרה |
+| `basic-curriculum-core` | תוכנית לימודים בסיסית |
+| `advanced-curriculum-core` | תוכנית לימודים העמקה |
+| `enrichment-curriculum-core` | תוכנית לימודים העשרה |
+| `basic-core-non` | לא חלק מהתוכנית הבסיסית |
+| `advanced-core-non` | לא חלק מתוכנית ההעמקה |
+| `enrichment-core-non` | לא חלק מתוכנית ההעשרה |
 
 ### cognitiveLevel — מתמטיקה
 
-`Knowledge and Recall` / `Algorithmic Thinking` / `Process Thinking` / `Interpretation and Reasoning`
+`knowledge-and-recall` / `thinking-algorithmic` / `process-thinking` / `reasoning-and-interpretation`
 
 ### cognitiveLevel — מדעים
 
-`Identifying` / `Describing` / `Retrieving Information` / `Providing Examples` /
-`Making Connections` / `Interpreting` / `Applying a Model or Procedure` / `Explaining` /
-`Providing Scientific Reasoning` / `Analyzing` / `Synthesizing` / `Evaluating and Justifying`
+`identifying` / `describing` / `information-retrieving` / `examples-providing` /
+`making-connections` / `interpreting` / `applying-a-model-or-procedure` / `explaining` /
+`providing-scientific-reasoning` / `analyzing` / `synthesizing` / `evaluating-and-justifying`
 
 ## תבנית `informationToBot`
 
