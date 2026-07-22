@@ -1,24 +1,19 @@
+$ cat "C:\Users\user\AppData\Local\Temp\claude\C--Users-user--claude\9e967f8e-7237-448e-87a3-805dcae5822a\scratchpad\720-metadata-extractor\SKILL.md"
+
 ---
 name: 720-metadata-extractor
 description: >-
-  Extracts metadata JSON files from 720/methodica training script PPTX files per the
-  720 Content Metadata standard (V2.1+). Given a script PPTX, produces one unit-level
-  JSON plus one JSON per רכיב (component) with all פריטים (items) nested inside
-  `subContent[]`. Use whenever the user asks to extract/generate/produce metadata,
-  מטה־דאטה, or JSON from a 720 script — filenames typically contain "יעד" and IDs
-  follow `methodica-<subject>-<topic>-XX`. Handles subject-agnostic content (math,
-  science, and beyond). **Fully autonomous** — does not ask the user for
-  prerequisiteLearningObjective, recommendedAfterFail, componentPurpose, isAssessment,
-  cognitiveLevel, depthLevel, relativeDifficulty, masteryLevel, estimatedTime, or contentType. All
-  these are determined by deterministic rules in references/conventions.md.
-  Only stops and asks the user if: the script lacks item-level IDs ("מספר פריט" tags),
-  the unit ID is not in learning-objectives.json even after refreshing from the
-  management Excel (meaning a brand new objective), or a question's correct answer/pairing
-  (esp. `matching`) depends on image/graphic content in the slide with no textual
-  description — in that one case it stops mid-generation and asks rather than guessing
-  or leaving the field empty, so the final output is always complete. Empty subTopic /
-  learningObjective in slide 1 falls back to values from learning-objectives.json, not a stop.
-  Do NOT use for QA of scripts (720-script-qa), building scripts from Word
+  Extracts metadata JSON from 720/methodica training script PPTX files per the 720
+  Content Metadata standard (V2.1+): one unit-level JSON + one per רכיב (component),
+  פריטים (items) nested in `subContent[]`. Use when asked to extract/generate/produce
+  metadata, מטה־דאטה, or JSON from a 720 script — filenames typically contain "יעד",
+  IDs follow `methodica-{subject}-{topic}-XX`, any subject. **Fully autonomous** —
+  never asks about deterministic fields (prerequisiteLearningObjective, cognitiveLevel,
+  depthLevel, masteryLevel, etc.); all determined by rules in references/conventions.md.
+  Only stops to ask if: the script lacks item-level IDs ("מספר פריט" tags), the unit ID
+  isn't in learning-objectives.json even after refreshing (brand-new objective), or a
+  question's correct answer (esp. matching) depends on image content with no text
+  description. Do NOT use for: QA of scripts (720-script-qa), building scripts from Word
   (720-script-writer), or generic PPTX metadata extraction unrelated to 720.
 ---
 
@@ -59,8 +54,8 @@ description: >-
 
 **הפלט הוא לא קובץ אחד**. הפלטפורמה מעלה כל רכיב בנפרד, ולכן:
 
-- **קובץ יחידה יחיד** (`<unit-id>_unit.json`) — שדות היחידה בלבד, בלי הרכיבים.
-- **קובץ נפרד לכל רכיב** (`<component-id>.json`) — שדות הרכיב + `learningUnitId` (הפניה
+- **קובץ יחידה יחיד** (`{unit-id}_unit.json`) — שדות היחידה בלבד, בלי הרכיבים.
+- **קובץ נפרד לכל רכיב** (`{component-id}.json`) — שדות הרכיב + `learningUnitId` (הפניה
   ל-ID של היחידה) + `subContent[]` עם כל הפריטים מקוננים.
 
 הפריטים תמיד תחת `subContent[]` של הרכיב שלהם. **לעולם לא** קבצים נפרדים.
@@ -72,7 +67,7 @@ description: >-
 הרץ:
 
 ```bash
-python scripts/extract_slides.py "<path/to/script.pptx>" <output-dir>
+python scripts/extract_slides.py "{path/to/script.pptx}" {output-dir}
 ```
 
 הסקריפט מפיק:
@@ -90,12 +85,12 @@ python scripts/extract_slides.py "<path/to/script.pptx>" <output-dir>
 קרא את `slides.txt` — שקף 1 מכיל את:
 - שם הנושא → `subTopic`
 - פירוט היעד → `learningObjective`
-- ID → ה-`id` של היחידה (`methodica-<subject>-<topic>-XX`)
+- ID → ה-`id` של היחידה (`methodica-{subject}-{topic}-XX`)
 
 לחישוב `prerequisiteLearningObjective`:
 
 ```bash
-python scripts/lookup_prerequisite.py <unit-id>
+python scripts/lookup_prerequisite.py {unit-id}
 ```
 
 מחזיר את ה-ID של היעד הקודם, או שורה ריקה אם זה היעד הראשון.
@@ -114,7 +109,7 @@ python scripts/lookup_prerequisite.py <unit-id>
 
 ### שלב 3 — בניית קובץ היחידה
 
-צור `<unit-id>_unit.json` בתיקיית הפלט. ראה תבנית ב-`references/example-output.md`.
+צור `{unit-id}_unit.json` בתיקיית הפלט. ראה תבנית ב-`references/example-output.md`.
 
 ### שלב 4 — לכל רכיב: קבע שדות ופריטים
 
@@ -127,7 +122,7 @@ python scripts/lookup_prerequisite.py <unit-id>
 
 2. **לכל פריט ברכיב:**
    - קרא את השקפים של הפריט מ-`slides.txt` (לפי טווח שהוצג ב-`mapping.txt`).
-   - קבע `title` לפי תבנית `<סוג התרגיל> <מספר>: <תיאור>` (`conventions.md` #12).
+   - קבע `title` לפי תבנית `{סוג התרגיל} {מספר}: {תיאור}` (`conventions.md` #12).
    - קבע `contentType` לפי סוג הפריט (`conventions.md` #6).
    - `mediaFormat: "content-interactive"` כברירת מחדל.
    - חלץ שאלות לתוך `questions[]` — זיהוי `questionType` וכתיבת `answers`/`correctAnswers`
@@ -140,7 +135,7 @@ python scripts/lookup_prerequisite.py <unit-id>
 
 ### שלב 5 — כתיבת קבצי הרכיבים
 
-צור `<component-id>.json` לכל רכיב, עם `subContent[]` שמכיל את כל הפריטים.
+צור `{component-id}.json` לכל רכיב, עם `subContent[]` שמכיל את כל הפריטים.
 
 ### שלב 6 — מסירה למשתמש
 
@@ -174,6 +169,6 @@ python scripts/lookup_prerequisite.py <unit-id>
   מחובר, לא על מראה חזותי.
 - **תאריך `createdAt`/`updatedAt`** — היום. הריצו `date -u +"%Y-%m-%dT%H:%M:%S.000Z"` ב-Bash
   אם צריך זמן מדויק.
-- **תיקיית פלט** — צור `output-<unit-id>/` לצד קובץ ה-PPTX, לא בתיקייה זמנית.
+- **תיקיית פלט** — צור `output-{unit-id}/` לצד קובץ ה-PPTX, לא בתיקייה זמנית.
 - **קבצים גדולים** — תסריטי 720 יכולים להיות 100+ MB (עם תמונות/וידאו מוטמעים). הסקריפט
   לא מתעסק במדיה, רק ב-XML של השקפים.
