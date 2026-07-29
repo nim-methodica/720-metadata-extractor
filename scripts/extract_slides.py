@@ -142,6 +142,72 @@ def is_divider_background(xml: str) -> bool:
     return False
 
 
+def extract_chart_data(chart_xml: str):
+    """
+    Pull the plotted data out of an embedded Excel/OOXML chart part
+    (ppt/charts/chartN.xml) as a compact text summary.
+
+    Charts are a completely separate part of the .pptx, referenced from a
+    slide only via a relationship ID (r:embed) in that slide's _rels file —
+    none of their content (title, category axis, series values) appears
+    anywhere in the slide's own XML text runs. Without this, a graph a
+    question asks the learner to read/mark is 100% invisible in slides.txt:
+    no placeholder, no warning, just a silently blank slide even though the
+    underlying data (e.g. exact x/y points) is sitting right there in the
+    chart XML, fully readable as plain numbers.
+    """
+    title = ''.join(re.findall(r'<c:title>.*?<a:t>([^<]*)</a:t>.*?</c:title>', chart_xml, re.DOTALL))
+    # A title can span multiple runs; grab all <a:t> inside the first <c:title>...</c:title> block.
+    title_block_m = re.search(r'<c:title>.*?</c:title>', chart_xml, re.DOTALL)
+    if title_block_m:
+        title = ''.join(re.findall(r'<a:t>([^<]*)</a:t>', title_block_m.group(0)))
+
+    axis_title_m = re.findall(r'<c:catAx>.*?<a:t>([^<]*)</a:t>.*?</c:catAx>', chart_xml, re.DOTALL)
+    cat_axis_title = axis_title_m[0] if axis_title_m else ''
+
+    series_blocks = re.findall(r'<c:ser>.*?</c:ser>', chart_xml, re.DOTALL)
+    parts = []
+    if title:
+        parts.append(f'[CHART: {title}]')
+    for ser in series_blocks:
+        name_m = re.search(r'<c:tx>.*?<c:v>([^<]*)</c:v>', ser, re.DOTALL)
+        name = name_m.group(1) if name_m else 'סדרה'
+        cat_m = re.search(r'<c:cat>.*?</c:cat>', ser, re.DOTALL)
+        val_m = re.search(r'<c:val>.*?</c:val>', ser, re.DOTALL)
+        cats = re.findall(r'<c:pt idx="\d+"><c:v>([^<]*)</c:v></c:pt>', cat_m.group(0)) if cat_m else []
+        vals = re.findall(r'<c:pt idx="\d+"><c:v>([^<]*)</c:v></c:pt>', val_m.group(0)) if val_m else []
+        if cats and vals and len(cats) == len(vals):
+            axis_label = f'{cat_axis_title}: ' if cat_axis_title else ''
+            pairs = ', '.join(f'{c}→{v}' for c, v in zip(cats, vals))
+            parts.append(f'[CHART DATA — {name} ({axis_label}ערך): {pairs}]')
+        elif vals:
+            parts.append(f'[CHART DATA — {name}: {", ".join(vals)}]')
+    return parts
+
+
+def find_slide_charts(slide_path: Path):
+    """
+    Resolve any chart parts embedded in a slide via its _rels file, and
+    return their extracted text summaries (see extract_chart_data). Returns
+    [] if the slide has no rels file or no chart relationships — the common
+    case, so this stays cheap.
+    """
+    rels_path = slide_path.parent / '_rels' / f'{slide_path.name}.rels'
+    if not rels_path.is_file():
+        return []
+    rels_xml = rels_path.read_text(encoding='utf-8')
+    chart_targets = re.findall(
+        r'<Relationship[^>]*Type="[^"]*?/chart"[^>]*Target="([^"]+)"',
+        rels_xml,
+    )
+    texts = []
+    for target in chart_targets:
+        chart_path = (slide_path.parent / target).resolve()
+        if chart_path.is_file():
+            texts.extend(extract_chart_data(chart_path.read_text(encoding='utf-8')))
+    return texts
+
+
 def process_pptx(pptx_path: Path, out_dir: Path):
     if not pptx_path.is_file():
         raise SystemExit(f"File not found: {pptx_path}")
@@ -167,7 +233,10 @@ def process_pptx(pptx_path: Path, out_dir: Path):
             xml = f.read_text(encoding='utf-8')
             texts = extract_texts(xml)
             combined_no_ws = ''.join(texts)  # for regex over IDs split across runs
-            full_text = ' | '.join(t for t in texts if t.strip())
+            chart_texts = find_slide_charts(f)
+            full_text = ' | '.join(t for t in texts if t.strip()) + (
+                ' | ' + ' | '.join(chart_texts) if chart_texts else ''
+            )
 
             item_id = find_item_id(combined_no_ws)
             marker = item_id
