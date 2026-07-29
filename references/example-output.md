@@ -72,14 +72,14 @@
       "mediaFormat": "content-interactive",
       "questions": [
         {
-          "questionId": "q1",
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01-01/methodica-math-scale-01-01-006/q1",
           "questionType": "numeric",
           "questionText": "א. אורך שולחן הכתיבה בתרשים הוא 7 ס\"מ, ובמציאות 1.4 מטרים. מהו קנה המידה של התרשים? (__ : 1)",
           "answers": [],
           "correctAnswers": [20]
         },
         {
-          "questionId": "q2",
+          "questionId": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01-01/methodica-math-scale-01-01-006/q2",
           "questionType": "choice",
           "questionText": "ב. נרצה לפרוס שטיח שמידותיו במציאות רוחב 1.8 מטרים ואורך 2.4 מטרים. מה יהיו מידות השטיח בתרשים?",
           "answers": [
@@ -98,8 +98,9 @@
 }
 ```
 
-**שים לב** ש-`questionId` הוא **מזהה פנימי קצר** (`q1`, `q2`) — הוא לא URL. רק שדות
-`id` ברמת יחידה/רכיב/פריט הם URLים מלאים.
+**שים לב** ש-`questionId` הוא **גם הוא URL מלא**: ה-`id` של הפריט (עם ה-`/` בסוף) + מספר
+השאלה (`q1`, `q2`...) בלי מפריד נוסף. ראה `conventions.md` (סעיף "פורמט ID") ו-
+`scripts/url_builder.py --question`.
 
 ## דוגמה 3: פריט משימת כיתה (ללא שאלה מוערכת)
 
@@ -130,10 +131,10 @@
   "contentType": "practice",
   "mediaFormat": "content-interactive",
   "questions": [
-    {"questionId": "q1", "questionType": "choice", "questionText": "סעיף א: ...", "answers": [], "correctAnswers": []},
-    {"questionId": "q2", "questionType": "choice", "questionText": "סעיף ב: ...", "answers": [], "correctAnswers": []},
-    {"questionId": "q3", "questionType": "matching", "questionText": "סעיף ג: ...", "answers": {"source": [], "target": []}, "correctAnswers": []},
-    {"questionId": "q4", "questionType": "choice", "questionText": "סעיף ד: ...", "answers": [], "correctAnswers": []}
+    {"questionId": "https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-05/methodica-science-mass-measure-01-05-001/q1", "questionType": "choice", "questionText": "סעיף א: ...", "answers": [], "correctAnswers": []},
+    {"questionId": "https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-05/methodica-science-mass-measure-01-05-001/q2", "questionType": "choice", "questionText": "סעיף ב: ...", "answers": [], "correctAnswers": []},
+    {"questionId": "https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-05/methodica-science-mass-measure-01-05-001/q3", "questionType": "matching", "questionText": "סעיף ג: ...", "answers": {"source": [], "target": []}, "correctAnswers": []},
+    {"questionId": "https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-05/methodica-science-mass-measure-01-05-001/q4", "questionType": "choice", "questionText": "סעיף ד: ...", "answers": [], "correctAnswers": []}
   ]
 }
 ```

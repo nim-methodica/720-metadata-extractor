@@ -4,6 +4,10 @@
 `numeric` / `sequencing` / `matching` / `other`. המבנה של `answers` ו-`correctAnswers`
 משתנה לפי הסוג. מסמך זה מסביר איך לזהות כל סוג מהתסריט ואיך לכתוב אותו נכון.
 
+**`<item-url>` בדוגמאות למטה** = ה-`id` המלא של הפריט (כולל ה-`/` בסוף), כפי שמתואר
+ב-`conventions.md` תחת "פורמט ID". `questionId` = `<item-url>` + מספר השאלה (`q1`, `q2`...)
+בלי מפריד נוסף — ראה גם `scripts/url_builder.py --question`.
+
 ## עקרון בסיסי
 
 לפני שמזהים סוג, הסתכל בשקף:
@@ -19,6 +23,7 @@
 **מבנה**:
 ```json
 {
+  "questionId": "<item-url>q1",
   "questionType": "choice",
   "questionText": "נוסח השאלה",
   "answers": ["אפשרות א", "אפשרות ב", "אפשרות ג", "אפשרות ד"],
@@ -37,6 +42,7 @@
 **מבנה**:
 ```json
 {
+  "questionId": "<item-url>q1",
   "questionType": "true-false",
   "questionText": "טענה שיש לקבוע אם היא נכונה",
   "answers": ["נכון", "לא נכון"],
@@ -54,6 +60,7 @@
 **מבנה**:
 ```json
 {
+  "questionId": "<item-url>q1",
   "questionType": "numeric",
   "questionText": "נוסח השאלה",
   "answers": [],
@@ -80,6 +87,7 @@
 **מבנה**:
 ```json
 {
+  "questionId": "<item-url>q1",
   "questionType": "fill-in",
   "questionText": "נוסח השאלה",
   "answers": [],
@@ -103,6 +111,7 @@
 **מבנה**:
 ```json
 {
+  "questionId": "<item-url>q1",
   "questionType": "sequencing",
   "questionText": "סדרו את שלבי X לפי הסדר",
   "answers": [
@@ -135,6 +144,7 @@
 **מבנה**:
 ```json
 {
+  "questionId": "<item-url>q1",
   "questionType": "matching",
   "questionText": "גררו את X ל-Y",
   "answers": {
@@ -195,17 +205,18 @@
 ## שאלות עם סעיפים מרובים
 
 פריט אחד יכול להכיל 2, 3, או 4 סעיפים (א', ב', ג', ד') — כל אחד כשאלה נפרדת ב-
-`questions[]`. סמן את מזהי השאלות `q1, q2, q3, q4` ואת נוסח השאלה עם הסעיף:
+`questions[]`. סמן את סיומת מזהי השאלות `q1, q2, q3, q4` (מודבקת ל-`<item-url>`, ראה למעלה)
+ואת נוסח השאלה עם הסעיף:
 
 ```json
 "questions": [
   {
-    "questionId": "q1",
+    "questionId": "<item-url>q1",
     "questionText": "א. חשבו X",
     ...
   },
   {
-    "questionId": "q2",
+    "questionId": "<item-url>q2",
     "questionText": "ב. חשבו Y",
     ...
   }

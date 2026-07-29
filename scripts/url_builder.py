@@ -14,6 +14,7 @@ Examples:
 
 Usage (CLI):
     python url_builder.py <id>
+    python url_builder.py <item-id> --question q1   # builds a questionId (item URL + q1)
 
 Usage (module):
     from url_builder import build_url
@@ -131,10 +132,16 @@ def main():
     ap = argparse.ArgumentParser(description='Build canonical 720 URL from a methodica ID.')
     ap.add_argument('entity_id', help='Full ID, e.g. methodica-science-mass-measure-01-01-001')
     ap.add_argument('--json', default=None, help='Path to learning-objectives.json')
+    ap.add_argument('--question', default=None,
+                     help='Question suffix (e.g. q1) to append, producing a questionId '
+                          '(item URL + suffix, no separator). Only valid for item IDs.')
     args = ap.parse_args()
 
     objectives = load_objectives(Path(args.json) if args.json else None)
-    print(build_url(args.entity_id, objectives))
+    url = build_url(args.entity_id, objectives)
+    if args.question:
+        url += args.question
+    print(url)
 
 
 if __name__ == '__main__':

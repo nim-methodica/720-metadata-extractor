@@ -69,7 +69,7 @@
 
 | שדה | סוג | תיאור |
 |---|---|---|
-| `questionId` | string | מזהה פנימי (`q1`, `q2` וכו'). |
+| `questionId` | string | URL מלא: `id` הפריט + מספר השאלה (`q1`, `q2` וכו') ללא מפריד. |
 | `questionType` | enum | `fill-in` / `true-false` / `choice` / `numeric` / `sequencing` / `matching` / `other`. |
 | `questionText` | string | נוסח השאלה כפי שמוצג ללומד. |
 | `answers` | array/object | אפשרויות תשובה. מבנה שונה לפי `questionType`. |

@@ -45,11 +45,15 @@ https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/
 - **unit-num**: המספר הראשון בסוף ה-ID.
 - **רכיב**: מוסיף את מזהה הרכיב המלא כרסיס אחרון בנתיב.
 - **פריט**: מקונן — מזהה הרכיב + מזהה הפריט (שני רסיסים אחרונים).
+- **שאלה** (`questionId`): **ה-`id` המלא של הפריט (כולל ה-`/` בסוף) + מספר השאלה, בלי מפריד
+  נוסף** — למשל `<item-url>q1`. לא בונים נתיב חדש, רק מדביקים בסוף.
 
 ### שדות שמכילים URLים
 
 בכל קובץ JSON, הערכים בשדות הבאים חייבים להיות URL מלא (לא ID קצר):
-- `id` בכל רמה (יחידה / רכיב / פריט / שאלה — למרות ש-`questionId` בפועל מזהה פנימי קצר).
+- `id` בכל רמה (יחידה / רכיב / פריט).
+- `questionId` (בתוך `questions[]`) — **URL מלא**: `id` של הפריט + מספר השאלה (`q1`, `q2`...)
+  ללא מפריד. למשל: `.../methodica-science-mass-measure-01-01-001/q1`.
 - `learningUnitId` (הפניה ל-URL של היחידה).
 - `recommendedAfterFail` (מערך של URLים של רכיבים).
 - `prerequisiteLearningObjective` (מערך של URLים של יחידות).
@@ -57,6 +61,8 @@ https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/
 ### כלי עזר
 
 - `python scripts/url_builder.py <id>` — מדפיס את ה-URL של ID קצר כלשהו.
+- `python scripts/url_builder.py <item-id> --question q1` — מדפיס ישירות את ה-`questionId`
+  המלא (URL של הפריט + מספר השאלה).
 - `python scripts/lookup_prerequisite.py <unit-id>` — מדפיס את URL של היעד הקודם ליחידה
   (עם דגל `--short` יחזיר ID קצר במקום URL).
 
