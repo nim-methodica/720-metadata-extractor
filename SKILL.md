@@ -150,8 +150,9 @@ python scripts/lookup_prerequisite.py {unit-id}
 - ❌ `prerequisiteLearningObjective` — נגזר מ-`learning-objectives.json`
 - ❌ `subTopic` / `learningObjective` — משקף 1
 - ❌ מבנה של רכיבים — 5 או 6 לפי הקובץ
-- ❌ `recommendedAfterFail` — חוק פשוט (רק רכיב 1 → רכיב 2)
-- ❌ `isAssessment` — רק רכיבים 5-6
+- ❌ `recommendedAfterFail` — חוק פשוט (רק רכיב הבסיסי → חזרה לרכיב 1)
+- ❌ `isAssessment` — רק הרכיב שמכיל שאלת שיא (לא בהכרח רכיב 5/6)
+- ❌ `isRequired` — `false` רק לרכיב הבסיסי, `true` לכל השאר
 - ❌ `componentPurpose` — לפי הרכיב
 - ❌ `contentType` — 3 קטגוריות לפי סוג הפריט
 - ❌ `mediaFormat` — content-interactive כברירת מחדל

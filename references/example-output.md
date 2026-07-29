@@ -41,9 +41,7 @@
   "componentPurpose": "both",
   "isAssessment": false,
   "manufacture": "methodica",
-  "recommendedAfterFail": [
-    "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01-02/"
-  ],
+  "recommendedAfterFail": [],
   "isRequired": true,
   "relativeDifficulty": 2,
   "masteryLevel": "intermediate",
@@ -101,6 +99,10 @@
 **שים לב** ש-`questionId` הוא **גם הוא URL מלא**: ה-`id` של הפריט (עם ה-`/` בסוף) + מספר
 השאלה (`q1`, `q2`...) בלי מפריד נוסף. ראה `conventions.md` (סעיף "פורמט ID") ו-
 `scripts/url_builder.py --question`.
+
+**שימו לב** ש-`recommendedAfterFail` של רכיב 1 הוא **ריק** — רק רכיב הבסיסי (01-02) מצביע
+אחורה על רכיב 1 (וגם הוא `isRequired: false`, שלא מופיע כאן כי זו הדוגמה של רכיב 1 עצמו).
+ראה `conventions.md` שדה 4.
 
 ## דוגמה 3: פריט משימת כיתה (ללא שאלה מוערכת)
 
