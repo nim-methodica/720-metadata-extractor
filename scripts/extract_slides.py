@@ -93,6 +93,28 @@ def find_component_id(combined: str):
     return m.group(1) if m else None
 
 
+def find_truncated_component_id(combined: str):
+    """
+    Last-resort check for a component-divider slide whose ID text is itself
+    truncated in the source PPTX — not an extraction artifact, a genuine
+    authoring typo. Seen in practice: a divider text box with the component
+    number as its own run (e.g. "3") immediately followed by a second run
+    reading "methodica-<subject>-<topic>-02-0" — one digit short of the real
+    "...-02-03". Because the missing digit is the very last character typed
+    into that run, there is nothing after it to combine with, and unlike the
+    digit-bleed bug there is no adjacent stray digit to (correctly) reject
+    either — the data is just genuinely incomplete, no regex can recover it.
+
+    This only fires at the very end of the slide's combined text (nothing
+    else follows), matching a component-shaped prefix with exactly ONE
+    trailing digit where the standard's 2-digit component number belongs.
+    Returns the partial string so the caller can flag it — never a guessed
+    full ID.
+    """
+    m = re.search(r'(methodica-[\w-]+?-\d{2}-\d)$', combined)
+    return m.group(1) if m else None
+
+
 _DARK_HEX_THRESHOLD = 0x30  # treat as "black" if every RGB channel is this dark or darker
 
 
@@ -159,6 +181,13 @@ def process_pptx(pptx_path: Path, out_dir: Path):
                     # it loudly instead of silently treating it as untagged
                     # content, so a human can assign the component number.
                     marker = 'HEADER:UNKNOWN'
+                else:
+                    partial = find_truncated_component_id(combined_no_ws)
+                    if partial:
+                        # Divider text present but missing its last digit in
+                        # the source PPTX itself — flag instead of dropping
+                        # the slide silently (see find_truncated_component_id).
+                        marker = f'HEADER:TRUNCATED:{partial}'
             entries.append((n, marker or '', full_text))
 
     # slides.txt — full text per slide
@@ -181,17 +210,28 @@ def process_pptx(pptx_path: Path, out_dir: Path):
     unique_items = sorted({m for _, m, _ in entries if m and not m.startswith('HEADER')})
 
     unresolved = [n for n, m in headers if m == 'HEADER:UNKNOWN']
+    truncated = [(n, m.replace('HEADER:TRUNCATED:', '')) for n, m in headers if m.startswith('HEADER:TRUNCATED:')]
+
+    # Components inferred from item-ID prefixes catches real components whose
+    # own divider slide failed to resolve (HEADER:UNKNOWN / TRUNCATED) — a
+    # component with items is real even if nothing ever flagged its divider.
+    item_component_ids = sorted({i.rsplit('-', 1)[0] for i in unique_items})
+    header_component_ids = {m.replace('HEADER:', '') for _, m in headers if m.startswith('HEADER:') and ':TRUNCATED:' not in m}
+    components_from_items_only = [c for c in item_component_ids if c not in header_component_ids]
 
     print(f'Slides:       {total}')
     print(f'With item ID: {with_item}')
     print(f'Unique items: {len(unique_items)}')
-    print(f'Components:   {len(headers) - len(unresolved)}')
+    print(f'Components:   {len(item_component_ids)}')
     for n, m in headers:
-        if m == 'HEADER:UNKNOWN':
+        if m == 'HEADER:UNKNOWN' or m.startswith('HEADER:TRUNCATED:'):
             continue
         cid = m.replace('HEADER:', '')
         items_in = sum(1 for i in unique_items if i.startswith(cid + '-'))
         print(f'  slide {n:>3} → {cid} ({items_in} items)')
+    for cid in components_from_items_only:
+        items_in = sum(1 for i in unique_items if i.startswith(cid + '-'))
+        print(f'  slide  ?? → {cid} ({items_in} items) [no divider slide resolved — inferred from item IDs]')
     print()
     print(f'Output:')
     print(f'  {slides_txt}')
@@ -210,6 +250,15 @@ def process_pptx(pptx_path: Path, out_dir: Path):
         print('Inspect these slides manually before trusting the component count above:')
         for n in unresolved:
             print(f'  slide {n}')
+
+    if truncated:
+        print()
+        print(f'WARNING: {len(truncated)} divider slide(s) have a component ID that is')
+        print('itself truncated in the source PPTX (missing its last digit) — this is')
+        print('a typo in the script, not an extraction artifact. Ask the content author')
+        print('to fix the ID text on these slides:')
+        for n, partial in truncated:
+            print(f'  slide {n}: "{partial}" (missing final digit)')
 
 
 def main():
