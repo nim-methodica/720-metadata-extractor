@@ -24,7 +24,7 @@
 התקן V2.2 של המשרד דורש שכל שדה `id` יהיה **URL מלא (IRI)**. methodica קבעה את הדומיין:
 
 ```
-https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/[<component-id>/[<item-id>/]]
+https://lomdot.education.gov.il/metodica/720active/{subject}/{topic}/{unit-num}/[{component-id}/[{item-id}/]]
 ```
 
 ### דוגמאות
@@ -46,7 +46,7 @@ https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/
 - **רכיב**: מוסיף את מזהה הרכיב המלא כרסיס אחרון בנתיב.
 - **פריט**: מקונן — מזהה הרכיב + מזהה הפריט (שני רסיסים אחרונים).
 - **שאלה** (`questionId`): **ה-`id` המלא של הפריט (כולל ה-`/` בסוף) + מספר השאלה, בלי מפריד
-  נוסף** — למשל `<item-url>q1`. לא בונים נתיב חדש, רק מדביקים בסוף.
+  נוסף** — למשל `{item-url}q1`. לא בונים נתיב חדש, רק מדביקים בסוף.
 
 ### שדות שמכילים URLים
 
@@ -60,10 +60,10 @@ https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/
 
 ### כלי עזר
 
-- `python scripts/url_builder.py <id>` — מדפיס את ה-URL של ID קצר כלשהו.
-- `python scripts/url_builder.py <item-id> --question q1` — מדפיס ישירות את ה-`questionId`
+- `python scripts/url_builder.py {id}` — מדפיס את ה-URL של ID קצר כלשהו.
+- `python scripts/url_builder.py {item-id} --question q1` — מדפיס ישירות את ה-`questionId`
   המלא (URL של הפריט + מספר השאלה).
-- `python scripts/lookup_prerequisite.py <unit-id>` — מדפיס את URL של היעד הקודם ליחידה
+- `python scripts/lookup_prerequisite.py {unit-id}` — מדפיס את URL של היעד הקודם ליחידה
   (עם דגל `--short` יחזיר ID קצר במקום URL).
 
 ---
@@ -75,7 +75,7 @@ https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/
 **איך**: הרץ:
 
 ```bash
-python scripts/lookup_prerequisite.py <unit-id>
+python scripts/lookup_prerequisite.py {unit-id}
 ```
 
 הפלט הוא ה-ID של היעד הקודם, או שורה ריקה אם זה היעד הראשון במקצוע.
@@ -83,7 +83,7 @@ python scripts/lookup_prerequisite.py <unit-id>
 לרענון הרשימה (כשמוסיפים יעדים חדשים לקובץ הניהול):
 
 ```bash
-python scripts/refresh_objectives.py "<path/to/קובץ ניהול 720 תשפז.xlsx>"
+python scripts/refresh_objectives.py "{path/to/קובץ ניהול 720 תשפז.xlsx}"
 ```
 
 הרשימה נשמרת ב-`references/learning-objectives.json`.
@@ -93,7 +93,7 @@ python scripts/refresh_objectives.py "<path/to/קובץ ניהול 720 תשפז.
 **חוק**: השדות `subTopic` ו-`learningObjective` הם **קודים מובנים** מאינדקס משרד החינוך, לא
 טקסט חופשי מהשקף.
 
-מבנה הקוד: `MOE.<SUBJECT>.<GRADE>.<DOMAIN>.<TOPIC>.<SUBTOPIC>.<OBJECTIVE>`
+מבנה הקוד: `MOE.{SUBJECT}.{GRADE}.{DOMAIN}.{TOPIC}.{SUBTOPIC}.{OBJECTIVE}`
 
 - **`learningObjective`** = הקוד המלא (7 רמות), למשל:
   `MOE.MATH.G8.NUM.RATIO-PROP-SCL.SCALE.UNIT-CONV`
@@ -108,7 +108,7 @@ python scripts/refresh_objectives.py "<path/to/קובץ ניהול 720 תשפז.
 
 ### תהליך
 
-1. הרץ `python scripts/lookup_moe.py <unit-id>` (או קרא את הקובץ ישירות) כדי למצוא את
+1. הרץ `python scripts/lookup_moe.py {unit-id}` (או קרא את הקובץ ישירות) כדי למצוא את
    הקוד המתאים למזהה methodica.
 2. השתמש ב-`moe_code` בשדה `learningObjective`.
 3. השתמש ב-`subtopic_code` בשדה `subTopic`.
@@ -130,7 +130,7 @@ python scripts/refresh_objectives.py "<path/to/קובץ ניהול 720 תשפז.
 כאשר משרד החינוך מוסיף יעדים חדשים לקובץ האינדקס:
 
 ```bash
-python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה - X.xlsx>"
+python scripts/refresh_moe_index.py "{path/to/אינדקס יעדי למידה - X.xlsx}"
 ```
 
 זה מרענן את `references/moe-index.json` ומריץ אוטומטית התאמה מחדש ל-methodica IDs.
@@ -160,7 +160,7 @@ python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה -
 
 | רכיב | recommendedAfterFail |
 |---|---|
-| 01-01 | `["<unit-id>-02"]` |
+| 01-01 | `["{unit-id}-02"]` |
 | 01-02 | `[]` |
 | 01-03 | `[]` |
 | 01-04 | `[]` |
@@ -286,7 +286,7 @@ python scripts/refresh_moe_index.py "<path/to/אינדקס יעדי למידה -
 
 ## שדה 12: `title` של פריט (תבנית קבועה)
 
-**חוק**: `title` של פריט = `<סוג המקטע במצגת> <מספר>: <תיאור קצר מהשקף>` — למשל:
+**חוק**: `title` של פריט = `{סוג המקטע במצגת} {מספר}: {תיאור קצר מהשקף}` — למשל:
 - "הוק — יחס רחפן והמציאות"
 - "הקנייה: מהו קנה מידה + המרת יחידות"
 - "חימום 1: יחידות מידה של מסה"
