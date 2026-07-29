@@ -60,8 +60,19 @@ def find_item_id(combined: str):
     Find a full item ID like `methodica-<subject>-<topic>-01-01-001`.
     Item IDs have 5+ dash-separated segments after `methodica-`.
     Components are just 4 segments (methodica-<subject>-<topic>-01-01).
+
+    The item number is always exactly 3 digits (001-999). Requiring exactly
+    3 digits here (with a negative lookahead blocking a 4th) matters because
+    `extract_texts()` concatenates every text run on the slide with no
+    separator: a numeric answer/feedback run that happens to sit adjacent to
+    the "מספר פריט" tag in the XML (unrelated to it, just nearby in z-order)
+    can glue onto the real item number — e.g. item "-004" followed by an
+    unrelated "80" becomes "-00480" if the last \\d+ is left greedy. When
+    that happens there is no way to know the true boundary, so this
+    intentionally fails to match (leaving the slide untagged) rather than
+    silently producing a corrupted ID.
     """
-    m = re.search(r'(methodica-[\w-]+?-\d+-\d+-\d+)', combined)
+    m = re.search(r'(methodica-[\w-]+?-\d{2}-\d{2}-\d{3})(?!\d)', combined)
     return m.group(1) if m else None
 
 
@@ -72,8 +83,13 @@ def find_component_id(combined: str):
     here is virtually always a component-divider slide. Do NOT require the
     word 'רכיב' — some scripts label dividers with the component's role
     instead (e.g. 'תרגול מתקדם', 'שאלת שיא') and never say 'רכיב' at all.
+
+    `(?!-?\\d)` blocks both a following `-digit` (a real item ID that just
+    happens to start with this component prefix) and a bare adjacent digit
+    from an unrelated glued-on text run (same digit-bleed issue as
+    find_item_id above).
     """
-    m = re.search(r'(methodica-[\w-]+?-\d+-\d+)(?!-\d)', combined)
+    m = re.search(r'(methodica-[\w-]+?-\d{2}-\d{2})(?!-?\d)', combined)
     return m.group(1) if m else None
 
 
