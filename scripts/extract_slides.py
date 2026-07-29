@@ -28,9 +28,31 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
         pass
 
 
+def _fraction_repl(m):
+    """Reconstruct a <m:f> (OOXML equation fraction) as a plain 'num/den' token."""
+    frac_xml = m.group(0)
+    num_m = re.search(r'<m:num>(.*?)</m:num>', frac_xml, re.DOTALL)
+    den_m = re.search(r'<m:den>(.*?)</m:den>', frac_xml, re.DOTALL)
+    num = ''.join(re.findall(r'<m:t[^>]*>([^<]*)</m:t>', num_m.group(1))) if num_m else ''
+    den = ''.join(re.findall(r'<m:t[^>]*>([^<]*)</m:t>', den_m.group(1))) if den_m else ''
+    return f'<a:t>{num}/{den}</a:t>'
+
+
 def extract_texts(xml: str):
-    """Extract <a:t>...</a:t> text runs, preserving order."""
-    return re.findall(r'<a:t[^>]*>([^<]*)</a:t>', xml)
+    """
+    Extract <a:t>...</a:t> text runs, preserving order.
+
+    Also handles inline OOXML equation objects (<m:oMath>, inserted via
+    PowerPoint's native equation editor): fractions (<m:f>/<m:num>/<m:den>)
+    are reconstructed as "num/den" tokens, and any other bare <m:t> runs
+    (=, ≠, plain numbers/variables not inside a fraction) are captured too.
+    Without this, equation-editor content is silently invisible — no
+    placeholder, no warning, just missing numbers with nothing in slides.txt
+    to suggest anything was dropped.
+    """
+    xml = re.sub(r'<m:f>.*?</m:f>', _fraction_repl, xml, flags=re.DOTALL)
+    matches = re.findall(r'<a:t[^>]*>([^<]*)</a:t>|<m:t[^>]*>([^<]*)</m:t>', xml)
+    return [a or m for a, m in matches]
 
 
 def find_item_id(combined: str):
@@ -43,13 +65,14 @@ def find_item_id(combined: str):
     return m.group(1) if m else None
 
 
-def find_component_id(combined: str, full_text: str):
+def find_component_id(combined: str):
     """
     Find a component ID `methodica-<subject>-<topic>-01-01` (4 segments).
-    Return only if this slide is a component divider (contains 'רכיב').
+    Only called when the slide has no full item ID, so a bare 4-segment ID
+    here is virtually always a component-divider slide. Do NOT require the
+    word 'רכיב' — some scripts label dividers with the component's role
+    instead (e.g. 'תרגול מתקדם', 'שאלת שיא') and never say 'רכיב' at all.
     """
-    if 'רכיב' not in full_text:
-        return None
     m = re.search(r'(methodica-[\w-]+?-\d+-\d+)(?!-\d)', combined)
     return m.group(1) if m else None
 
@@ -84,7 +107,7 @@ def process_pptx(pptx_path: Path, out_dir: Path):
             item_id = find_item_id(combined_no_ws)
             marker = item_id
             if not marker:
-                comp_id = find_component_id(combined_no_ws, full_text)
+                comp_id = find_component_id(combined_no_ws)
                 if comp_id:
                     marker = f'HEADER:{comp_id}'
             entries.append((n, marker or '', full_text))
