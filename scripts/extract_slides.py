@@ -77,6 +77,33 @@ def find_component_id(combined: str):
     return m.group(1) if m else None
 
 
+_DARK_HEX_THRESHOLD = 0x30  # treat as "black" if every RGB channel is this dark or darker
+
+
+def is_divider_background(xml: str) -> bool:
+    """
+    720 scripts mark component-divider slides with a solid BLACK slide
+    background (as opposed to the normal white/theme background every
+    content slide inherits) — this is a reliable structural signal,
+    independent of whatever text (if any) is on the slide. Recognizes the
+    theme's dark text color (<a:schemeClr val="tx1"/>, almost universally
+    black in Office themes) as well as a literal near-black <a:srgbClr>.
+    Do NOT match other background overrides (e.g. bg1/white cover slides)
+    — those are unrelated one-off slide styling, not dividers.
+    """
+    bg_m = re.search(r'<p:bg>.*?</p:bg>', xml, re.DOTALL)
+    if not bg_m:
+        return False
+    bg_xml = bg_m.group(0)
+    if re.search(r'<a:schemeClr val="tx1"\s*/?>', bg_xml):
+        return True
+    hex_m = re.search(r'<a:srgbClr val="([0-9A-Fa-f]{6})"', bg_xml)
+    if hex_m:
+        r, g, b = (int(hex_m.group(1)[i:i + 2], 16) for i in (0, 2, 4))
+        return max(r, g, b) <= _DARK_HEX_THRESHOLD
+    return False
+
+
 def process_pptx(pptx_path: Path, out_dir: Path):
     if not pptx_path.is_file():
         raise SystemExit(f"File not found: {pptx_path}")
@@ -110,6 +137,12 @@ def process_pptx(pptx_path: Path, out_dir: Path):
                 comp_id = find_component_id(combined_no_ws)
                 if comp_id:
                     marker = f'HEADER:{comp_id}'
+                elif is_divider_background(xml):
+                    # Black-background divider slide, but no component ID
+                    # found as text (e.g. a purely graphical divider) — flag
+                    # it loudly instead of silently treating it as untagged
+                    # content, so a human can assign the component number.
+                    marker = 'HEADER:UNKNOWN'
             entries.append((n, marker or '', full_text))
 
     # slides.txt — full text per slide
@@ -131,11 +164,15 @@ def process_pptx(pptx_path: Path, out_dir: Path):
     headers = [(n, m) for n, m, _ in entries if m and m.startswith('HEADER')]
     unique_items = sorted({m for _, m, _ in entries if m and not m.startswith('HEADER')})
 
+    unresolved = [n for n, m in headers if m == 'HEADER:UNKNOWN']
+
     print(f'Slides:       {total}')
     print(f'With item ID: {with_item}')
     print(f'Unique items: {len(unique_items)}')
-    print(f'Components:   {len(headers)}')
+    print(f'Components:   {len(headers) - len(unresolved)}')
     for n, m in headers:
+        if m == 'HEADER:UNKNOWN':
+            continue
         cid = m.replace('HEADER:', '')
         items_in = sum(1 for i in unique_items if i.startswith(cid + '-'))
         print(f'  slide {n:>3} → {cid} ({items_in} items)')
@@ -149,6 +186,14 @@ def process_pptx(pptx_path: Path, out_dir: Path):
         print('WARNING: No item IDs (מספר פריט) found. The script cannot be split')
         print('into items without them. Ask the user to add item numbers before')
         print('proceeding with metadata extraction.')
+
+    if unresolved:
+        print()
+        print(f'WARNING: {len(unresolved)} black-background divider slide(s) found with')
+        print('no component ID as text — cannot tell which component they start.')
+        print('Inspect these slides manually before trusting the component count above:')
+        for n in unresolved:
+            print(f'  slide {n}')
 
 
 def main():
