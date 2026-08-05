@@ -6,11 +6,11 @@ URL structure (per methodica ministry-of-education spec):
     https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/[<component-id>/[<item-id>/]]
 
 Examples:
-    methodica-math-scale-01                    -> .../math/scale/01/
-    methodica-science-mass-measure-01          -> .../science/mass-measure/01/
+    methodica-math-scale-01                    -> .../math/scale/01/methodica-math-scale-01/
+    methodica-science-mass-measure-01          -> .../science/mass-measure/01/methodica-science-mass-measure-01/
     methodica-science-mass-measure-01-01       -> .../science/mass-measure/01/methodica-science-mass-measure-01-01/
     methodica-science-mass-measure-01-01-001   -> .../science/mass-measure/01/methodica-science-mass-measure-01-01/methodica-science-mass-measure-01-01-001/
-    methodica-character-materials-01           -> .../science/character-materials/01/  (subject inferred from learning-objectives.json)
+    methodica-character-materials-01           -> .../science/character-materials/01/methodica-character-materials-01/  (subject inferred from learning-objectives.json)
 
 Usage (CLI):
     python url_builder.py <id>
@@ -101,8 +101,13 @@ def build_url(entity_id: str, objectives: dict) -> str:
 
     url = f'{BASE}/{subject}/{topic}/{unit_num}/'
 
+    # Unit — append the unit's own full ID as the trailing path segment, so
+    # Kata's uniqueKey (derived from the last path segment) resolves to the
+    # full slug instead of the bare unit number.
+    if len(numeric_tail) == 1:
+        url += f'{entity_id}/'
     # Component / item — nest full ID(s) under the unit path
-    if len(numeric_tail) == 2:
+    elif len(numeric_tail) == 2:
         # component: unit-num/component-full-id/
         url += f'{entity_id}/'
     elif len(numeric_tail) == 3:

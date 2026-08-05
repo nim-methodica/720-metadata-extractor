@@ -4,7 +4,7 @@
 המקור המלא: `הנחיות טכניות לפיתוח תוכן 720 - תשפז.pdf`.
 
 **V2.3**: בכל טבלאות הרשימות הסגורות, ערכים בני יותר ממילה אחת נכתבים עם מקף (`-`) במקום
-רווח, ובאותיות קטנות (למשל `Solved Exercise` → `exercise-solved`).
+רווח, ובאותיות קטנות (למשל `Solved Exercise` → `solved-exercise`).
 
 ## מבנה היררכי
 
@@ -26,8 +26,8 @@
 | `title` | string ≤30 תווים | כותרת תצוגתית של היחידה. |
 | `subTopic` | string | מזהה מרשימת תתי־נושאים סגורה (בעבודה). בפועל: שם הנושא בעברית. |
 | `learningObjective` | string | מזהה מרשימת יעדי למידה סגורה (בעבודה). בפועל: פירוט היעד. |
-| `targetSector` | array | רשימת מגזרים (state-general / religious-state / orthodox / arab-sector / druze-sector / bedouin-sector / education-special). |
-| `targetAudience` | array | רשימת אוכלוסיות (general / excellent / populations-disadvantaged / immigrants-new / needs-special-with-students / gaps-language-with-students / at-risk-students). |
+| `targetSector` | array | רשימת מגזרים (state-general / state-religious / orthodox / arab-sector / druze-sector / bedouin-sector / special-education). |
+| `targetAudience` | array | רשימת אוכלוסיות (general / excellent / disadvantaged-populations / new-immigrants / students-with-special-needs / students-with-language-gaps / at-risk-students). |
 | `prerequisiteLearningObjective` | array | מערך של אינדקסים של יעדי למידה נדרשים לפני היחידה (לפי הגדרת יצירת התוכן, לא ע"י המשרד). |
 
 ## שדות רכיב תוכן
@@ -83,19 +83,19 @@
 |---|---|
 | `instruction` | הבנייה |
 | `practice` | תרגול |
-| `task-inquiry-or-project` | פרויקט או משימת חקר |
+| `project-or-inquiry-task` | פרויקט או משימת חקר |
 | `game-educational` | משחק לימודי |
 | `text-reading` | ניתוח טקסט |
 | `simulation` | סימולציה |
 | `motivational` | פריט מוטיבציה (הוק, העשרה שאינה נבדקת) |
-| `exercise-solved` | פתרון מודרך של תרגיל |
+| `solved-exercise` | פתרון מודרך של תרגיל |
 | `summary` | סיכום החומר |
 
 ### mediaFormat
 
-`text` / `image` / `audio` / `video` / `animation` / `content-interactive` / `presentation`
+`text` / `image` / `audio` / `video` / `animation` / `interactive-content` / `presentation`
 
-**ערך יחיד בלבד**. פריט אינטראקטיבי שכולל וידאו כאחת האפשרויות הפנימיות → `content-interactive`.
+**ערך יחיד בלבד**. פריט אינטראקטיבי שכולל וידאו כאחת האפשרויות הפנימיות → `interactive-content`.
 
 ### questionType
 
@@ -103,26 +103,33 @@
 
 ### targetSector
 
-`state-general` / `religious-state` / `orthodox` / `arab-sector` / `druze-sector` / `bedouin-sector` / `education-special`
+`state-general` / `state-religious` / `orthodox` / `arab-sector` / `druze-sector` / `bedouin-sector` / `special-education`
 
 ### targetAudience
 
-`general` / `excellent` / `populations-disadvantaged` / `immigrants-new` / `needs-special-with-students` / `gaps-language-with-students` / `at-risk-students`
+`general` / `excellent` / `disadvantaged-populations` / `new-immigrants` / `students-with-special-needs` / `students-with-language-gaps` / `at-risk-students`
 
 ### depthLevel
 
 | ערך | תיאור |
 |---|---|
-| `basic-curriculum-core` | תוכנית לימודים בסיסית |
-| `advanced-curriculum-core` | תוכנית לימודים העמקה |
+| `core-curriculum-basic` | תוכנית לימודים בסיסית |
+| `core-curriculum-advanced` | תוכנית לימודים העמקה |
 | `enrichment-curriculum-core` | תוכנית לימודים העשרה |
 | `basic-core-non` | לא חלק מהתוכנית הבסיסית |
 | `advanced-core-non` | לא חלק מתוכנית ההעמקה |
 | `enrichment-core-non` | לא חלק מתוכנית ההעשרה |
 
+**⚠️ לא מאומת**: `core-curriculum-basic` ו-`core-curriculum-advanced` תוקנו (2026-08-05) אחרי
+שהתברר שסדר המילים היה הפוך — ראה `conventions.md`. שאר ארבעת הערכים בטבלה למעלה
+(`enrichment-curriculum-core`, `basic-core-non`, `advanced-core-non`, `enrichment-core-non`)
+עדיין באותו סדר-מילים החשוד, אבל אף יחידה עד כה לא השתמשה בהם ולכן אין ראיה אמפירית
+(לא מה-API, לא מיחידת מדעים) לתקן אותם. `depth-levels` אין לו endpoint חי. **אל תתקן
+אותם על סמך דפוס בלבד** — אם יחידה עתידית צריכה אחד מהם, אמת קודם.
+
 ### cognitiveLevel — מתמטיקה
 
-`knowledge-and-recall` / `thinking-algorithmic` / `process-thinking` / `reasoning-and-interpretation`
+`knowledge-and-recall` / `algorithmic-thinking` / `process-thinking` / `interpretation-and-reasoning`
 
 ### cognitiveLevel — מדעים
 

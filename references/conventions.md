@@ -24,15 +24,20 @@
 התקן V2.2 של המשרד דורש שכל שדה `id` יהיה **URL מלא (IRI)**. methodica קבעה את הדומיין:
 
 ```
-https://lomdot.education.gov.il/metodica/720active/{subject}/{topic}/{unit-num}/[{component-id}/[{item-id}/]]
+https://lomdot.education.gov.il/metodica/720active/{subject}/{topic}/{unit-num}/{unit-id}/[{component-id}/[{item-id}/]]
 ```
+
+**⚠️ תקלה שקרתה בעבר**: `{unit-id}` בסוף חובה — Kata גוזר את ה-`uniqueKey` מהרסיס האחרון
+בנתיב. אם ה-URL נעצר ב-`{unit-num}/` בלי הרסיס הנוסף, ה-`uniqueKey` מתפענח כמספר סתמי
+(`"01"`) שמתנגש עם כל יחידה אחרת שממוספרת 01 בכל מקצוע. הרכיב והפריט תמיד קיבלו את
+הטיפול הזה נכון (ראו הטבלה למטה) — רק רמת היחידה עצמה הייתה חסרה, ותוקן ב-`url_builder.py`.
 
 ### דוגמאות
 
 | רמה | ID קצר | URL מלא |
 |---|---|---|
-| יחידה מתמטיקה | `methodica-math-scale-01` | `https://lomdot.education.gov.il/metodica/720active/math/scale/01/` |
-| יחידה מדעים | `methodica-science-mass-measure-01` | `https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/` |
+| יחידה מתמטיקה | `methodica-math-scale-01` | `https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01/` |
+| יחידה מדעים | `methodica-science-mass-measure-01` | `https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01/` |
 | רכיב | `methodica-science-mass-measure-01-01` | `https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-01/` |
 | פריט | `methodica-science-mass-measure-01-01-001` | `https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-01/methodica-science-mass-measure-01-01-001/` |
 
@@ -43,6 +48,7 @@ https://lomdot.education.gov.il/metodica/720active/{subject}/{topic}/{unit-num}/
   `methodica-character-materials-*` — נגזר מ-`learning-objectives.json`).
 - **topic**: החלק הלא-מספרי אחרי ה-subject (למשל `mass-measure`, `scale`, `character-materials`).
 - **unit-num**: המספר הראשון בסוף ה-ID.
+- **יחידה**: מוסיפה את ה-ID הקצר המלא של היחידה עצמה כרסיס אחרון בנתיב (לא נעצרים ב-`unit-num/`).
 - **רכיב**: מוסיף את מזהה הרכיב המלא כרסיס אחרון בנתיב.
 - **פריט**: מקונן — מזהה הרכיב + מזהה הפריט (שני רסיסים אחרונים).
 - **שאלה** (`questionId`): **ה-`id` המלא של הפריט (כולל ה-`/` בסוף) + מספר השאלה, בלי מפריד
@@ -197,8 +203,8 @@ python scripts/refresh_moe_index.py "{path/to/אינדקס יעדי למידה -
 | פריט הוק / בחירת דמות / פתיח מוטיבציוני | `motivational` |
 | פריט העשרה (סרטון בלי שאלה מוערכת, קריינות/מוסיקה, הרחבה תרבותית) | `motivational` |
 | יישומון או סימולציה — מדידה במעבדה וירטואלית, מודל אינטראקטיבי | `simulation` |
-| תרגול מונחה — פתרון שלב-שלב יחד עם הדמות (בעיקר מתמטיקה) | `exercise-solved` |
-| משימת כיתה / פרויקט חקר בעולם האמיתי | `task-inquiry-or-project` |
+| תרגול מונחה — פתרון שלב-שלב יחד עם הדמות (בעיקר מתמטיקה) | `solved-exercise` |
+| משימת כיתה / פרויקט חקר בעולם האמיתי | `project-or-inquiry-task` |
 | קטע קריאה עם שאלות הבנת הנקרא | `text-reading` |
 | משחק לימודי עם מנגנון תחרותי/ניקוד | `game-educational` |
 | סיכום היחידה או תת-סעיף | `summary` |
@@ -208,13 +214,13 @@ python scripts/refresh_moe_index.py "{path/to/אינדקס יעדי למידה -
 היישומון הוא הפעילות והשאלה משנית → `simulation`. אם השאלה מרכזית והיישומון הוא רק כלי
 מדידה בתוכה → `practice`.
 
-**⚠️ שאלת שיא (רכיבים 01-05 / 01-06) היא תמיד `practice`, לעולם לא `task-inquiry-or-project`**
-— גם כשמדובר בתרחיש רב-סעיפי שמרגיש כמו פרויקט מציאותי. `task-inquiry-or-project` שמור
+**⚠️ שאלת שיא (רכיבים 01-05 / 01-06) היא תמיד `practice`, לעולם לא `project-or-inquiry-task`**
+— גם כשמדובר בתרחיש רב-סעיפי שמרגיש כמו פרויקט מציאותי. `project-or-inquiry-task` שמור
 **רק** למשימת כיתה (רכיב 01-03).
 
-## שדה 7: `mediaFormat` (כמעט תמיד content-interactive)
+## שדה 7: `mediaFormat` (כמעט תמיד interactive-content)
 
-- **`content-interactive`** — ברירת מחדל לכל פריט.
+- **`interactive-content`** — ברירת מחדל לכל פריט.
 - **`video`** — רק לפריט שהוא סרטון-בלבד בלי אינטראקציה כלל (נדיר).
 
 **חריג להקנייה (`contentType: instruction`)**: לפי סיכום עם הלקוח, פריטי הקנייה נבדקים
@@ -271,10 +277,10 @@ python scripts/refresh_moe_index.py "{path/to/אינדקס יעדי למידה -
 | רכיב | תפקיד דומיננטי | cognitiveLevel |
 |---|---|---|
 | 01-01 | הקנייה + סטנדרטי א (יישום בסיטואציות חדשות) | `process-thinking` |
-| 01-02 | בסיסי + סטנדרטי ב (חישובים שגרתיים) | `thinking-algorithmic` |
+| 01-02 | בסיסי + סטנדרטי ב (חישובים שגרתיים) | `algorithmic-thinking` |
 | 01-03 | משימת כיתה (העברה למצב מציאותי) | `process-thinking` |
-| 01-04 | מתקדם (ניתוח והנמקה) | `reasoning-and-interpretation` |
-| 01-05 / 01-06 | שאלת שיא (רב-חלקי) | `reasoning-and-interpretation` |
+| 01-04 | מתקדם (ניתוח והנמקה) | `interpretation-and-reasoning` |
+| 01-05 / 01-06 | שאלת שיא (רב-חלקי) | `interpretation-and-reasoning` |
 
 ### מדעים (3 רמות של הראמ"ה — נמוכה/בינונית/גבוהה)
 | רכיב | תפקיד דומיננטי | cognitiveLevel |
@@ -285,16 +291,16 @@ python scripts/refresh_moe_index.py "{path/to/אינדקס יעדי למידה -
 | 01-04 | מתקדם (ניתוח נתונים) | `analyzing` |
 | 01-05 / 01-06 | שאלת שיא (רב-חלקי, כולל הצדקה) | `analyzing` (או `evaluating-and-justifying` אם דגש על הצדקה) |
 
-## שדה 11: `depthLevel` (basic-curriculum-core חוץ ממתקדם)
+## שדה 11: `depthLevel` (core-curriculum-basic חוץ ממתקדם)
 
-**חוק פשוט**: `basic-curriculum-core` לכל הרכיבים חוץ מרכיב 4 (מתקדם) שהוא
-`advanced-curriculum-core`.
+**חוק פשוט**: `core-curriculum-basic` לכל הרכיבים חוץ מרכיב 4 (מתקדם) שהוא
+`core-curriculum-advanced`.
 
 | רכיב | depthLevel |
 |---|---|
-| 01-01, 01-02, 01-03 | `basic-curriculum-core` |
-| 01-04 (מתקדם) | `advanced-curriculum-core` |
-| 01-05, 01-06 (הערכה) | `basic-curriculum-core` |
+| 01-01, 01-02, 01-03 | `core-curriculum-basic` |
+| 01-04 (מתקדם) | `core-curriculum-advanced` |
+| 01-05, 01-06 (הערכה) | `core-curriculum-basic` |
 
 ## שדה 12: `title` של פריט (תבנית קבועה)
 
@@ -339,13 +345,13 @@ python scripts/refresh_moe_index.py "{path/to/אינדקס יעדי למידה -
 ### יחידה
 ```json
 "targetSector": [
-  "state-general", "religious-state", "orthodox",
-  "arab-sector", "druze-sector", "bedouin-sector", "education-special"
+  "state-general", "state-religious", "orthodox",
+  "arab-sector", "druze-sector", "bedouin-sector", "special-education"
 ],
 "targetAudience": [
-  "general", "excellent", "populations-disadvantaged",
-  "immigrants-new", "needs-special-with-students",
-  "gaps-language-with-students", "at-risk-students"
+  "general", "excellent", "disadvantaged-populations",
+  "new-immigrants", "students-with-special-needs",
+  "students-with-language-gaps", "at-risk-students"
 ]
 ```
 

@@ -10,18 +10,18 @@
 
 ```json
 {
-  "id": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/",
+  "id": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01/",
   "title": "יחידות מידה לצורך יישום יחס",
   "subTopic": "קנה מידה",
   "learningObjective": "יחידות מידה לצורך יישום יחס",
   "targetSector": [
-    "state-general", "religious-state", "orthodox",
-    "arab-sector", "druze-sector", "bedouin-sector", "education-special"
+    "state-general", "state-religious", "orthodox",
+    "arab-sector", "druze-sector", "bedouin-sector", "special-education"
   ],
   "targetAudience": [
-    "general", "excellent", "populations-disadvantaged",
-    "immigrants-new", "needs-special-with-students",
-    "gaps-language-with-students", "at-risk-students"
+    "general", "excellent", "disadvantaged-populations",
+    "new-immigrants", "students-with-special-needs",
+    "students-with-language-gaps", "at-risk-students"
   ],
   "prerequisiteLearningObjective": [
     "https://lomdot.education.gov.il/metodica/720active/math/proportion/05/"
@@ -37,7 +37,7 @@
 {
   "id": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01-01/",
   "title": "הקנייה + תרגול חימום וסטנדרטי",
-  "learningUnitId": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/",
+  "learningUnitId": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01/",
   "componentPurpose": "both",
   "isAssessment": false,
   "manufacture": "methodica",
@@ -46,7 +46,7 @@
   "relativeDifficulty": 2,
   "masteryLevel": "intermediate",
   "order": 1,
-  "depthLevel": "basic-curriculum-core",
+  "depthLevel": "core-curriculum-basic",
   "cognitiveLevel": "process-thinking",
   "languages": ["Hebrew"],
   "skills": [],
@@ -59,7 +59,7 @@
       "title": "הוק - יחס רחפן והמציאות",
       "informationToBot": "מטרת הפריט: יצירת עניין ראשוני וחיבור הלומד למושג קנה מידה דרך הקשר של רחפן וצילום מגרש כדורגל. מה התלמיד אמור להבין: שיחס מספרי (כמו 10:1, 100:1, 1000:1) מאפשר 'לכווץ' מרחקים מהמציאות לתוך תצוגה קטנה. כיווני חשיבה ואסטרטגיות: התלמיד מתנסה בלחיצה ובוחר באיזה יחס יראה את החולצה של השחקן ובאיזה יחס יראה את המגרש כולו. טעויות נפוצות: אין הערכה בפריט - זהו פתיח מוטיבציוני. מידע נוסף: לפני התוכן הלימודי הלומד בוחר דמות מלווה ומקבל פתיח לקנה מידה. צילום מסך: לא צורף.",
       "contentType": "motivational",
-      "mediaFormat": "content-interactive",
+      "mediaFormat": "interactive-content",
       "questions": []
     },
     {
@@ -67,7 +67,7 @@
       "title": "סטנדרטי 2: חדר ילדים - קנה מידה ומידות שטיח",
       "informationToBot": "מטרת הפריט: תרגול דו-שלבי - תחילה חישוב קנה מידה מנתונים בשתי יחידות שונות, ואחר כך שימוש בקנה המידה לחישוב מידות אובייקט בתרשים. מה התלמיד אמור להבין/לתרגל: סעיף א - בניית קנה מידה דורשת המרה ליחידה אחידה ואחר כך צמצום היחס. סעיף ב - לעבור מהמציאות לתרשים פירושו לחלק. טעויות נפוצות: שכחת המרת יחידות, חוסר צמצום, כפל במקום חילוק. מידע נוסף: שני סעיפים (א ו-ב). רמז זמין לכל סעיף. צילום מסך: לא צורף.",
       "contentType": "practice",
-      "mediaFormat": "content-interactive",
+      "mediaFormat": "interactive-content",
       "questions": [
         {
           "questionId": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01-01/methodica-math-scale-01-01-006/q1",
@@ -111,7 +111,7 @@
   "id": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01-03/methodica-math-scale-01-03-001/",
   "title": "משימת כיתה - חישוב קנה מידה של מסלול",
   "informationToBot": "מטרת הפריט: יישום מציאותי של קנה מידה - מדידת מסלול אמיתי בשטח, חישוב אורכו, ובחירת קנה מידה. מה התלמיד אמור להבין/לתרגל: מדידה + הכפלה + בחירת קנה מידה מותאם. טעויות נפוצות: חישוב אורך צעד שגוי, אי-המרה, בחירת קנה מידה שלא 'נכנס' בדף. מידע נוסף: משימת חקר עם הוראות מפורטות + כלים נדרשים (סרגל, דף A4). צילום מסך: לא צורף.",
-  "contentType": "task-inquiry-or-project",
+  "contentType": "project-or-inquiry-task",
   "mediaFormat": "text",
   "questions": []
 }
@@ -131,7 +131,7 @@
   "title": "שאלת שיא: מדידת מסת גז (4 סעיפים)",
   "informationToBot": "מטרת הפריט: שאלת השיא של היחידה - תרחיש שלם של ניסוי מדעי המשלב את כל היכולות שנלמדו. תתי-סעיפים: א) ניסוי במערכת סגורה - זיהוי שימור מסה. ב) חישוב מסת גז בהפרש מדידות. ג) התאמת שיטת מדידה למטרת מחקר. ד) טיפול בתוצאות חריגות. ...",
   "contentType": "practice",
-  "mediaFormat": "content-interactive",
+  "mediaFormat": "interactive-content",
   "questions": [
     {"questionId": "https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-05/methodica-science-mass-measure-01-05-001/q1", "questionType": "choice", "questionText": "סעיף א: ...", "answers": [], "correctAnswers": []},
     {"questionId": "https://lomdot.education.gov.il/metodica/720active/science/mass-measure/01/methodica-science-mass-measure-01-05/methodica-science-mass-measure-01-05-001/q2", "questionType": "choice", "questionText": "סעיף ב: ...", "answers": [], "correctAnswers": []},
@@ -144,4 +144,4 @@
 הרכיב שמכיל את הפריט הזה צריך להיות מסומן `"isAssessment": true`.
 
 **⚠️ שאלת שיא היא תמיד `contentType: practice`** — גם כשהיא תרחיש רב-סעיפי שמרגיש כמו
-"פרויקט". `task-inquiry-or-project` שמור אך ורק למשימת כיתה (רכיב 01-03).
+"פרויקט". `project-or-inquiry-task` שמור אך ורק למשימת כיתה (רכיב 01-03).
