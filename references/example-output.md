@@ -44,7 +44,7 @@
   "recommendedAfterFail": [],
   "isRequired": true,
   "relativeDifficulty": 2,
-  "masteryLevel": "intermediate",
+  "masteryLevel": null,
   "order": 1,
   "depthLevel": "core-curriculum-basic",
   "cognitiveLevel": "process-thinking",
