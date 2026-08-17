@@ -24,7 +24,7 @@
     "students-with-language-gaps", "at-risk-students"
   ],
   "prerequisiteLearningObjective": [
-    "https://lomdot.education.gov.il/metodica/720active/math/proportion/05/"
+    "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP.APPLY"
   ]
 }
 ```

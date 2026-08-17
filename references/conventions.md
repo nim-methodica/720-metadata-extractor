@@ -62,15 +62,17 @@ https://lomdot.education.gov.il/metodica/720active/{subject}/{topic}/{unit-num}/
   ללא מפריד. למשל: `.../methodica-science-mass-measure-01-01-001/q1`.
 - `learningUnitId` (הפניה ל-URL של היחידה).
 - `recommendedAfterFail` (מערך של URLים של רכיבים).
-- `prerequisiteLearningObjective` (מערך של URLים של יחידות).
+
+**⚠️ `prerequisiteLearningObjective` אינו URL** — ראה סעיף מיוחד למטה. זה תוקן ב-2026-08-17
+אחרי שKATA דחה URL עבור השדה הזה; אל תחזירו אותו לרשימת שדות ה-URL.
 
 ### כלי עזר
 
 - `python scripts/url_builder.py {id}` — מדפיס את ה-URL של ID קצר כלשהו.
 - `python scripts/url_builder.py {item-id} --question q1` — מדפיס ישירות את ה-`questionId`
   המלא (URL של הפריט + מספר השאלה).
-- `python scripts/lookup_prerequisite.py {unit-id}` — מדפיס את URL של היעד הקודם ליחידה
-  (עם דגל `--short` יחזיר ID קצר במקום URL).
+- `python scripts/lookup_prerequisite.py {unit-id}` — מדפיס את קוד ה-MOE (`moe_code`) של היעד
+  הקודם ליחידה (עם דגל `--short` יחזיר ID קצר של methodica במקום זאת — לא לשימוש בפועל בשדה).
 
 ---
 
@@ -78,13 +80,17 @@ https://lomdot.education.gov.il/metodica/720active/{subject}/{topic}/{unit-num}/
 
 **חוק**: היעד הקודם ברשימה הסדרתית של יעדי הלמידה, בקובץ ניהול 720.
 
+**⚠️ הפורמט הוא קוד ה-MOE (אותו פורמט מקווקו כמו שדה `learningObjective` עצמו, למשל
+`MOE.SCI.7.CHEM.BODY-MAT-PROP.MASS-VOL.MASS-PRACTICE`) — לא URL ולא ID קצר של methodica.**
+אושר ב-2026-08-17: KATA דוחה URL בשדה הזה ומקבל רק את קוד ה-MOE.
+
 **איך**: הרץ:
 
 ```bash
 python scripts/lookup_prerequisite.py {unit-id}
 ```
 
-הפלט הוא ה-ID של היעד הקודם, או שורה ריקה אם זה היעד הראשון במקצוע.
+הפלט הוא ה-`moe_code` של היעד הקודם, או שורה ריקה אם זה היעד הראשון במקצוע.
 
 לרענון הרשימה (כשמוסיפים יעדים חדשים לקובץ הניהול):
 
@@ -394,6 +400,64 @@ python scripts/refresh_moe_index.py "{path/to/אינדקס יעדי למידה -
 
 *הכלל הקודם (נגזר מתפקיד הרכיב: `basic`/`intermediate`/`advanced` לפי סטנדרטי/בסיסי/מתקדם/
 הערכה) בוטל. אם יתבקש שוב מילוי בפועל של `masteryLevel` ליחידה ספציפית — זה ייאמר במפורש.
+
+## מקרה ייחודי: לומדות STEM (Articulate Storyline HTML5, לא PPTX)
+
+חלק מיחידות STEM מגיעות לא כתסריט PPTX אלא כלומדה חיה בפורמט Articulate Storyline
+(HTML5), למשל `https://lomdot.education.gov.il/metodica/.../story.html`. אין קובץ מקומי —
+היחידה כולה = גם היחידה וגם רכיב יחיד (`order: 1`, `componentPurpose: "both"`), וכל
+"שקף" (slide) ב-Storyline הוא מועמד לפריט אחד, בהיעדר תיוג "מספר פריט" מפורש.
+
+**חילוץ תוכן**: השתמש ב-`python scripts/extract_storyline_slides.py <story.html-url>
+<output-dir>` — המקביל ל-`extract_slides.py` אבל עבור Storyline: מושך את `data.js`
+לרשימת השקפים, ואז את קובץ ה-JS של כל שקף בנפרד, וחולץ את כל מחרוזות ה-`"text":"..."`
+הגולמיות (כולל כאלו שלא מופיעות בשכבת הנגישות — כפתורי בחירה עגולים מופיעים שם רק בתור
+placeholder גנרי בלי לציין איזו תווית הם נושאים). מפיק `slides.txt`+`mapping.txt` באותו
+פורמט כמו הגרסה ל-PPTX.
+
+**טבלאות הרכיב (componentPurpose/cognitiveLevel/relativeDifficulty וכו') לא מפתחות
+לפי מיקום** — כי אין 5-6 רכיבים. ההתאמה הסבירה ביותר היא לפי תפקיד רכיב 01-01 (הקנייה+
+סטנדרטי): `componentPurpose: both`, `relativeDifficulty: 3`, `cognitiveLevel:
+process-thinking` (מתמטיקה) / `applying-a-model-or-procedure` (מדעים).
+
+**תשובות תלויות-תמונה הן הכלל, לא החריג** — תרשימים עם נקודות מסומנות, סימוני זווית,
+גרירה לאיורים, ויישומוני גיאומטריה חיים (משתני `%_player.Angle%` שמתעדכנים דינמית) לא
+מייצרים תיאור טקסטואלי מספיק בשכבת הנגישות. חיפוש רחב יותר בתוך קובץ השקף עצמו (regex על
+`"text":"..."`, לא רק על השכבה הנגישה) לעיתים כן חושף את המידע (למשל תוויות נקודות A/B/C/D,
+ערכי מעלות עם הסימן °). אם גם זה לא מספיק — זה המקרה שבו עוצרים ושואלים את המשתמש (או
+מבקשים ממנו צילום מסך מהתסריט/Word המקורי).
+
+**מגבלת דפדפן ידועה**: כלי הדפדפן (גם הפנימי וגם Claude-in-Chrome) לא הצליחו לרנדר את
+ה-WebGL/Canvas של הלומדה לפיקסלים בפועל (מסך שחור, ולעיתים הטאב נתקע לגמרי) — כך שצילום
+מסך אוטומטי לא היה אמין במקרה הזה. אל תניח שזה יעבוד; אם זה לא עובד תוך ניסיון אחד-שניים,
+עברו ישר לבקש מהמשתמש.
+
+**ID/URL לא תואם את התבנית הרגילה** — ID של STEM כמו `methodica-math-angles-ls01-00155`
+לא מתפרק נכון ע"י `url_builder.py` (בנוי ל-`methodica-{subject}-{topic}-XX`). בנה URL
+ידנית לפי ההיגיון הכללי (`720active/{subject}/{topic}/{מזהה מלא}/`) וסמן שזה לא מאומת.
+
+**`learning-objectives.json`/MOE**: יעדי STEM חדשים לרוב לא נמצאים שם בכלל —
+`lookup_prerequisite.py`/`lookup_moe.py` יחזירו "not found". זה תקין; קח את היעד/ה-ID
+ישירות מהמשתמש, השאר `prerequisiteLearningObjective: []`, והשתמש בטקסט עברי כברירת מחדל
+ל-`subTopic` עם דיווח שאין מיפוי MOE.
+
+**רשומה קיימת בלי `moe_code`**: כ-18/59 רשומות ב-`learning-objectives.json` (בעיקר
+math/circle, math/cylinderCone, כמה science) עדיין לא הושלמו עם `moe_code` — `lookup_prerequisite.py`
+יחזיר שגיאה מפורשת (לא URL כברירת מחדל, ראה תיקון 2026-08-17). באותו מקרה: בקש את קוד ה-MOE
+מהמשתמש, או השאר `prerequisiteLearningObjective: []` עם דיווח שאין קוד.
+
+דוגמה מלאה שעבדה: `methodica-math-angles-ls01-00155` ("מזגנים" — זוויות).
+
+**⚠️ אם המשתמש מדווח על ערך שונה ממה שחילצת — בדוק קודם אם *הוא* מסתכל על גרסה ישנה,
+לפני שאתה מניח שהחילוץ שלך שגוי.** ביחידה `methodica-materials-climate-03` ("הסוד
+שבאוויר") נתקלנו בפער: הקובץ הגולמי שמשכתי הכיל "כ-15%" כאפשרות תשובה, ואילו צילום
+מסך שהמשתמש סיפק הראה "כ-25%". בהתחלה הנחתי (בטעות) שהחילוץ שלי מכיל תוכן ישן/לא
+מסונכרן. בפועל התברר **ההפך**: הקובץ שאני מושך ישירות מהשרת (בכל fetch טרי) הוא
+**הגרסה העדכנית**; מה שהמשתמש ראה היה ממקור ישן יותר אצלו (למשל טאב פתוח מזמן, או
+עותק שמור). **מסקנה מתוקנת**: fetch ישיר מהשרת (כמו ש-`extract_storyline_slides.py`
+עושה) הוא ברירת המחדל האמינה. עדיין שווה לוודא מול המשתמש ערכים מספריים קריטיים
+(קריאת גרפים) כשיש להם השפעה על `correctAnswers` — אבל אם מתגלה סתירה, קודם תבדוק
+תאריך/גרסה אצל שני הצדדים לפני שמניחים איפה הבעיה.
 
 ## סיכום — מה עדיין דורש שיפוט?
 

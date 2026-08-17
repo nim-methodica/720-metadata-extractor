@@ -91,7 +91,7 @@ python scripts/extract_slides.py "{path/to/script.pptx}" {output-dir}
 python scripts/lookup_prerequisite.py {unit-id}
 ```
 
-מחזיר את ה-ID של היעד הקודם, או שורה ריקה אם זה היעד הראשון.
+מחזיר את קוד ה-MOE (`moe_code`) של היעד הקודם — לא URL ולא ID — או שורה ריקה אם זה היעד הראשון.
 
 **Fallback רך** (הסקיל אוטונומי — לא עוצר, אלא ממלא ומדווח):
 
