@@ -1,24 +1,28 @@
 ---
 name: 720-metadata-extractor
 description: >-
-  Extracts metadata JSON from 720/methodica training script PPTX files per the 720
-  Content Metadata standard (V2.1+): one unit-level JSON + one per רכיב (component),
-  פריטים (items) nested in `subContent[]`. Use when asked to extract/generate/produce
-  metadata, מטה־דאטה, or JSON from a 720 script — filenames typically contain "יעד",
-  IDs follow `methodica-{subject}-{topic}-XX`, any subject. **Fully autonomous** —
-  never asks about deterministic fields (prerequisiteLearningObjective, cognitiveLevel,
-  depthLevel, masteryLevel, etc.); all determined by rules in references/conventions.md.
-  Only stops to ask if: the script lacks item-level IDs ("מספר פריט" tags), the unit ID
-  isn't in learning-objectives.json even after refreshing (brand-new objective), or a
-  question's correct answer (esp. matching) depends on image content with no text
-  description. Do NOT use for: QA of scripts (720-script-qa), building scripts from Word
-  (720-script-writer), or generic PPTX metadata extraction unrelated to 720.
+  Extracts metadata JSON from 720/methodica content per the 720 Content Metadata
+  standard (V2.1+): one unit-level JSON + one per רכיב (component), פריטים (items)
+  nested in `subContent[]`. Handles THREE source types: (1) a training script PPTX
+  (filenames typically contain "יעד", IDs follow `methodica-{subject}-{topic}-XX`);
+  (2) a live Articulate Storyline HTML5 STEM unit (a `story.html` URL, no local file);
+  (3) an already-produced/built 720 learning unit — a local HTML/CSS/JS SPA
+  (`index.html`+`script.js`, often `registry.js`) that IS the final deliverable, not a
+  script for one. Use when asked to extract/generate/produce metadata, מטה־דאטה, or
+  JSON from any of these. **Fully autonomous** — never asks about deterministic fields
+  (cognitiveLevels, depthLevel, masteryLevel, etc.); all
+  determined by rules in references/conventions.md. Only stops to ask if: the source
+  lacks item-level boundaries in an unresolvable way, the unit ID isn't in
+  learning-objectives.json even after refreshing (brand-new objective), or a question's
+  correct answer (esp. matching) depends on image content with no text description. Do
+  NOT use for: QA of scripts (720-script-qa), building scripts from Word
+  (720-script-writer), or generic PPTX/HTML metadata extraction unrelated to 720.
 ---
 
 # 720-metadata-extractor
 
 מפיק קבצי מטא־דאטה JSON מתסריט 720 (PPTX), לפי תקן "תיאור טכני של מאפייני תוכן לפלטפורמות
-720" (V2.3). כללי לכל 720 — לא תלוי במקצוע ולא בפרויקט ספציפי.
+720" (V2.5). כללי לכל 720 — לא תלוי במקצוע ולא בפרויקט ספציפי.
 
 **עקרון-על: הסקיל אוטונומי לחלוטין.** כל השדות שאפשר לגזור מהתסריט או מהמוסכמות — נגזרים
 אוטומטית. הסקיל *לא* שואל את המשתמש שאלות שיש להן תשובה דטרמיניסטית. הכללים המלאים
@@ -35,18 +39,25 @@ description: >-
   בעבר, כדי שהסקיל לא ישאל אותן שוב.
 - `references/question-types.md` — איך לזהות סוג שאלה והמבנה של `answers`/`correctAnswers`.
 - `references/cognitive-levels-detailed.md` — הגדרות מפורטות של רמות החשיבה של הראמ"ה
-  (4 רמות למתמטיקה, 3 רמות למדעים) — לצורך בחירה מדויקת של `cognitiveLevel`.
+  (4 רמות למתמטיקה, 3 רמות למדעים) — לצורך בחירה מדויקת של `cognitiveLevels`.
 - `references/example-output.md` — דוגמאות JSON ממשיות.
-- `references/learning-objectives.json` — רשימת סדר יעדי הלמידה (מתמטיקה + מדעים), לחישוב
-  `prerequisiteLearningObjective`. מתעדכן מקובץ ניהול 720 באמצעות `scripts/refresh_objectives.py`.
-  **מכיל גם מיפוי לקודי MOE** (`moe_code` + `subtopic_code`) שמשמשים ל-`learningObjective`
-  ו-`subTopic` בפלט. מיפוי חלקי — לא כל היעדים נמצאים באינדקסי משרד החינוך עדיין.
+- `references/learning-objectives.json` — רשימת סדר יעדי הלמידה (מתמטיקה + מדעים), **מכיל
+  מיפוי לקודי MOE** (`moe_code` + `subtopic_code`) שמשמשים ל-`learningObjective` ו-`subTopic`
+  בפלט. מתעדכן מקובץ ניהול 720 באמצעות `scripts/refresh_objectives.py`. מיפוי חלקי — לא כל
+  היעדים נמצאים באינדקסי משרד החינוך עדיין.
 - `references/moe-index.json` — האינדקס הרשמי של משרד החינוך (מקצוע → תחום → נושא → תת-נושא
   → יעד למידה + קוד). מתרענן מקובצי אקסל של משרד החינוך באמצעות `scripts/refresh_moe_index.py`.
-- `scripts/url_builder.py` — ממיר ID קצר ל-URL מלא לפי החוק שמופיע ב-`conventions.md`.
-  הפלט של הסקיל **חייב** לכלול URLים מלאים (לא IDים קצרים) בכל שדה שמכיל id.
+- `scripts/url_builder.py` — ממיר ID קצר ל-URL מלא עבור רכיב/פריט, לפי החוק שמופיע ב-
+  `conventions.md`. **עבור ID ברמת יחידה מחזיר את ה-ID הקצר כפי שהוא** (V2.5 — אין חובת
+  IRI ביחידה). הפלט של הסקיל **חייב** לכלול URLים מלאים ברמת רכיב/פריט (לא IDים קצרים).
 - `scripts/lookup_moe.py` — מקבל methodica ID ומחזיר את `moe_code`, `subtopic_code`
   והמידע העברי המתלווה. משמש למילוי `learningObjective` ו-`subTopic` במטא-דאטה.
+- `scripts/extract_storyline_slides.py` — כמו `extract_slides.py`, אבל למקור מס' 2:
+  לומדת STEM חיה בפורמט Articulate Storyline (HTML5, `story.html` ברשת, אין קובץ מקומי).
+  ראו `conventions.md`, "מקרה ייחודי: לומדות STEM".
+- `scripts/extract_produced_unit_slides.py` — כמו `extract_slides.py`, אבל למקור מס' 3:
+  יחידת 720 **מופקת** — SPA בנוי מקומית ב-HTML/CSS/JS שכבר *הוא* התוצר הסופי (לא תסריט
+  שממנו בונים לומדה). ראו `conventions.md`, "מקרה ייחודי: יחידות 720 מופקות".
 
 ## מבנה הפלט
 
@@ -60,38 +71,52 @@ description: >-
 
 ## התהליך
 
-### שלב 1 — חילוץ וזיהוי מבנה
+### שלב 1 — זיהוי סוג המקור, חילוץ וזיהוי מבנה
 
-הרץ:
+**זהה קודם איזה משלושת סוגי המקור מדובר**:
+
+| סוג מקור | סימנים מזהים | סקריפט |
+|---|---|---|
+| 1. תסריט PPTX | קובץ `.pptx`, בד"כ עם "יעד" בשם הקובץ | `scripts/extract_slides.py` |
+| 2. Storyline חי | URL שמסתיים ב-`story.html`, אין קובץ מקומי | `scripts/extract_storyline_slides.py` |
+| 3. יחידה מופקת | תיקייה מקומית עם `index.html`+`script.js` (לרוב גם `registry.js`) — היחידה עצמה, לא תסריט | `scripts/extract_produced_unit_slides.py` |
+
+הרץ את הסקריפט המתאים, למשל למקור 1:
 
 ```bash
 python scripts/extract_slides.py "{path/to/script.pptx}" {output-dir}
 ```
 
-הסקריפט מפיק:
-- `slides.txt` — טקסט מלא של כל שקף
-- `mapping.txt` — טבלת שקף → item-id → תקציר תוכן
+או למקור 3:
 
-ומדפיס סיכום: מספר שקפים, מספר פריטים, מספר רכיבים, ה-ID של כל רכיב + מספר הפריטים בו.
+```bash
+python scripts/extract_produced_unit_slides.py "{path/to/project-dir}" {output-dir}
+```
+
+כל סקריפט מפיק:
+- `slides.txt` — טקסט מלא של כל שקף/מסך
+- `mapping.txt` — טבלת שקף/מסך → item-id → תקציר תוכן
+
+ומדפיס סיכום: מספר שקפים/מסכים, מספר פריטים (למקור 1), מספר רכיבים, ה-ID של כל רכיב +
+מספר הפריטים בו. **למקורות 2 ו-3 אין תיוג "מספר פריט" בקוד** — גבולות הפריט נקבעים לפי
+הכללים הייעודיים ב-`conventions.md` (חיפוש "STEM"/"מופקות" בהתאמה), לא ע"י הסקריפט.
 
 **עצור ובקש מהמשתמש** רק אם:
-- אין תוויות `מספר פריט` בשקפים (הסקריפט מדפיס אזהרה).
-- מבנה חריג — פחות מ-5 או יותר מ-6 רכיבים (ראה `conventions.md`).
+- מקור 1: אין תוויות `מספר פריט` בשקפים (הסקריפט מדפיס אזהרה).
+- מקור 1: מבנה חריג — פחות מ-5 או יותר מ-6 רכיבים (ראה `conventions.md`).
+- מקור 3: אין `docs/03-content-map.md` (או שווה-ערך) **וגם** התסריט המקורי (Word) לא זמין —
+  אין דרך לשחזר את המספור המקורי של השאלות/סעיפים, ולכן אי אפשר לקבוע גבולות פריט באמינות.
 
 ### שלב 2 — חילוץ שדות היחידה
 
-קרא את `slides.txt` — שקף 1 מכיל את:
+**מקור 1 (PPTX)**: קרא את `slides.txt` — שקף 1 מכיל את:
 - שם הנושא → `subTopic`
 - פירוט היעד → `learningObjective`
 - ID → ה-`id` של היחידה (`methodica-{subject}-{topic}-XX`)
 
-לחישוב `prerequisiteLearningObjective`:
-
-```bash
-python scripts/lookup_prerequisite.py {unit-id}
-```
-
-מחזיר את קוד ה-MOE (`moe_code`) של היעד הקודם — לא URL ולא ID — או שורה ריקה אם זה היעד הראשון.
+**מקורות 2-3 (Storyline / יחידה מופקת)**: אין "שקף 1" תקני עם השדות האלו. ה-ID/נושא/יעד
+לרוב לא נמצאים ב-`learning-objectives.json` (יחידת STEM/מיפוי חדשה) — קח אותם ישירות
+מהמשתמש או מתיעוד הפרויקט (`docs/00-README.md` וכו'), ראה `conventions.md`.
 
 **Fallback רך** (הסקיל אוטונומי — לא עוצר, אלא ממלא ומדווח):
 
@@ -103,7 +128,8 @@ python scripts/lookup_prerequisite.py {unit-id}
   הניהול. אם עדיין לא נמצא — כאן **כן עצור** ובקש מהמשתמש את פרטי היעד החדש (זהו יעד
   חדש שטרם נכנס לקובץ הניהול).
 
-כל שאר שדות היחידה (`targetSector`, `targetAudience`) — ברירות מחדל קבועות מ-`conventions.md`.
+כל שאר שדות היחידה (`targetSectors`, `targetAudience`, `manufacturer`) — ברירות מחדל קבועות
+מ-`conventions.md`.
 
 ### שלב 3 — בניית קובץ היחידה
 
@@ -113,7 +139,7 @@ python scripts/lookup_prerequisite.py {unit-id}
 
 לכל רכיב שזוהה בשלב 1:
 
-1. **קבע `componentPurpose`, `isAssessment`, `depthLevel`, `cognitiveLevel`, `relativeDifficulty`,
+1. **קבע `componentPurpose`, `isAssessment`, `depthLevel`, `cognitiveLevels`, `relativeDifficulty`,
    `masteryLevel` ו-`recommendedAfterFail`** — לפי טבלאות ב-`conventions.md` (כל שדה יש לו כלל
    דטרמיניסטי). שים לב: `masteryLevel` של שאלת שיא (`intermediate`) שונה מ-`relativeDifficulty`
    שלה (5) — הם לא נגזרים זה מזה.
@@ -147,7 +173,6 @@ python scripts/lookup_prerequisite.py {unit-id}
 
 ## מה הסקיל **לא** שואל את המשתמש (בעבר שאל, עכשיו לא)
 
-- ❌ `prerequisiteLearningObjective` — נגזר מ-`learning-objectives.json`
 - ❌ `subTopic` / `learningObjective` — משקף 1
 - ❌ מבנה של רכיבים — 5 או 6 לפי הקובץ
 - ❌ `recommendedAfterFail` — חוק פשוט (רק רכיב הבסיסי → חזרה לרכיב 1)
@@ -156,7 +181,7 @@ python scripts/lookup_prerequisite.py {unit-id}
 - ❌ `componentPurpose` — לפי הרכיב
 - ❌ `contentType` — 3 קטגוריות לפי סוג הפריט
 - ❌ `mediaFormat` — content-interactive כברירת מחדל
-- ❌ `cognitiveLevel` — לפי מקצוע + רכיב
+- ❌ `cognitiveLevels` — לפי מקצוע + רכיב
 - ❌ `depthLevel` — Basic חוץ ממתקדם
 - ❌ `relativeDifficulty` — לפי סוג התרגילים
 - ❌ `masteryLevel` — לפי תפקיד הרכיב (שאלת שיא = intermediate, לא advanced)

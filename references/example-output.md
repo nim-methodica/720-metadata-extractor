@@ -1,8 +1,9 @@
 # דוגמאות פלט JSON
 
-מסמך זה נותן דוגמאות ממשיות של קובצי JSON לפי התקן V2.2. **כל שדה `id` הוא URL מלא**
-לפי החוק ב-`conventions.md` (סעיף "פורמט ID"). הדוגמאות מתבססות על יחידות אמיתיות
-(מתמטיקה — קנה מידה, מדעים — מדידת מסה).
+מסמך זה נותן דוגמאות ממשיות של קובצי JSON לפי התקן V2.5. **שדה `id` ברמת רכיב/פריט הוא
+URL מלא**, אבל **`id` ברמת יחידה נשאר ID קצר** (עדכון V2.5) — לפי החוק ב-`conventions.md`
+(סעיף "פורמט ID"). הדוגמאות מתבססות על יחידות אמיתיות (מתמטיקה — קנה מידה, מדעים —
+מדידת מסה).
 
 ## דוגמה 1: קובץ יחידה
 
@@ -10,22 +11,13 @@
 
 ```json
 {
-  "id": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01/",
+  "id": "methodica-math-scale-01",
   "title": "יחידות מידה לצורך יישום יחס",
   "subTopic": "קנה מידה",
   "learningObjective": "יחידות מידה לצורך יישום יחס",
-  "targetSector": [
-    "state-general", "state-religious", "orthodox",
-    "arab-sector", "druze-sector", "bedouin-sector", "special-education"
-  ],
-  "targetAudience": [
-    "general", "excellent", "disadvantaged-populations",
-    "new-immigrants", "students-with-special-needs",
-    "students-with-language-gaps", "at-risk-students"
-  ],
-  "prerequisiteLearningObjective": [
-    "MOE.MATH.G8.NUM.RATIO-PROP-SCL.PROP.APPLY"
-  ]
+  "targetSectors": ["state-general", "state-religious"],
+  "targetAudience": "general",
+  "manufacturer": "310"
 }
 ```
 
@@ -36,18 +28,17 @@
 ```json
 {
   "id": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01-01/",
-  "title": "הקנייה + תרגול חימום וסטנדרטי",
-  "learningUnitId": "https://lomdot.education.gov.il/metodica/720active/math/scale/01/methodica-math-scale-01/",
+  "title": "בואו נלמד משהו חדש",
+  "learningUnitId": "methodica-math-scale-01",
   "componentPurpose": "both",
   "isAssessment": false,
-  "manufacture": "methodica",
   "recommendedAfterFail": [],
   "isRequired": true,
   "relativeDifficulty": 2,
   "masteryLevel": null,
   "order": 1,
   "depthLevel": "core-curriculum-basic",
-  "cognitiveLevel": "process-thinking",
+  "cognitiveLevels": ["process-thinking"],
   "languages": ["Hebrew"],
   "skills": [],
   "estimatedTimeInMinutes": 24,
@@ -102,7 +93,7 @@
 
 **שימו לב** ש-`recommendedAfterFail` של רכיב 1 הוא **ריק** — רק רכיב הבסיסי (01-02) מצביע
 אחורה על רכיב 1 (וגם הוא `isRequired: false`, שלא מופיע כאן כי זו הדוגמה של רכיב 1 עצמו).
-ראה `conventions.md` שדה 4.
+ראה `conventions.md` שדה 3.
 
 ## דוגמה 3: פריט משימת כיתה (ללא שאלה מוערכת)
 

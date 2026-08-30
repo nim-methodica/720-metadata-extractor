@@ -1,10 +1,16 @@
-# תקן 720 Content Metadata (V2.3)
+# תקן 720 Content Metadata (V2.5)
 
 מסמך זה מסכם את התקן הטכני לתיאור מטא־דאטה של יחידות תוכן, רכיבים ופריטים לפלטפורמת 720.
 המקור המלא: `הנחיות טכניות לפיתוח תוכן 720 - תשפז.pdf`.
 
 **V2.3**: בכל טבלאות הרשימות הסגורות, ערכים בני יותר ממילה אחת נכתבים עם מקף (`-`) במקום
 רווח, ובאותיות קטנות (למשל `Solved Exercise` → `solved-exercise`).
+
+**V2.5 (17/08/2026)**: `prerequisiteLearningObjective` הוסר לגמרי; `targetSector` →
+`targetSectors`; `targetAudience` הפך לערך יחיד; `manufacture` שונה ל-`manufacturer` ועלה
+לרמת יחידת התוכן; `cognitiveLevel` → `cognitiveLevels` (מערך); `id` ברמת יחידה אינו חייב
+IRI. פירוט מלא בטבלאות למטה ובקבצי הסקיל שמיישמים אותן (`conventions.md`). שינויים אלו
+פעילים כרגע בסביבת ה-test של Kata; עדכון ה-prod צפוי 23/08/2026.
 
 ## מבנה היררכי
 
@@ -22,31 +28,34 @@
 
 | שדה | סוג | תיאור |
 |---|---|---|
-| `id` | string | מזהה חד-חד־ערכי לכל יחידה. תבנית: `methodica-{subject}-{topic}-XX`. |
+| `id` | string | מזהה חד-חד־ערכי לכל יחידה. תבנית: `methodica-{subject}-{topic}-XX`. **מ-V2.5: אינו חייב להיות IRI/URL מלא** — נשאר ID קצר (שלא כמו רכיב/פריט, ראה `conventions.md`). |
 | `title` | string ≤30 תווים | כותרת תצוגתית של היחידה. |
 | `subTopic` | string | מזהה מרשימת תתי־נושאים סגורה (בעבודה). בפועל: שם הנושא בעברית. |
 | `learningObjective` | string | מזהה מרשימת יעדי למידה סגורה (בעבודה). בפועל: פירוט היעד. |
-| `targetSector` | array | רשימת מגזרים (state-general / state-religious / orthodox / arab-sector / druze-sector / bedouin-sector / special-education). |
-| `targetAudience` | array | רשימת אוכלוסיות (general / excellent / disadvantaged-populations / new-immigrants / students-with-special-needs / students-with-language-gaps / at-risk-students). |
-| `prerequisiteLearningObjective` | array | מערך של אינדקסים של יעדי למידה נדרשים לפני היחידה (לפי הגדרת יצירת התוכן, לא ע"י המשרד). |
+| `targetSectors` | array | רשימת מגזרים (state-general / state-religious / orthodox / arab-sector / druze-sector / bedouin-sector / special-education). **מ-V2.5: שם השדה** (היה `targetSector`); עדיין מערך. |
+| `targetAudience` | string | **מ-V2.5: ערך יחיד** (לא מערך) מתוך: general / excellent / disadvantaged-populations / new-immigrants / students-with-special-needs / students-with-language-gaps / at-risk-students. |
+| `manufacturer` | string | שם/קוד ספק התוכן. **מ-V2.5: עלה לרמת יחידת התוכן** (היה ברמת רכיב, בשם `manufacture`) — `"310"`, ראה `conventions.md`. |
+
+**⚠️ הוסר ב-V2.5**: `prerequisiteLearningObjective` (מערך אינדקסים של יעדי למידה נדרשים)
+הוסר לגמרי מהתקן. התלויות בין יעדי למידה מבוטאות מעכשיו בתוך יעד הלמידה עצמו (שדה
+`prerequisites` באינדקס של משרד החינוך), לא בתוכן. ראה `conventions.md`.
 
 ## שדות רכיב תוכן
 
 | שדה | סוג | תיאור |
 |---|---|---|
 | `id` | string | מזהה חד-חד־ערכי לכל רכיב. תבנית: `{unit-id}-YY`. |
-| `title` | string ≤70 תווים | תיאור תצוגתי של שלב הלמידה הקרוב. |
+| `title` | string ≤70 תווים | תיאור תצוגתי של שלב הלמידה הקרוב. **מ-2026-08-30: נוסח קבוע לפי תפקיד הרכיב, לא לפי תוכנו** — ראה `conventions.md` (שדה 2). |
 | `learningUnitId` | string | ה-`id` של יחידת האם (הפניה בלבד — לא מכיל את המטא־דאטה שלה). |
 | `componentPurpose` | enum | `instruction` / `practice` / `both`. |
 | `isAssessment` | boolean | האם הרכיב הוא רכיב הערכה. |
-| `manufacture` | string | שם ספק התוכן. עבור methodica: `"methodica"`. |
 | `recommendedAfterFail` | array | מערך של רכיבים מומלצים לאחר כישלון ברכיב זה. |
 | `isRequired` | boolean | האם יש חובת ביצוע. |
 | `relativeDifficulty` | number 1-5 | קושי יחסי בתוך היחידה. |
 | `masteryLevel` | enum | לא חובה בתשפ"ז. (basic / intermediate / advanced). |
 | `order` | number | מיקום בסדר היחידה (1, 2, 3...). |
-| `depthLevel` | enum | רמה ביחס לתכנית הלימודים. ראה רשימה למטה. |
-| `cognitiveLevel` | enum | רמת חשיבה לפי מקצוע. ראה רשימות למטה. |
+| `depthLevel` | enum | ערך **יחיד** (לא מערך). רמה ביחס לתכנית הלימודים. ראה רשימה למטה. |
+| `cognitiveLevels` | array of enum | **מ-V2.5: מערך** (היה `cognitiveLevel` יחיד). רמת/רמות חשיבה לפי מקצוע. ראה רשימות למטה. |
 | `languages` | array | `["Hebrew"]` / `["Arabic"]` / `["English"]` — או שילוב. |
 | `skills` | array | מיומנויות (בעבודה — לרוב `[]` בשלב זה). |
 | `estimatedTimeInMinutes` | number | זמן מוערך. |
@@ -101,13 +110,17 @@
 
 `fill-in` / `true-false` / `choice` / `numeric` / `sequencing` / `matching` / `other`.
 
-### targetSector
+### targetSectors
 
 `state-general` / `state-religious` / `orthodox` / `arab-sector` / `druze-sector` / `bedouin-sector` / `special-education`
+
+(מערך — אפשר כמה ערכים)
 
 ### targetAudience
 
 `general` / `excellent` / `disadvantaged-populations` / `new-immigrants` / `students-with-special-needs` / `students-with-language-gaps` / `at-risk-students`
+
+(**ערך יחיד מ-V2.5** — לא מערך)
 
 ### depthLevel
 
@@ -127,15 +140,19 @@
 (לא מה-API, לא מיחידת מדעים) לתקן אותם. `depth-levels` אין לו endpoint חי. **אל תתקן
 אותם על סמך דפוס בלבד** — אם יחידה עתידית צריכה אחד מהם, אמת קודם.
 
-### cognitiveLevel — מתמטיקה
+### cognitiveLevels — מתמטיקה
 
 `knowledge-and-recall` / `algorithmic-thinking` / `process-thinking` / `interpretation-and-reasoning`
 
-### cognitiveLevel — מדעים
+(מערך מ-V2.5 — היה ערך יחיד בשם `cognitiveLevel`)
+
+### cognitiveLevels — מדעים
 
 `identifying` / `describing` / `information-retrieving` / `examples-providing` /
 `making-connections` / `interpreting` / `applying-a-model-or-procedure` / `explaining` /
 `providing-scientific-reasoning` / `analyzing` / `synthesizing` / `evaluating-and-justifying`
+
+(מערך מ-V2.5 — היה ערך יחיד בשם `cognitiveLevel`)
 
 ## תבנית `informationToBot`
 

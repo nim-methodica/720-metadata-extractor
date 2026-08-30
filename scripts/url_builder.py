@@ -3,14 +3,18 @@
 Build canonical methodica 720 URLs from short IDs.
 
 URL structure (per methodica ministry-of-education spec):
-    https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/[<component-id>/[<item-id>/]]
+    https://lomdot.education.gov.il/metodica/720active/<subject>/<topic>/<unit-num>/<component-id>/[<item-id>/]
+
+V2.5 update (17/08/2026): unit-level ids no longer need to be an IRI/URL — a bare
+unit id (single trailing numeric segment) is returned unchanged. Component and item
+ids are unaffected and still get the full URL.
 
 Examples:
-    methodica-math-scale-01                    -> .../math/scale/01/methodica-math-scale-01/
-    methodica-science-mass-measure-01          -> .../science/mass-measure/01/methodica-science-mass-measure-01/
+    methodica-math-scale-01                    -> methodica-math-scale-01  (unit id, unchanged since V2.5)
+    methodica-science-mass-measure-01          -> methodica-science-mass-measure-01  (unit id, unchanged)
     methodica-science-mass-measure-01-01       -> .../science/mass-measure/01/methodica-science-mass-measure-01-01/
     methodica-science-mass-measure-01-01-001   -> .../science/mass-measure/01/methodica-science-mass-measure-01-01/methodica-science-mass-measure-01-01-001/
-    methodica-character-materials-01           -> .../science/character-materials/01/methodica-character-materials-01/  (subject inferred from learning-objectives.json)
+    methodica-character-materials-01           -> methodica-character-materials-01  (unit id, unchanged; subject would be inferred from learning-objectives.json if a component/item under it needed a URL)
 
 Usage (CLI):
     python url_builder.py <id>
@@ -86,28 +90,30 @@ def _detect_subject(topic_parts, numeric_tail, objectives):
 
 def build_url(entity_id: str, objectives: dict) -> str:
     """
-    Build the canonical URL for a unit, component, or item ID.
+    Build the canonical URL for a component or item ID. For a unit ID (single
+    trailing numeric segment), return the short ID unchanged — V2.5 removed the
+    IRI requirement at the unit level (component/item are unaffected).
 
     - `entity_id`: full methodica ID (e.g. methodica-science-mass-measure-01-01-001)
     - `objectives`: dict loaded from learning-objectives.json
                     (used to detect subject for prefix-less IDs)
 
-    Returns the URL with trailing slash.
+    Returns the URL with trailing slash (component/item), or the bare ID (unit).
     """
     topic_parts, numeric_tail = _parse_id(entity_id)
+
+    # Unit — V2.5: no IRI requirement, return the short id as-is.
+    if len(numeric_tail) == 1:
+        return entity_id
+
     subject, topic_parts = _detect_subject(topic_parts, numeric_tail, objectives)
     topic = '-'.join(topic_parts)
     unit_num = numeric_tail[0]
 
     url = f'{BASE}/{subject}/{topic}/{unit_num}/'
 
-    # Unit — append the unit's own full ID as the trailing path segment, so
-    # Kata's uniqueKey (derived from the last path segment) resolves to the
-    # full slug instead of the bare unit number.
-    if len(numeric_tail) == 1:
-        url += f'{entity_id}/'
     # Component / item — nest full ID(s) under the unit path
-    elif len(numeric_tail) == 2:
+    if len(numeric_tail) == 2:
         # component: unit-num/component-full-id/
         url += f'{entity_id}/'
     elif len(numeric_tail) == 3:
