@@ -14,7 +14,11 @@
       "id": "methodica-math-ratio-02",
       "number": 2,
       "topic": "יחס",
-      "objective": "התלמיד ידע לבטא יחס בדרכים שונות (למשל כשבר, באופן מילולי, כזוג של מספרים)"
+      "objective": "התלמיד ידע לבטא יחס בדרכים שונות (למשל כשבר, באופן מילולי, כזוג של מספרים)",
+      "moe_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO.ALG-EXPR",
+      "topic_he_moe": "יחס, פרופורציה וקנה מידה",
+      "subtopic_he": "יחס ",
+      "subtopic_code": "MOE.MATH.G8.NUM.RATIO-PROP-SCL.RATIO"
     },
     {
       "id": "methodica-math-ratio-03",
