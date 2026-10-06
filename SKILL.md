@@ -58,6 +58,10 @@ description: >-
 - `scripts/extract_produced_unit_slides.py` — כמו `extract_slides.py`, אבל למקור מס' 3:
   יחידת 720 **מופקת** — SPA בנוי מקומית ב-HTML/CSS/JS שכבר *הוא* התוצר הסופי (לא תסריט
   שממנו בונים לומדה). ראו `conventions.md`, "מקרה ייחודי: יחידות 720 מופקות".
+- **תרגום מטה-דטה לערבית** (יחידה שכבר הופקה גם בערבית, לצד המקור העברי) — לא תרגום מכני
+  של ה-JSON: מה מתורגם (`title`/`questionText`/`answers`/`correctAnswers`) לעומת מה שנשאר
+  בעברית (`informationToBot`), אימות מול המסכים+`script.js` הערביים, ושאלת סכימת ה-ID/URL
+  (לא דטרמיניסטית — תלוית פרויקט). ראו `conventions.md`, "מקרה ייחודי: תרגום מטה-דטה לערבית".
 
 ## מבנה הפלט
 
@@ -154,6 +158,8 @@ python scripts/extract_produced_unit_slides.py "{path/to/project-dir}" {output-d
      תלוי בתוכן שמופיע רק כתמונה/גרפיקה בלי תיאור טקסטואלי — עצור כאן ושאל את המשתמש** (ראה
      `question-types.md` ו-`conventions.md`). אל תנחש ואל תשאיר ריק.
    - כתוב `informationToBot` במבנה 4 החלקים: מטרה / כיווני חשיבה / טעויות נפוצות / מידע נוסף.
+     **בפריטי שאלת שיא, ובפריטי STEM / הערכה חריגה כשהמשתמש הגדיר זאת — הוסף בתחילתו את
+     "הנחיית מערכת קריטית" (איסור סיוע) — הנוסח המדויק ב-`conventions.md`, "הנחיית נעילה ב-`informationToBot`".**
 
 3. **חישוב `estimatedTimeInMinutes`** — סכום סעיפים ברכיב × 2 דקות. פריט בלי שאלה = 1 דקה.
 
@@ -177,7 +183,7 @@ python scripts/extract_produced_unit_slides.py "{path/to/project-dir}" {output-d
 - ❌ מבנה של רכיבים — 5 או 6 לפי הקובץ
 - ❌ `recommendedAfterFail` — חוק פשוט (רק רכיב הבסיסי → חזרה לרכיב 1)
 - ❌ `isAssessment` — רק הרכיב שמכיל שאלת שיא (לא בהכרח רכיב 5/6)
-- ❌ `isRequired` — `false` רק לרכיב הבסיסי, `true` לכל השאר
+- ❌ `isRequired` — `false` לרכיב הבסיסי ("זמן תרגול 2") ולמתקדם, `true` לכל השאר
 - ❌ `componentPurpose` — לפי הרכיב
 - ❌ `contentType` — 3 קטגוריות לפי סוג הפריט
 - ❌ `mediaFormat` — content-interactive כברירת מחדל
