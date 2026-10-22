@@ -156,7 +156,11 @@
       "id": "methodica-math-percent-06",
       "number": 17,
       "topic": "אחוזים",
-      "objective": "התלמיד יבין את הקשר בין אחוז לבין יחס ופרופורציה"
+      "objective": "התלמיד יבין את הקשר בין אחוז לבין יחס ופרופורציה",
+      "moe_code": "MOE.MATH.G8.NUM.PCT.PERCENT.REPR",
+      "topic_he_moe": "אחוזים",
+      "subtopic_he": "אחוזים",
+      "subtopic_code": "MOE.MATH.G8.NUM.PCT.PERCENT"
     },
     {
       "id": "methodica-math-percent-07",

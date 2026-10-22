@@ -79,7 +79,7 @@ IRI. פירוט מלא בטבלאות למטה ובקבצי הסקיל שמיי�
 | שדה | סוג | תיאור |
 |---|---|---|
 | `questionId` | string | URL מלא: `id` הפריט + מספר השאלה (`q1`, `q2` וכו') ללא מפריד. |
-| `questionType` | enum | `fill-in` / `true-false` / `choice` / `numeric` / `sequencing` / `matching` / `other`. |
+| `questionType` | enum | `fill-in` / `true-false` / `choice` / `numeric` / `sequencing` / `matching` / `performance` (נוסף 2026-10-14: dropdown מרובים עם רשימות שונות, או כמה תיבות הקלדה בסעיף) / `other`. |
 | `questionText` | string | נוסח השאלה כפי שמוצג ללומד. |
 | `answers` | array/object | אפשרויות תשובה. מבנה שונה לפי `questionType`. |
 | `correctAnswers` | array | תשובות נכונות. מבנה שונה לפי `questionType`. |
@@ -108,7 +108,7 @@ IRI. פירוט מלא בטבלאות למטה ובקבצי הסקיל שמיי�
 
 ### questionType
 
-`fill-in` / `true-false` / `choice` / `numeric` / `sequencing` / `matching` / `other`.
+`fill-in` / `true-false` / `choice` / `numeric` / `sequencing` / `matching` / `performance` / `other`.
 
 ### targetSectors
 
@@ -168,6 +168,10 @@ IRI. פירוט מלא בטבלאות למטה ובקבצי הסקיל שמיי�
 
 הבוט משתמש בזה כדי לעזור ללומד בזמן אמת — פרט מספיק שיהיה לו על מה להישען, אבל אל תפזר
 מידע לא רלוונטי.
+
+**⚠️ נתונים שמוצגים רק במסך (טבלה/תמונה/כרטיס/יישומון)** — הבוט לא רואה את המסך, ולכן
+הנתונים עצמם חייבים להיכלל במחרוזת (בלוק "נתוני השאלה:" בתוך "מידע נוסף"), לא רק הפניה
+אליהם. ראה `conventions.md`, "נתוני השאלה חייבים להופיע ב-`informationToBot`".
 
 ## דוגמת פלט JSON מלא
 
