@@ -81,8 +81,8 @@ IRI. פירוט מלא בטבלאות למטה ובקבצי הסקיל שמיי�
 | `questionId` | string | URL מלא: `id` הפריט + מספר השאלה (`q1`, `q2` וכו') ללא מפריד. |
 | `questionType` | enum | `fill-in` / `true-false` / `choice` / `numeric` / `sequencing` / `matching` / `performance` (נוסף 2026-10-14: dropdown מרובים עם רשימות שונות, או כמה תיבות הקלדה בסעיף) / `other`. |
 | `questionText` | string | נוסח השאלה כפי שמוצג ללומד. |
-| `answers` | array/object | אפשרויות תשובה. מבנה שונה לפי `questionType`. |
-| `correctAnswers` | array | תשובות נכונות. מבנה שונה לפי `questionType`. |
+| `answers` | array/object | אפשרויות תשובה. מבנה שונה לפי `questionType`. **ב-`true-false`: תמיד `["true", "false"]` באנגלית, לעולם לא מתורגם לעברית/ערבית.** |
+| `correctAnswers` | array | תשובות נכונות. מבנה שונה לפי `questionType`. **ב-`true-false`: `["true"]` או `["false"]` באנגלית.** |
 
 ## רשימות סגורות
 

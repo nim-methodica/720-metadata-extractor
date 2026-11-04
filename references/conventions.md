@@ -444,7 +444,8 @@ instruction`) — אין בו תרגול עצמאי שאפשר "להיכשל" ב
 לפי `references/question-types.md`. הזיהוי הוא לפי טקסט השקף:
 
 - 3-5 אפשרויות טקסטואליות → `choice`
-- "נכון / לא נכון" → `true-false`
+- "נכון / לא נכון" → `true-false` — **`answers`/`correctAnswers` תמיד באנגלית `"true"`/`"false"`,
+  לעולם לא בעברית/ערבית** (ראה `question-types.md`)
 - שדה הקלדה + תשובה מספרית טהורה → `numeric`
 - שדה הקלדה + תשובה מחרוזתית (יחס, מילה) → `fill-in`
 - "גררו" / "התאימו" עם מקור ויעד → `matching`
@@ -843,7 +844,7 @@ markup סטטי.
 | שדה | שפה |
 |---|---|
 | `title` (יחידה/רכיב/פריט) | ערבית |
-| `questionText` / `answers` / `correctAnswers` | ערבית |
+| `questionText` / `answers` / `correctAnswers` | ערבית — **חריג: ב-`questionType: "true-false"` ה-`answers`/`correctAnswers` נשארים באנגלית `"true"`/`"false"`, לא מתורגמים** |
 | `informationToBot` | **עברית** — מועתק מילה במילה מהמקור, לא מתורגם (שדה פנימי לבוט בלבד, התלמיד לא רואה) |
 | `componentPurpose`, `isAssessment`, `depthLevel`, `cognitiveLevels`, `relativeDifficulty`, `masteryLevel`, `recommendedAfterFail`, `isRequired`, `order`, `contentType`, `mediaFormat`, `questionType`, `estimatedTimeInMinutes`, `subTopic`, `learningObjective`, `targetSectors`, `targetAudience`, `manufacturer` | לא תלויי-שפה — מועתקים 1:1 מהעברית |
 | `languages` | משתנה ל-`["Arabic"]` |
@@ -858,8 +859,13 @@ markup סטטי.
 ### 3. באג שכיח לתקן: `true-false` עם `answers` ריק
 
 בעבר `answers` של שאלות `true-false` יצא לעיתים ריק, מה שהצריך בחירה ידנית של המשתמש. יש
-לוודא **תמיד** שהוא מלא בדיוק בשתי האפשרויות כפי שהן כתובות בפועל על המסך הערבי (למשל
-"نعم"/"لا" — לא להניח ברירת מחדל קבועה בלי לבדוק את המסך).
+לוודא **תמיד** שהוא מלא בדיוק בשתי האפשרויות `["true", "false"]`.
+
+**⛔ תיקון קריטי (2026-11-04, מבטל את ההנחיה הקודמת "כפי שכתוב על המסך הערבי"):** ערכי `answers` ו-
+`correctAnswers` של `true-false` הם **באנגלית `true`/`false` בהתאם לתקן — בשום מצב לא מתורגמים
+לערבית (לא "صحيح"/"غير صحيح", לא "نعم"/"لا") ולא לעברית**, גם כשכפתורי המסך הערבי מציגים
+ערבית. בגרסה הערבית רק `questionText` מתורגם. `correctAnswers` = `["true"]` או `["false"]`
+לפי ההיגד המקורי (ולאמת מול ה-`script.js` הערבי שההיגד לא התהפך בתרגום).
 
 ### 4. סכימת ID/URL — לשאול את המשתמש, לא להניח
 
