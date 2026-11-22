@@ -16,7 +16,7 @@ validate_output.py — בדיקת פלט של 720-metadata-extractor לפני מ
 
 הבדיקות (מזהה → מקור הכלל):
     CT01  contentType מחוץ לרשימה הסגורה (standard.md)
-    TM01  estimatedTimeInMinutes לא תואם לחישוב (conventions.md שדה 7; משימת כיתה = 5)
+    TM01  estimatedTimeInMinutes לא תואם לחישוב (conventions.md שדה 7; משימה מחוץ למחשב = 5)
     TF01  true-false שאינו ["true","false"] / ["true"|"false"]
     CH01  choice: תשובה נכונה שאינה בין האפשרויות
     MA01  matching: זוג תשובה נכונה שאינו בין source/target
@@ -58,7 +58,8 @@ IB_SECTIONS = (
     "מטרת הפריט", "מה התלמיד אמור להבין", "כיווני חשיבה",
     "טעויות נפוצות", "מידע נוסף",
 )
-CLASS_TASK_TITLE = re.compile(r"משימת כיתה|משימה בכיתה|משימה בחצר|مهمة صفية|مهمّة صفية")
+# "משימה מחוץ למחשב" / "مهمّة ميدانية" = השם הנוכחי (2026-11-22); השמות הישנים נשארים לזיהוי פלט/תסריטים ישנים
+CLASS_TASK_TITLE = re.compile(r"משימה מחוץ למחשב|مهمّة ميدانية|مهمة ميدانية|משימת כיתה|משימה בכיתה|משימה בחצר|مهمة صفية|مهمّة صفية")
 
 HIDDEN = re.compile("[​-‏‪-‮⁠-⁤⁦-⁩﻿ ]")
 MATH_ALNUM = re.compile("[\U0001D400-\U0001D7FF]")

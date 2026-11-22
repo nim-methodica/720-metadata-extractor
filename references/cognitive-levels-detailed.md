@@ -81,7 +81,7 @@
 - `applying-a-model-or-procedure` — שימוש במודל או בפרוצדורה
 - `explaining` — הסבר
 
-**מתי לתייג**: כשהרכיב הוא **תרגול** — בסיסי, סטנדרטי, או משימת כיתה. הלומד מיישם
+**מתי לתייג**: כשהרכיב הוא **תרגול** — בסיסי, סטנדרטי, או משימה מחוץ למחשב. הלומד מיישם
 פרוצדורות מדעיות מוכרות. אופייני לרכיבים 1-3.
 
 - ברוב תרגילי המדידה, פרוטוקולים, ותרגילי חישוב → `applying-a-model-or-procedure`.
@@ -116,7 +116,7 @@
 |---|---|---|
 | 01-01 | הקנייה + חימום + סטנדרטי א | `process-thinking` (יישום בסיטואציות חדשות) |
 | 01-02 | בסיסי + סטנדרטי ב | `algorithmic-thinking` (חישובים שגרתיים) |
-| 01-03 | משימת כיתה | `process-thinking` (העברה למצב מציאותי) — או `interpretation-and-reasoning` אם המשימה פתוחה מאוד |
+| 01-03 | משימה מחוץ למחשב | `process-thinking` (העברה למצב מציאותי) — או `interpretation-and-reasoning` אם המשימה פתוחה מאוד |
 | 01-04 | מתקדם | `interpretation-and-reasoning` |
 | 01-05 / 01-06 | שאלת שיא (הערכה) | `interpretation-and-reasoning` |
 
@@ -126,7 +126,7 @@
 |---|---|---|
 | 01-01 | הקנייה + חימום + סטנדרטי א | `applying-a-model-or-procedure` |
 | 01-02 | בסיסי + סטנדרטי ב | `applying-a-model-or-procedure` |
-| 01-03 | משימת כיתה | `applying-a-model-or-procedure` |
+| 01-03 | משימה מחוץ למחשב | `applying-a-model-or-procedure` |
 | 01-04 | מתקדם | `analyzing` |
 | 01-05 / 01-06 | שאלת שיא (הערכה) | `analyzing` — או `evaluating-and-justifying` אם השאלה עוסקת בהצדקה של מסקנות/שיטות |
 

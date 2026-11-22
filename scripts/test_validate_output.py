@@ -47,7 +47,7 @@ def good_component():
     return component([
         item(1, "motivational"),
         item(2, "practice", [q("choice", ["א", "ב"], ["א"]), q("true-false", ["true", "false"], ["true"])]),
-        item(3, "project-or-inquiry-task", [], "משימת כיתה: מדידה"),
+        item(3, "project-or-inquiry-task", [], "משימה מחוץ למחשב: מדידה"),
     ])
 
 
@@ -85,8 +85,8 @@ def expect(label, files, want_code=None, want_clean=False):
 
 def main():
     expect("נקי עובר", {"c.json": good_component()}, want_clean=True)
-    expect("משימת כיתה = 5 דקות (נכון) עובר", {"c.json": component([item(1, "project-or-inquiry-task", [], "משימת כיתה")])}, want_clean=True)
-    expect("TM01 משימת כיתה = 1 דקה (כלל ישן)", mutate(lambda c: c.update(estimatedTimeInMinutes=1 + 1 + 4 + 1)), "TM01")
+    expect("משימה מחוץ למחשב = 5 דקות (נכון) עובר", {"c.json": component([item(1, "project-or-inquiry-task", [], "משימה מחוץ למחשב")])}, want_clean=True)
+    expect("TM01 משימה מחוץ למחשב = 1 דקה (כלל ישן)", mutate(lambda c: c.update(estimatedTimeInMinutes=1 + 1 + 4 + 1)), "TM01")
     expect("CT01 contentType לא תקני", mutate(lambda c: c["subContent"][1].update(contentType="Practice")), "CT01")
     expect("TF01 true-false בעברית", mutate(lambda c: c["subContent"][1]["questions"][1].update(answers=["נכון", "לא נכון"], correctAnswers=["נכון"])), "TF01")
     expect("CH01 תשובה נכונה לא באפשרויות", mutate(lambda c: c["subContent"][1]["questions"][0].update(correctAnswers=["ג"])), "CH01")
@@ -125,7 +125,7 @@ def main():
     ar["languages"] = ["Arabic"]
     ar["title"] = "الفهم"
     for it in ar["subContent"]:
-        it["title"] = "تمرين 1" if "משימת" not in it["title"] else "مهمة صفية"
+        it["title"] = "تمرين 1" if "משימה מחוץ למחשב" not in it["title"] else "مهمّة ميدانية"
     for it in ar["subContent"]:
         for qq in it["questions"]:
             qq["questionText"] = "سؤال؟"
