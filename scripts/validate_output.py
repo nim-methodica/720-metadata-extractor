@@ -29,6 +29,10 @@ validate_output.py — בדיקת פלט של 720-metadata-extractor לפני מ
     TX04  גרשיים עבריים וגרשיים ASCII ב"ש"ח" באותה שאלה
     TX05  יחס עם רווחים סביב נקודתיים (a : b) בתשובה
     IB01  informationToBot חסר אחד מחמשת הסעיפים
+    MS01  הנחיית ריבוי מסכים לא בנוסח המלא, או לא בתחילת השדה (לפני "מטרת הפריט")
+    MS02  הנחיה בלי "מפת המסכים:" או להפך; מפה מחוץ ל"מידע נוסף" (WARN)
+    MS03  מפת מסכים עם פחות מ-2 מסכים או מספור לא רציף מ-1
+    MS04  פריט instruction שמזכיר כמה מסכים בלי הנחיה ומפה (WARN — מספר המסכים לא ידוע לסקריפט)
     ID01  מזהה רכיב/פריט שאינו URL מלא
     ID02  מספור פריטים לא רציף או order לא תואם סדר
     UN01  כותרת יחידה ארוכה מ-30 תווים
@@ -60,6 +64,18 @@ IB_SECTIONS = (
 )
 # "משימה מחוץ למחשב" / "مهمّة ميدانية" = השם הנוכחי (2026-11-22); השמות הישנים נשארים לזיהוי פלט/תסריטים ישנים
 CLASS_TASK_TITLE = re.compile(r"משימה מחוץ למחשב|مهمّة ميدانية|مهمة ميدانية|משימת כיתה|משימה בכיתה|משימה בחצר|مهمة صفية|مهمّة صفية")
+
+# פריטים מרובי מסכים (2026-11-24)
+MS_DIRECTIVE = (
+    "שים לב: הפריט הזה מורכב מכמה מסכים, ואין לך דרך לדעת באיזה מסך הלומד נמצא כרגע. "
+    "התיאור שלהלן מפרט את כל המסכים בפריט. כשהלומד שואל על הפריט, נסה להבין מדבריו באיזה מסך הוא נמצא. "
+    "אם זה לא ברור, שאל אותו שאלת הבהרה קצרה (למשל \"מה כתוב לך על המסך עכשיו?\" או \"איזו שאלה מופיעה מולך?\"). "
+    "אחרי שזיהית את המסך, היעזר בתיאור שלו כדי לעזור ללומד כמה שיותר."
+)
+MS_DIRECTIVE_KEY = "הפריט הזה מורכב מכמה מסכים"
+MS_MAP_HEADER = "מפת המסכים:"
+MS_ENTRY = re.compile(r"(?:^|\n)\s*מסך\s+(\d+)\s*[—–-]")
+MS_SUSPECT = re.compile(r"מסך\s*2\b|\d+\s+מסכים|כמה מסכים|במסך השני|במסך הבא")
 
 HIDDEN = re.compile("[​-‏‪-‮⁠-⁤⁦-⁩﻿ ]")
 MATH_ALNUM = re.compile("[\U0001D400-\U0001D7FF]")
@@ -144,6 +160,33 @@ def comp_expected_minutes(items):
     return total
 
 
+def check_multi_screen(iname, ct, ib, rep):
+    """MS01-MS04: הנחיית ריבוי מסכים + מפת מסכים (conventions.md, "פריטים מרובי מסכים", 2026-11-24)."""
+    has_directive = MS_DIRECTIVE_KEY in ib
+    map_pos = ib.find(MS_MAP_HEADER)
+    entries = [int(n) for n in MS_ENTRY.findall(ib[map_pos:])] if map_pos >= 0 else []
+    if has_directive and MS_DIRECTIVE not in ib:
+        rep.add("ERROR", "MS01", iname, "הנחיית ריבוי המסכים לא בנוסח המלא מילה במילה")
+    if has_directive:
+        first_section = ib.find(IB_SECTIONS[0])
+        if first_section >= 0 and ib.find(MS_DIRECTIVE_KEY) > first_section:
+            rep.add("ERROR", "MS01", iname, "הנחיית ריבוי המסכים מופיעה אחרי 'מטרת הפריט' (צריכה להיות בתחילת השדה)")
+    if has_directive and map_pos < 0:
+        rep.add("ERROR", "MS02", iname, "יש הנחיית ריבוי מסכים אבל אין 'מפת המסכים:'")
+    if map_pos >= 0:
+        if not has_directive:
+            rep.add("ERROR", "MS02", iname, "יש 'מפת המסכים:' אבל חסרה הנחיית ריבוי המסכים בתחילת השדה")
+        extra = ib.find(IB_SECTIONS[4])
+        if extra < 0 or map_pos < extra:
+            rep.add("WARN", "MS02", iname, "'מפת המסכים:' לא נמצאת בתוך סעיף 'מידע נוסף'")
+        if len(entries) < 2:
+            rep.add("ERROR", "MS03", iname, f"במפת המסכים {len(entries)} מסכים (הכלל חל מ-2 מסכים ומעלה)")
+        elif entries != list(range(1, len(entries) + 1)):
+            rep.add("ERROR", "MS03", iname, f"מספור המסכים במפה לא רציף מ-1: {entries}")
+    elif not has_directive and ct == "instruction" and MS_SUSPECT.search(ib):
+        rep.add("WARN", "MS04", iname, "פריט הקנייה שמזכיר כמה מסכים בלי הנחיה ומפת מסכים (אם 2+ מסכים — חובה לפריט חדש)")
+
+
 def is_arabic_file(d):
     langs = d.get("languages") or []
     return "Arabic" in langs
@@ -187,6 +230,7 @@ def check_component(path, d, rep):
         missing = [s for s in IB_SECTIONS if s not in ib]
         if missing:
             rep.add("ERROR", "IB01", iname, "חסרים סעיפי informationToBot: " + ", ".join(missing))
+        check_multi_screen(iname, ct, ib, rep)
         qs = it.get("questions") or []
         if ct == "solved-exercise" and qs:
             rep.add("ERROR", "SE01", iname, f"תרגול מונחה עם {len(qs)} שאלות (צריך questions=[])")

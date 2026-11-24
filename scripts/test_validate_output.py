@@ -120,6 +120,23 @@ def main():
     expect("DD01 performance בלי אפשרויות ובלי אזכור", mutate(lambda c: (c["subContent"][1].update(informationToBot=BOT), c["subContent"][1]["questions"].append(q("performance", None, [{"stepId": "מונה", "response": "6"}])), c.update(estimatedTimeInMinutes=1 + 6 + 5))), "DD01")
     expect("MA01 matching מחוץ לרשימה", mutate(lambda c: (c["subContent"][1]["questions"].append(q("matching", {"source": ["א"], "target": ["1"]}, [{"source": "ב", "target": "1"}])), c.update(estimatedTimeInMinutes=1 + 6 + 5))), "MA01")
 
+    # פריטים מרובי מסכים (2026-11-24)
+    sys.path.insert(0, HERE)
+    from validate_output import MS_DIRECTIVE
+    ms_map = "\nמפת המסכים:\nמסך 1 — כותרת: \"מהו נפח?\". מה רואים: קופסה.\nמסך 2 — קרוסלה (3 כרטיסים): כרטיס 1: כוס."
+    ms_ok = MS_DIRECTIVE + "\n\n" + BOT + ms_map
+
+    def ms(bot, ct="instruction"):
+        return mutate(lambda c: c["subContent"][0].update(informationToBot=bot, contentType=ct))
+    expect("הנחיה + מפת מסכים תקינות עוברות", ms(ms_ok), want_clean=True)
+    expect("MS01 הנחיה בנוסח מקוצר", ms("שים לב: הפריט הזה מורכב מכמה מסכים.\n\n" + BOT + ms_map), "MS01")
+    expect("MS01 הנחיה אחרי מטרת הפריט", ms(BOT + "\n" + MS_DIRECTIVE + ms_map), "MS01")
+    expect("MS02 הנחיה בלי מפה", ms(MS_DIRECTIVE + "\n\n" + BOT), "MS02")
+    expect("MS02 מפה בלי הנחיה", ms(BOT + ms_map), "MS02")
+    expect("MS03 מפה עם מסך אחד", ms(MS_DIRECTIVE + "\n\n" + BOT + "\nמפת המסכים:\nמסך 1 — כותרת: x."), "MS03")
+    expect("MS03 מספור מסכים עם חור", ms(MS_DIRECTIVE + "\n\n" + BOT + "\nמפת המסכים:\nמסך 1 — x.\nמסך 3 — y."), "MS03")
+    expect("MS04 הקנייה שמזכירה 5 מסכים בלי מפה", ms(BOT + " הפריט כולל 5 מסכים."), "MS04")
+
     # ערבית
     ar = good_component()
     ar["languages"] = ["Arabic"]
